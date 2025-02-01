@@ -2,10 +2,16 @@ package com.nicolas.maltesp.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+//val IconBlue = Color(0xFF04427F)
+//val IconYelow = Color(0xFFFEDB6F)
+//val IconDarkYellow = Color(0xFFb2912a)
+//val IconYellowGray = Color(0xFFf5fec9)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+// Cores principais criadas para a nova paleta
+val PrimaryBlue = Color(0xFF04427F)       // Azul profundo para a cor primária
+val SecondaryAmber = Color(0xFFFFC107)      // Âmbar vibrante para a cor secundária
+val TertiaryDeepAmber = Color(0xFFFFA000)   // Âmbar mais escuro para detalhes (terciário)
+
+// Cores de fundo e superfície
+val BackgroundLight = Color(0xFFF5F5F5)     // Cinza bem claro, quase branco
+val SurfaceWhite = Color(0xFFFFFFFF)        // Branco para superfícies elevadas

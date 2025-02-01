@@ -13,6 +13,7 @@ import androidx.compose.runtime.setValue
 import androidx.room.Room
 import com.nicolas.maltesp.data.AppDatabase
 import com.nicolas.maltesp.screens.MainScreenWithDrawer
+import com.nicolas.maltesp.ui.theme.MaltEspTheme
 import com.nicolas.maltesp.viewmodels.BottomBarViewModel
 import com.nicolas.maltesp.viewmodels.ParametersViewModel
 import com.nicolas.maltesp.viewmodels.ParametersViewModelFactory
@@ -52,44 +53,46 @@ class MainActivity : ComponentActivity() {
 
         //UI
         setContent {
-            var temperature by remember { mutableStateOf("") }
-            var connectedDeviceName by remember { mutableStateOf<String?>(null) } // Nome do dispositivo conectado
+            MaltEspTheme {
+                var temperature by remember { mutableStateOf("") }
+                var connectedDeviceName by remember { mutableStateOf<String?>(null) } // Nome do dispositivo conectado
 
-            MainScreenWithDrawer(
-                onConnect = {
-                    BluetoothUtils.connectToDevice(
-                        context = this, deviceName = "ESP32-BLE",
-                        onConnected = { deviceName ->
-                            connectedDeviceName = deviceName // Atualiza o nome do dispositivo conectado
-                        },
-                        onDisconnected = {
-                            connectedDeviceName = null
-                            temperature = ""
-                        },
-                        onReadUpdate = { temp ->
-                            temperature = temp // Atualiza a temperatura no estado do Compose
-                        },
-                        serviceUuid = SERVICE_UUID, writeCharacteristicUuid = WRITE_UUID, readCharacteristicUuid = READ_UUID
-                    )
-                },
-                onDisconnect = {
-                    BluetoothUtils.disconnectDevice(this)
-                    connectedDeviceName = null // Atualiza o estado visual ao desconectar
-                    temperature = "" // Limpa a temperatura ao desconectar
-                },
-                onSendCommand = { command ->
-                    BluetoothUtils.writeCommand(this, command)
-                },
-                onSendCommandArrayFloat = { byteArray ->
-                    BluetoothUtils.writeArrayByteCommand(this, byteArray)
-                },
-                temperature = temperature,
-                connectedDeviceName = connectedDeviceName, // Passa o nome para o MyApp
+                MainScreenWithDrawer(
+                    onConnect = {
+                        BluetoothUtils.connectToDevice(
+                            context = this, deviceName = "ESP32-BLE",
+                            onConnected = { deviceName ->
+                                connectedDeviceName = deviceName // Atualiza o nome do dispositivo conectado
+                            },
+                            onDisconnected = {
+                                connectedDeviceName = null
+                                temperature = ""
+                            },
+                            onReadUpdate = { temp ->
+                                temperature = temp // Atualiza a temperatura no estado do Compose
+                            },
+                            serviceUuid = SERVICE_UUID, writeCharacteristicUuid = WRITE_UUID, readCharacteristicUuid = READ_UUID
+                        )
+                    },
+                    onDisconnect = {
+                        BluetoothUtils.disconnectDevice(this)
+                        connectedDeviceName = null // Atualiza o estado visual ao desconectar
+                        temperature = "" // Limpa a temperatura ao desconectar
+                    },
+                    onSendCommand = { command ->
+                        BluetoothUtils.writeCommand(this, command)
+                    },
+                    onSendCommandArrayFloat = { byteArray ->
+                        BluetoothUtils.writeArrayByteCommand(this, byteArray)
+                    },
+                    temperature = temperature,
+                    connectedDeviceName = connectedDeviceName, // Passa o nome para o MyApp
 
-                bottomBarViewModel = bottomBarViewModel,
+                    bottomBarViewModel = bottomBarViewModel,
 
-                parametersViewModel = parametersViewModel
-            )
+                    parametersViewModel = parametersViewModel
+                )
+            }
         }
     }
 }
