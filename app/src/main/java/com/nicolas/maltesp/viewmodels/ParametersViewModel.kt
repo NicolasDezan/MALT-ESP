@@ -2,7 +2,6 @@ package com.nicolas.maltesp.viewmodels
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.nicolas.maltesp.data.MaltingRecipe
 import com.nicolas.maltesp.data.MaltingRecipeDao
@@ -93,14 +92,4 @@ class ParametersViewModel(private val dao: MaltingRecipeDao) : ViewModel() {
     }
 }
 
-class ParametersViewModelFactory(
-    private val dao: MaltingRecipeDao
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ParametersViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return ParametersViewModel(dao) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}
+
