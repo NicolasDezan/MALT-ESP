@@ -1,4 +1,4 @@
-package com.nicolas.maltesp.screens.bottomcontent
+package com.nicolas.maltesp.screens.bottombar.content
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

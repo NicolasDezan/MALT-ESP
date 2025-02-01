@@ -1,5 +1,6 @@
-package com.nicolas.maltesp.screens.bottomcontent
+package com.nicolas.maltesp.screens.bottombar.content
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,24 +16,25 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 
 @Composable
 fun ConectionContent(
-    onConnect: () -> Unit,
-    onDisconnect: () -> Unit,
-    onSendCommand: (String) -> Unit,
-    onSendCommandArrayFloat: (ByteArray) -> Unit,
-    temperature: String,
-    connectedDeviceName: String?,
-    modifier: Modifier = Modifier,
+    context: Context,
+    bluetoothViewModel: BluetoothViewModel,
 ) {
+    val temperature by bluetoothViewModel.temperature.collectAsState()
+    val connectedDeviceName by bluetoothViewModel.connectedDeviceName.collectAsState()
+
     Box(
         contentAlignment = Alignment.Center,
-        modifier = modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
@@ -56,21 +58,21 @@ fun ConectionContent(
             Text("Temperatura: $temperature °C", fontSize = 24.sp)
             Spacer(modifier = Modifier.height(16.dp))
             Row {
-                Button(onClick = { onConnect() }) { Text("Conectar") }
+                Button(onClick = { bluetoothViewModel.connect(context) }) { Text("Conectar") }
                 Spacer(modifier = Modifier.width(16.dp))
                 Button(
-                    onClick = { onDisconnect() },
+                    onClick = { bluetoothViewModel.disconnect(context) },
                     enabled = connectedDeviceName != null
                 ) { Text("Desconectar") }
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = { onSendCommand("ON") }) { Text("Ligar LED") }
+            Button(onClick = { bluetoothViewModel.sendCommand(context,"ON") }) { Text("Ligar LED") }
             Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = { onSendCommand("OFF") }) { Text("Desligar LED") }
+            Button(onClick = { bluetoothViewModel.sendCommand(context,"OFF") }) { Text("Desligar LED") }
             Spacer(modifier = Modifier.height(16.dp))
             Button(onClick = {
                 val byteArray = byteArrayOf(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
-                onSendCommandArrayFloat(byteArray)
+                bluetoothViewModel.sendCommandArray(context,byteArray)
             }) { Text("Enviar array de float") }
 
         }
