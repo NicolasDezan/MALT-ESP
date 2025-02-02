@@ -7,11 +7,13 @@ import com.nicolas.maltesp.BluetoothUtils
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-const val SERVICE_UUID = "12345678-1234-1234-1234-1234567890ab"
-const val WRITE_UUID = "12345678-1234-1234-1234-1234567890ad"
-const val READ_UUID = "12345678-1234-1234-1234-1234567890ac"
-
 class BluetoothViewModel(application: Application) : AndroidViewModel(application) {
+    companion object {
+        const val SERVICE_UUID = "12345678-1234-1234-1234-1234567890ab"
+        const val WRITE_UUID = "12345678-1234-1234-1234-1234567890ad"
+        const val READ_UUID = "12345678-1234-1234-1234-1234567890ac"
+    }
+
     private val _temperature = MutableStateFlow<String?>("")
     val temperature = _temperature.asStateFlow()
 
@@ -27,14 +29,14 @@ class BluetoothViewModel(application: Application) : AndroidViewModel(applicatio
                     context = context,
                     deviceName = "ESP32-BLE",
                     onConnected = { deviceName ->
-                        _connectedDeviceName.value = deviceName // Atualiza o nome do dispositivo conectado
+                        _connectedDeviceName.value = deviceName
                     },
                     onDisconnected = {
                         _connectedDeviceName.value = null
                         _temperature.value = ""
                     },
                     onReadUpdate = { temp ->
-                        _temperature.value = temp // Atualiza a temperatura no estado do Compose
+                        _temperature.value = temp
                     },
                     serviceUuid = SERVICE_UUID,
                     writeCharacteristicUuid = WRITE_UUID,
