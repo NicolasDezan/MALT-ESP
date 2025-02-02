@@ -7,8 +7,9 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.room.Room
+import com.nicolas.maltesp.core.BluetoothUtils
 import com.nicolas.maltesp.data.AppDatabase
-import com.nicolas.maltesp.screens.MainScreenWithDrawer
+import com.nicolas.maltesp.ui.scaffold.ScaffoldWithDrawer
 import com.nicolas.maltesp.ui.theme.MaltEspTheme
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 import com.nicolas.maltesp.viewmodels.BottomBarViewModel
@@ -42,7 +43,7 @@ class MainActivity : ComponentActivity() {
         //UI
         setContent {
             MaltEspTheme {
-                MainScreenWithDrawer(
+                ScaffoldWithDrawer(
                     context = this,
                     bluetoothViewModel = bluetoothViewModel,
                     bottomBarViewModel = bottomBarViewModel,
