@@ -1,4 +1,4 @@
-package com.nicolas.maltesp.screens.bottombar.content
+package com.nicolas.maltesp.ui.theme.scaffold.bottombar.content
 
 import android.content.Context
 import androidx.compose.foundation.background

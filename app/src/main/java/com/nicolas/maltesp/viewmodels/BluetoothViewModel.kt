@@ -3,7 +3,7 @@ package com.nicolas.maltesp.viewmodels
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
-import com.nicolas.maltesp.BluetoothUtils
+import com.nicolas.maltesp.core.BluetoothUtils
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 

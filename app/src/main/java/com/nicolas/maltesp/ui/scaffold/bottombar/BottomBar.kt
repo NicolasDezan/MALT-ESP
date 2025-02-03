@@ -1,4 +1,4 @@
-package com.nicolas.maltesp.screens.bottombar
+package com.nicolas.maltesp.ui.theme.scaffold.bottombar
 
 import android.content.Context
 import androidx.compose.foundation.layout.Box
@@ -16,9 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import com.nicolas.maltesp.R
-import com.nicolas.maltesp.screens.bottombar.content.ConectionContent
-import com.nicolas.maltesp.screens.bottombar.content.ParametersInputContent
-import com.nicolas.maltesp.screens.bottombar.content.RecipesContent
+import com.nicolas.maltesp.ui.theme.scaffold.bottombar.content.ConectionContent
+import com.nicolas.maltesp.ui.theme.scaffold.bottombar.content.ParametersInputContent
+import com.nicolas.maltesp.ui.theme.scaffold.bottombar.content.RecipesContent
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 import com.nicolas.maltesp.viewmodels.BottomBarViewModel
 import com.nicolas.maltesp.viewmodels.ParametersViewModel
