@@ -1,4 +1,4 @@
-package com.nicolas.maltesp.ui.theme.scaffold.bottombar.content
+package com.nicolas.maltesp.ui.scaffold.bottombar.content
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column

@@ -1,4 +1,4 @@
-package com.nicolas.maltesp.ui.theme.scaffold.drawer
+package com.nicolas.maltesp.ui.scaffold.drawer
 
 import androidx.compose.runtime.Composable
 

@@ -1,4 +1,4 @@
-package com.nicolas.maltesp.ui.theme.scaffold.topbar
+package com.nicolas.maltesp.ui.scaffold.topbar
 
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -27,6 +27,6 @@ fun SettingTopAppBar(scope: CoroutineScope, drawerState: DrawerState) {
                 )
             }
         },
-        colors = Colors.TopBar
+        //colors = Colors.TopBar
     )
 }

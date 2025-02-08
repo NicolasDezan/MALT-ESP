@@ -12,22 +12,26 @@ private val DarkColorScheme = darkColorScheme(
 
 // Esquema de cores para o tema claro utilizando Material3
 private val LightColorScheme = lightColorScheme(
-    primary = PrimaryBlue,
-    secondary = SecondaryAmber,
-    tertiary = TertiaryDeepAmber,
-    background = BackgroundLight,
-    surface = SurfaceWhite,
-    onPrimary = Color.White,               // Texto/ícones sobre primary
-    onSecondary = Color.Black,             // Texto/ícones sobre secondary
-    onTertiary = Color.Black,              // Texto/ícones sobre tertiary
-    onBackground = Color(0xFF1C1B1F),       // Texto/ícones sobre background
-    onSurface = Color(0xFF1C1B1F)           // Texto/ícones sobre surface
+
+//    primary = Color(0xFFD8D8D8),      // Botões, campos de texto, etc.
+//    onPrimary = Color(0xFF031E46),    // Texto/ícones sobre primary
+//
+//    secondary = Color(0xFF096ECA),    // Bar's
+//    onSecondary = Color(0xFFD8D8D8),  // Texto/ícones sobre secondary
+//
+//    //tertiary = Color(0xFF04427F),     // Drawer?
+//    //onTertiary = Color(0xFF04427F),   // Texto/ícones sobre tertiary
+//
+//    background = Color(0xFF04427F),
+//    onBackground = Color(0xFF1C1B1F),       // Texto/ícones sobre background
+//
+//    surface = Color(0xFF04567F),            // background só que mais claro
+//    onSurface = Color(0xFF1C1B1F),
 )
 
 @Composable
 fun MaltEspTheme(
     darkTheme: Boolean = false, // Se não quer tema escuro, fixe "false"
-    dynamicColor: Boolean = false, // Desativa cores dinâmicas (Android 12+)
     content: @Composable () -> Unit
 ) {
     val colors = if (darkTheme) DarkColorScheme else LightColorScheme

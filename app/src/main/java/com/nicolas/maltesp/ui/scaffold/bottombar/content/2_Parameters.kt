@@ -1,6 +1,5 @@
-package com.nicolas.maltesp.ui.theme.scaffold.bottombar.content
+package com.nicolas.maltesp.ui.scaffold.bottombar.content
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,7 +14,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
@@ -59,7 +57,7 @@ fun ParameterSteeping(parametersViewModel: ParametersViewModel){
             fontSize = 24.sp,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(color= MaterialTheme.colorScheme.tertiaryContainer)
+                //.background(color= MaterialTheme.colorScheme.tertiaryContainer)
                 .padding(top = 4.dp, bottom = 4.dp),
             textAlign = TextAlign.Center
         )
@@ -93,7 +91,7 @@ fun ParameterGermination(parametersViewModel: ParametersViewModel){
             fontSize = 24.sp,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(color= MaterialTheme.colorScheme.tertiaryContainer)
+                //.background(color= MaterialTheme.colorScheme.tertiaryContainer)
                 .padding(top = 4.dp, bottom = 4.dp),
             textAlign = TextAlign.Center
         )
@@ -113,7 +111,7 @@ fun ParameterGermination(parametersViewModel: ParametersViewModel){
                 fontSize = 20.sp,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(color= MaterialTheme.colorScheme.tertiaryContainer)
+                    //.background(color= MaterialTheme.colorScheme.tertiaryContainer)
                     .padding(top = 3.dp, bottom = 3.dp),
                 textAlign = TextAlign.Center
             )
@@ -139,7 +137,7 @@ fun ParameterKilning(parametersViewModel: ParametersViewModel){
             fontSize = 24.sp,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(color= MaterialTheme.colorScheme.tertiaryContainer)
+                //.background(color= MaterialTheme.colorScheme.tertiaryContainer)
                 .padding(top = 4.dp, bottom = 4.dp),
             textAlign = TextAlign.Center
         )
@@ -205,7 +203,7 @@ fun ParameterInput(
             modifier = Modifier
                 .size(width = 80.dp, height = 50.dp)
                 .offset(y = (-4).dp),
-            colors = TextFieldDefaults.colors()
+            //colors = TextFieldDefaults.colors()
         )
     }
 }

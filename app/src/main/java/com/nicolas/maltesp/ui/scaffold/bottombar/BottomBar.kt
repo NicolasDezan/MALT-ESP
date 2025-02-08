@@ -1,4 +1,4 @@
-package com.nicolas.maltesp.ui.theme.scaffold.bottombar
+package com.nicolas.maltesp.ui.scaffold.bottombar
 
 import android.content.Context
 import androidx.compose.foundation.layout.Box
@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -16,9 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import com.nicolas.maltesp.R
-import com.nicolas.maltesp.ui.theme.scaffold.bottombar.content.ConectionContent
-import com.nicolas.maltesp.ui.theme.scaffold.bottombar.content.ParametersInputContent
-import com.nicolas.maltesp.ui.theme.scaffold.bottombar.content.RecipesContent
+import com.nicolas.maltesp.ui.scaffold.bottombar.content.ConectionContent
+import com.nicolas.maltesp.ui.scaffold.bottombar.content.ParametersInputContent
+import com.nicolas.maltesp.ui.scaffold.bottombar.content.RecipesContent
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 import com.nicolas.maltesp.viewmodels.BottomBarViewModel
 import com.nicolas.maltesp.viewmodels.ParametersViewModel
@@ -35,7 +37,10 @@ fun IconButtonsBottomBar(bottomBarViewModel: BottomBarViewModel) {
 
     val items = listOf(ITEM_1, ITEM_2, ITEM_3, ITEM_4)
 
-    NavigationBar {
+    NavigationBar(
+//        containerColor = MaterialTheme.colorScheme.secondary,
+//        contentColor = MaterialTheme.colorScheme.onSecondary
+    ) {
         items.forEachIndexed { index, item ->
             NavigationBarItem(
                 icon = {
@@ -55,7 +60,10 @@ fun IconButtonsBottomBar(bottomBarViewModel: BottomBarViewModel) {
                 },
                 label = { Text(item) },
                 selected = selectedItem == index,
-                onClick = { bottomBarViewModel.selectItem(index) }
+                onClick = { bottomBarViewModel.selectItem(index) },
+                colors = NavigationBarItemDefaults.colors(
+
+                )
             )
         }
     }
