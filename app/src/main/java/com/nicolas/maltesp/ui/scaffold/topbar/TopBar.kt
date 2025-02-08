@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import com.nicolas.maltesp.R
-import com.nicolas.maltesp.ui.theme.appcolors.Colors
+import com.nicolas.maltesp.ui.theme.appcolors.ScaffoldColors
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -27,6 +27,6 @@ fun SettingTopAppBar(scope: CoroutineScope, drawerState: DrawerState) {
                 )
             }
         },
-        //colors = Colors.TopBar
+        colors = ScaffoldColors.TopBar
     )
 }

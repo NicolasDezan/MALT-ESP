@@ -13,20 +13,20 @@ private val DarkColorScheme = darkColorScheme(
 // Esquema de cores para o tema claro utilizando Material3
 private val LightColorScheme = lightColorScheme(
 
-//    primary = Color(0xFFD8D8D8),      // Botões, campos de texto, etc.
-//    onPrimary = Color(0xFF031E46),    // Texto/ícones sobre primary
-//
-//    secondary = Color(0xFF096ECA),    // Bar's
-//    onSecondary = Color(0xFFD8D8D8),  // Texto/ícones sobre secondary
-//
-//    //tertiary = Color(0xFF04427F),     // Drawer?
-//    //onTertiary = Color(0xFF04427F),   // Texto/ícones sobre tertiary
+    primary = Color(0xFF04427F),      // Botões, campos de texto, etc.
+    onPrimary = Color(0xFFD8D8D8),    // Texto/ícones sobre primary
+
+    secondary = Color(0x9F9AC6EA),    // Bar's
+    onSecondary = Color(0xFFD8D8D8),  // Texto/ícones sobre secondary
+
+//    tertiary = Color(0xFF002A4D),     // Drawer?
+//    onTertiary = Color(0xFFB1D6FF),   // Texto/ícones sobre tertiary
 //
 //    background = Color(0xFF04427F),
 //    onBackground = Color(0xFF1C1B1F),       // Texto/ícones sobre background
 //
-//    surface = Color(0xFF04567F),            // background só que mais claro
-//    onSurface = Color(0xFF1C1B1F),
+//    surface = Color(0xFF0C6796),            // background só que mais claro
+//    onSurface = Color(0xFF096ECA),
 )
 
 @Composable
