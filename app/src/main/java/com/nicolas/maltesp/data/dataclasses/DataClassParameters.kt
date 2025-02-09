@@ -50,3 +50,20 @@ fun initializeParametersState(): ParametersState {
         )
     )
 }
+
+data class ParameterData(
+    val name: String,
+    val unit: String,
+    val description: String,
+    val state: MutableState<String>
+)
+
+data class ParameterGroup(
+    val title: String? = null,
+    val parameters: List<ParameterData>
+)
+
+data class ParameterSectionData(
+    val title: String,
+    val groups: List<ParameterGroup>
+)

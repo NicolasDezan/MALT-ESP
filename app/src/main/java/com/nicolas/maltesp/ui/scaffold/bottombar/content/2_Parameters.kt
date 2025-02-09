@@ -13,14 +13,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,131 +29,35 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.nicolas.maltesp.data.dataclasses.ParameterGroup
+import com.nicolas.maltesp.ui.scaffold.bottombar.content.parameters.sections
 import com.nicolas.maltesp.viewmodels.ParametersViewModel
 
-// TODO: A performance dessa tela não está boa ao inicializar o app. Depois normaliza.
 
-// Data classes para modelagem dos parâmetros
-class ParameterData(
-    val name: String,
-    val unit: String,
-    val description: String,
-    val state: MutableState<String>
-)
-
-class ParameterGroup(
-    val title: String? = null,
-    val parameters: List<ParameterData>
-)
-
-class ParameterSectionData(
-    val title: String,
-    val groups: List<ParameterGroup>
-)
 
 @Composable
 fun ParametersInputContent(parametersViewModel: ParametersViewModel) {
-    val parametersState by parametersViewModel.parametersState.collectAsState()
+    val sections = sections(parametersViewModel)
 
-    val sections = listOf(
-        ParameterSectionData(
-            title = "Maceração",
-            groups = listOf(
-                ParameterGroup(
-                    parameters = listOf(
-                        ParameterData(
-                            "Tempo Submerso",
-                            "h",
-                            "",
-                            parametersState.steeping.submergedTime
-                        ),
-                        ParameterData(
-                            "Volume de Água",
-                            "mL",
-                            "",
-                            parametersState.steeping.waterVolume
-                        ),
-                        ParameterData(
-                            "Tempo Descanso",
-                            "h",
-                            "",
-                            parametersState.steeping.restTime
-                        ),
-                        ParameterData(
-                            "Número de Ciclos",
-                            "",
-                            "",
-                            parametersState.steeping.cycles
-                        )
-                    )
-                )
-            )
-        ),
-        ParameterSectionData(
-            title = "Germinação",
-            groups = listOf(
-                ParameterGroup(
-                    parameters = listOf(
-                        ParameterData(
-                            "Nível de Rotação",
-                            "",
-                            "",
-                            parametersState.germination.rotationLevel
-                        ),
-                        ParameterData(
-                            "Tempo Total",
-                            "h",
-                            "",
-                            parametersState.germination.totalTime
-                        ),
-                        ParameterData(
-                            "Volume de Água",
-                            "mL",
-                            "",
-                            parametersState.germination.waterVolume
-                        ),
-                        ParameterData(
-                            "Adição de Água",
-                            "min",
-                            "",
-                            parametersState.germination.waterAddition
-                        )
-                    )
-                )
-            )
-        ),
-        ParameterSectionData(
-            title = "Secagem",
-            groups = listOf(
-                ParameterGroup(
-                    parameters = listOf(
-                        ParameterData(
-                            "Temperatura",
-                            "°C",
-                            "",
-                            parametersState.kilning.temperature
-                        ),
-                        ParameterData(
-                            "Tempo",
-                            "min",
-                            "",
-                            parametersState.kilning.time
-                        )
-                    )
-                )
-            )
-        )
-    )
+    Column {
+        SelectRecipeDropdownMenu(parametersViewModel)
 
-    LazyColumn(
-        //modifier = Modifier.padding(horizontal = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        items(sections) { section ->
-            ParameterSection(
-                title = section.title,
-                groups = section.groups
-            )
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            items(sections) { section ->
+                ParameterSection(
+                    title = section.title,
+                    groups = section.groups
+                )
+            }
+            item {
+                Surface(
+                    modifier = Modifier.height((86).dp).fillMaxWidth()
+                ) {
+                    HorizontalDivider()
+                }
+            }
         }
     }
 }
@@ -253,7 +157,6 @@ fun ParameterInput(
             }
         }
 
-        // TextField alinhado à direita com tamanho fixo
         Box(
             modifier = Modifier.width(120.dp),
             contentAlignment = Alignment.CenterEnd
@@ -306,4 +209,3 @@ fun ParameterInput(
         }
     }
 }
-
