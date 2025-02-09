@@ -28,14 +28,6 @@ class ParametersViewModel(private val dao: MaltingRecipeDao) : ViewModel() {
         }
     }
 
-    // Função para carregar os dados de um recipe pelo UID
-//    fun loadRecipeByUid(uid: Int) {
-//        viewModelScope.launch {
-//            val recipe = dao.getRecipeById(uid) // Busca a receita no banco
-//            updateParametersStateFromRecipe(recipe) // Atualiza o estado
-//        }
-//    }
-
     fun loadRecipeByName(name: String) {
         viewModelScope.launch {
             val uid = dao.getUidByName(name)?: -1
