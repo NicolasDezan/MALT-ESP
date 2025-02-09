@@ -14,7 +14,7 @@ private val DarkColorScheme = darkColorScheme(
 private val LightColorScheme = lightColorScheme(
 
     primary = Color(0xFF04427F),      // Botões, campos de texto, etc.
-    onPrimary = Color(0xFFD8D8D8),    // Texto/ícones sobre primary
+    onPrimary = Color(0xFFFFFFFF),    // Texto/ícones sobre primary
 
     secondary = Color(0x9F9AC6EA),    // Bar's
     onSecondary = Color(0xFFD8D8D8),  // Texto/ícones sobre secondary
