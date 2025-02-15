@@ -25,23 +25,8 @@ class BluetoothViewModel(application: Application) : AndroidViewModel(applicatio
             context = context,
             deviceName = "ESP32-BLE",
             onConnected = {
-                BluetoothUtils.connectToDevice(
-                    context = context,
-                    deviceName = "ESP32-BLE",
-                    onConnected = { deviceName ->
-                        _connectedDeviceName.value = deviceName
-                    },
-                    onDisconnected = {
-                        _connectedDeviceName.value = null
-                        _temperature.value = ""
-                    },
-                    onReadUpdate = { temp ->
-                        _temperature.value = temp
-                    },
-                    serviceUuid = SERVICE_UUID,
-                    writeCharacteristicUuid = WRITE_UUID,
-                    readCharacteristicUuid = READ_UUID
-                )
+                deviceName ->
+                _connectedDeviceName.value = deviceName
             },
             onDisconnected = {
                 _connectedDeviceName.value = null
