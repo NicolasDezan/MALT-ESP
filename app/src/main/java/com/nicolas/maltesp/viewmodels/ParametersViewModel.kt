@@ -38,6 +38,15 @@ class ParametersViewModel(private val dao: MaltingRecipeDao) : ViewModel() {
         }
     }
 
+    fun deleteRecipeByName(name: String) {
+        viewModelScope.launch {
+            val uid = dao.getUidByName(name)
+            if (uid != null){
+                dao.deleteByUid(uid)
+            }
+        }
+    }
+
 
 
     private fun updateParametersStateFromRecipe(recipe: MaltingRecipe) {

@@ -23,6 +23,6 @@ interface MaltingRecipeDao {
     @Query("SELECT uid FROM MaltingRecipe WHERE recipeName = :name LIMIT 1")
     suspend fun getUidByName(name: String): Int?
 
-    @Delete
-    fun delete(recipe: MaltingRecipe)
+    @Query("DELETE FROM MaltingRecipe WHERE uid = :uid")
+    suspend fun deleteByUid(uid: Int)
 }
