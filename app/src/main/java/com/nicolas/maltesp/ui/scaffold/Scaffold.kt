@@ -43,6 +43,7 @@ fun ScaffoldWithDrawer(
 
                 floatingActionButton = {
                     SettingFloatingActionButton(
+                        parametersViewModel = parametersViewModel
                     )
                 },
 
