@@ -18,7 +18,7 @@ import androidx.compose.ui.res.vectorResource
 import com.nicolas.maltesp.R
 import com.nicolas.maltesp.ui.scaffold.bottombar.content.ConectionContent
 import com.nicolas.maltesp.ui.scaffold.bottombar.content.ParametersInputContent
-import com.nicolas.maltesp.ui.scaffold.bottombar.content.RecipesContent
+import com.nicolas.maltesp.ui.scaffold.bottombar.content.TestContent
 import com.nicolas.maltesp.ui.theme.appcolors.ScaffoldColors
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 import com.nicolas.maltesp.viewmodels.BottomBarViewModel
@@ -81,7 +81,7 @@ fun ContentBottomBar(
         when (selectedItem) {
             0 -> ConectionContent(context = context, bluetoothViewModel = bluetoothViewModel)
             1 -> ParametersInputContent(parametersViewModel)
-            2 -> RecipesContent(parametersViewModel)
+            2 -> TestContent()
             3 -> Text("4")
         }
     }
