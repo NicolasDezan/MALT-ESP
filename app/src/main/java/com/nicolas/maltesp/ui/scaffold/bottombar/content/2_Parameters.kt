@@ -40,22 +40,36 @@ fun ParametersInputContent(parametersViewModel: ParametersViewModel) {
     val sections = sections(parametersViewModel)
 
     Column {
-        SelectRecipeDropdownMenu(parametersViewModel)
-
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
+            verticalArrangement = Arrangement.spacedBy(16.dp))
+        {
             items(sections) { section ->
                 ParameterSection(
                     title = section.title,
                     groups = section.groups
                 )
             }
-            item {
+            item { // Divisão pra nao atrapalhar a leitura do ultimo section.item
                 Surface(
                     modifier = Modifier.height((86).dp).fillMaxWidth()
                 ) {
-                    HorizontalDivider()
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        horizontalAlignment = Alignment.Start
+
+                    ) {
+                        HorizontalDivider()
+
+                        Row(
+                            modifier = Modifier
+                                .padding(horizontal = 24.dp),
+                        ) {
+                            NewRecipeButton(
+                                textButton = "Salvar Nova Receita",
+                                parametersViewModel = parametersViewModel
+                            )
+                        }
+                    }
                 }
             }
         }
