@@ -21,7 +21,7 @@ import com.nicolas.maltesp.ui.scaffold.bottombar.content.ParametersInputContent
 import com.nicolas.maltesp.ui.scaffold.bottombar.content.TestContent
 import com.nicolas.maltesp.ui.theme.appcolors.ScaffoldColors
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
-import com.nicolas.maltesp.viewmodels.BottomBarViewModel
+import com.nicolas.maltesp.viewmodels.ScaffoldViewModel
 import com.nicolas.maltesp.viewmodels.ParametersViewModel
 
 const val ITEM_1 = "Conexão"
@@ -30,9 +30,9 @@ const val ITEM_3 = "..."
 const val ITEM_4 = "Leitura"
 
 @Composable
-fun IconButtonsBottomBar(bottomBarViewModel: BottomBarViewModel) {
+fun IconButtonsBottomBar(scaffoldViewModel: ScaffoldViewModel) {
 
-    val selectedItem by bottomBarViewModel.selectedItem.collectAsState()
+    val selectedItem by scaffoldViewModel.bottomBarSelectedItem.collectAsState()
 
     val items = listOf(ITEM_1, ITEM_2, ITEM_3, ITEM_4)
 
@@ -56,7 +56,7 @@ fun IconButtonsBottomBar(bottomBarViewModel: BottomBarViewModel) {
                 },
                 label = { Text(item) },
                 selected = selectedItem == index,
-                onClick = { bottomBarViewModel.selectItem(index) },
+                onClick = { scaffoldViewModel.bottomBarSelectItem(index) },
                 colors = ScaffoldColors.BottomBar
             )
         }
@@ -68,10 +68,10 @@ fun ContentBottomBar(
     context: Context,
     paddingValues: PaddingValues,
     bluetoothViewModel: BluetoothViewModel,
-    bottomBarViewModel: BottomBarViewModel,
+    scaffoldViewModel: ScaffoldViewModel,
     parametersViewModel: ParametersViewModel
 ) {
-    val selectedItem by bottomBarViewModel.selectedItem.collectAsState()
+    val selectedItem by scaffoldViewModel.bottomBarSelectedItem.collectAsState()
 
     Box(
         modifier = Modifier

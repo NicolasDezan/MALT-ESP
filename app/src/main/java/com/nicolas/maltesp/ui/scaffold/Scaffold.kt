@@ -13,7 +13,7 @@ import com.nicolas.maltesp.ui.scaffold.bottombar.IconButtonsBottomBar
 import com.nicolas.maltesp.ui.scaffold.drawer.SettingDrawerContent
 import com.nicolas.maltesp.ui.scaffold.topbar.SettingTopAppBar
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
-import com.nicolas.maltesp.viewmodels.BottomBarViewModel
+import com.nicolas.maltesp.viewmodels.ScaffoldViewModel
 import com.nicolas.maltesp.viewmodels.ParametersViewModel
 
 
@@ -21,7 +21,7 @@ import com.nicolas.maltesp.viewmodels.ParametersViewModel
 fun ScaffoldWithDrawer(
     context: Context,
     bluetoothViewModel : BluetoothViewModel,
-    bottomBarViewModel: BottomBarViewModel,
+    scaffoldViewModel: ScaffoldViewModel,
     parametersViewModel: ParametersViewModel
     ){
 
@@ -39,17 +39,19 @@ fun ScaffoldWithDrawer(
             Scaffold(
                 topBar = { SettingTopAppBar(
                     scope = scope,
-                    drawerState = drawerState) },
+                    drawerState = drawerState,
+                    scaffoldViewModel = scaffoldViewModel) },
 
                 floatingActionButton = {
                     SettingFloatingActionButton(
-                        parametersViewModel = parametersViewModel
+                        parametersViewModel = parametersViewModel,
+                        scaffoldViewModel = scaffoldViewModel
                     )
                 },
 
                 bottomBar = {
                     IconButtonsBottomBar(
-                        bottomBarViewModel = bottomBarViewModel
+                        scaffoldViewModel = scaffoldViewModel
                     )
                 },
 
@@ -58,7 +60,7 @@ fun ScaffoldWithDrawer(
                         context = context,
                         paddingValues = paddingValues,
                         bluetoothViewModel = bluetoothViewModel,
-                        bottomBarViewModel = bottomBarViewModel,
+                        scaffoldViewModel = scaffoldViewModel,
                         parametersViewModel = parametersViewModel
                         )
                 }

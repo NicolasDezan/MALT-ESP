@@ -12,7 +12,7 @@ import com.nicolas.maltesp.data.AppDatabase
 import com.nicolas.maltesp.ui.scaffold.ScaffoldWithDrawer
 import com.nicolas.maltesp.ui.theme.MaltEspTheme
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
-import com.nicolas.maltesp.viewmodels.BottomBarViewModel
+import com.nicolas.maltesp.viewmodels.ScaffoldViewModel
 import com.nicolas.maltesp.viewmodels.ParametersViewModel
 import com.nicolas.maltesp.viewmodels.ParametersViewModelFactory
 
@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
 
 
         // VIEW MODELS
-        val bottomBarViewModel by viewModels<BottomBarViewModel>()
+        val scaffoldViewModel by viewModels<ScaffoldViewModel>()
         val parametersViewModel: ParametersViewModel by viewModels { parametersDao }
         val bluetoothViewModel by viewModels<BluetoothViewModel>()
 
@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
                 ScaffoldWithDrawer(
                     context = this,
                     bluetoothViewModel = bluetoothViewModel,
-                    bottomBarViewModel = bottomBarViewModel,
+                    scaffoldViewModel = scaffoldViewModel,
                     parametersViewModel = parametersViewModel
                 )
             }

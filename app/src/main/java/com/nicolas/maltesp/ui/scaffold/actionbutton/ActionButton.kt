@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import com.nicolas.maltesp.R
 import com.nicolas.maltesp.ui.theme.appcolors.ScaffoldColors
 import com.nicolas.maltesp.viewmodels.ParametersViewModel
+import com.nicolas.maltesp.viewmodels.ScaffoldViewModel
 
 /*
     Créditos: https://github.com/MohsenMashkour/ExpandableFabComposeYT.git
