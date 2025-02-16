@@ -101,7 +101,10 @@ fun SettingFloatingActionButton(
             enter = fadeIn() + slideInVertically(initialOffsetY = { it }) + expandVertically(),
             exit = fadeOut() + slideOutVertically(targetOffsetY = { it }) + shrinkVertically()
         ) {
-            LazyColumn(Modifier.padding(bottom = 8.dp)) {
+            LazyColumn(
+                modifier = Modifier.padding(bottom = 8.dp),
+                horizontalAlignment = Alignment.End
+            ) {
                 items(items.size) {
                     ItemUi(
                         icon = items[it].icon,
@@ -139,14 +142,18 @@ fun SettingFloatingActionButton(
 
 @Composable
 fun ItemUi(icon: ImageVector, title: String, onClick: () -> Unit) {
-    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.End) {
-        Spacer(modifier = Modifier.weight(1f))
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.End,
+        modifier = Modifier
+//            .clickable { onClick() }
+    )
+    {
         Box(
             modifier = Modifier
                 .border(2.dp, ScaffoldColors.ActionButton.ContainerColor, RoundedCornerShape(10.dp))
                 .background(color = Color.White, RoundedCornerShape(10.dp))
                 .padding(6.dp)
-
         ) {
             Text(
                 text = title

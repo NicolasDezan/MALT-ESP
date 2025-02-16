@@ -1,6 +1,8 @@
 package com.nicolas.maltesp.ui.scaffold.bottombar
 
 import android.content.Context
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,11 +10,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import com.nicolas.maltesp.R
@@ -77,10 +82,35 @@ fun ContentBottomBar(
             .padding(paddingValues)
     ) {
         when (selectedItem) {
-            0 -> ConectionContent(context = context, bluetoothViewModel = bluetoothViewModel)
-            1 -> ParametersInputContent(parametersViewModel = parametersViewModel, bluetoothViewModel = bluetoothViewModel)
-            2 -> TestContent()
-            3 -> TestContent()
+            0 -> ContentBox(scaffoldViewModel) {ConectionContent(context = context, bluetoothViewModel = bluetoothViewModel)}
+            1 -> ContentBox(scaffoldViewModel) {ParametersInputContent(parametersViewModel = parametersViewModel, bluetoothViewModel = bluetoothViewModel)}
+            2 -> ContentBox(scaffoldViewModel) {TestContent()}
+            3 -> ContentBox(scaffoldViewModel) {TestContent()}
+        }
+    }
+}
+
+@Composable
+fun ContentBox(
+    scaffoldViewModel: ScaffoldViewModel,
+    content: @Composable () -> Unit
+){
+    val isFabExpanded by scaffoldViewModel.isFabExpanded.collectAsState()
+
+    Box{
+        content()
+        if (isFabExpanded) {
+            Surface(
+                color = Color.Black.copy(alpha = 0.035f), // Cor semi-transparente
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) {
+                        scaffoldViewModel.toggleFab()
+                    }
+            ) {}
         }
     }
 }
