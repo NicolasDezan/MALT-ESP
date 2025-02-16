@@ -57,8 +57,13 @@ import com.nicolas.maltesp.viewmodels.ScaffoldViewModel
 */
 
 @Composable
-fun SettingFloatingActionButton(parametersViewModel: ParametersViewModel) {
-    var expanded by remember { mutableStateOf(false) }
+fun SettingFloatingActionButton(
+    parametersViewModel: ParametersViewModel,
+    scaffoldViewModel: ScaffoldViewModel
+)
+{
+    val isFabExpanded by scaffoldViewModel.isFabExpanded.collectAsState()
+
     var showSelectRecipeList by remember { mutableStateOf(false) }
 
     val items = listOf(
@@ -76,7 +81,7 @@ fun SettingFloatingActionButton(parametersViewModel: ParametersViewModel) {
 
     Column(horizontalAlignment = Alignment.End) {
         AnimatedVisibility(
-            visible = expanded,
+            visible = isFabExpanded,
             enter = fadeIn() + slideInVertically(initialOffsetY = { it }) + expandVertically(),
             exit = fadeOut() + slideOutVertically(targetOffsetY = { it }) + shrinkVertically()
         ) {
@@ -91,13 +96,13 @@ fun SettingFloatingActionButton(parametersViewModel: ParametersViewModel) {
                 }
             }
         }
-        val transition = updateTransition(targetState = expanded, label = "transition")
+        val transition = updateTransition(targetState = isFabExpanded, label = "transition")
         val rotation by transition.animateFloat(label = "rotation") {
             if (it) 315f else 0f
         }
 
         FloatingActionButton(
-            onClick = { expanded = !expanded },
+            onClick = { scaffoldViewModel.toggleFab(isFabExpanded) },
             containerColor = ScaffoldColors.ActionButton.ContainerColor,
             contentColor = ScaffoldColors.ActionButton.ContentColor
         ) {
