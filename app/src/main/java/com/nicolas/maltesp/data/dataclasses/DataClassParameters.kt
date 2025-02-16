@@ -66,7 +66,7 @@ fun testParametersState(): ParametersState {
             waterVolume = mutableStateOf(16.toString()),
             waterAddition = mutableStateOf(17.toString())
         ),
-        kilning = com.nicolas.maltesp.data.dataclasses.KilningState(
+        kilning = KilningState(
             temperature = mutableStateOf(18.toString()),
             time = mutableStateOf(19.toString())
         )
