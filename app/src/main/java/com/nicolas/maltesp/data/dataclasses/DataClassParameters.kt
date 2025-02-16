@@ -78,7 +78,8 @@ data class ParameterData(
     val unit: String,
     val description: String,
     val state: MutableState<String>,
-    val isEquals: Boolean? // Se nulo, significa que há problema na conexão
+    val isEquals: Boolean?, // Se nulo, significa que há problema na conexão
+    val isNumberValid: Boolean = false
 )
 
 data class ParameterGroup(
@@ -89,4 +90,9 @@ data class ParameterGroup(
 data class ParameterSectionData(
     val title: String,
     val groups: List<ParameterGroup>
+)
+
+data class ParametersRange(
+    val min: Float,
+    val max: Float
 )

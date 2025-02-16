@@ -114,7 +114,8 @@ private fun ParameterSection(
                         unit = parameter.unit,
                         description = parameter.description,
                         inputState = parameter.state,
-                        isEquals = parameter.isEquals
+                        isEquals = parameter.isEquals,
+                        isNumberValid = parameter.isNumberValid
                     )
                 }
             }
@@ -153,9 +154,9 @@ fun ParameterInput(
     unit: String,
     description: String,
     inputState: MutableState<String>,
-    isEquals: Boolean?
+    isEquals: Boolean?,
+    isNumberValid: Boolean
 ) {
-
     val textFieldColor = when (isEquals){
         true -> ComponentsColors.TextField.equalState
         false -> ComponentsColors.TextField.notEqualState
@@ -235,7 +236,8 @@ fun ParameterInput(
                 modifier = Modifier
                     .width(100.dp)
                     .height(48.dp),
-                colors = textFieldColor
+                colors = textFieldColor,
+                isError = !isNumberValid
             )
         }
     }

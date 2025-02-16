@@ -26,28 +26,32 @@ fun sections(parametersViewModel: ParametersViewModel, bluetoothViewModel: Bluet
                             "h",
                             "",
                             parametersState.steeping.submergedTime,
-                            parametersViewModel.compareSteepingSubmergedTime(parametersReceived, isBluetoothConnected)
+                            parametersViewModel.compareSteepingSubmergedTime(parametersReceived, isBluetoothConnected),
+                            parametersViewModel.isSteepingSubmergedTimeValid()
                         ),
                         ParameterData(
                             "Volume de Água",
                             "mL",
                             "",
                             parametersState.steeping.waterVolume,
-                            parametersViewModel.compareSteepingWaterVolume(parametersReceived, isBluetoothConnected)
+                            parametersViewModel.compareSteepingWaterVolume(parametersReceived, isBluetoothConnected),
+                            parametersViewModel.isSteepingWaterVolumeValid()
                         ),
                         ParameterData(
                             "Tempo Descanso",
                             "h",
                             "",
                             parametersState.steeping.restTime,
-                            parametersViewModel.compareSteepingRestTime(parametersReceived, isBluetoothConnected)
+                            parametersViewModel.compareSteepingRestTime(parametersReceived, isBluetoothConnected),
+                            parametersViewModel.isSteepingRestTimeValid()
                         ),
                         ParameterData(
                             "Número de Ciclos",
                             "",
                             "",
                             parametersState.steeping.cycles,
-                            parametersViewModel.compareSteepingCycles(parametersReceived, isBluetoothConnected)
+                            parametersViewModel.compareSteepingCycles(parametersReceived, isBluetoothConnected),
+                            parametersViewModel.isSteepingCyclesValid()
                         )
                     )
                 )
@@ -63,28 +67,32 @@ fun sections(parametersViewModel: ParametersViewModel, bluetoothViewModel: Bluet
                             "",
                             "",
                             parametersState.germination.rotationLevel,
-                            parametersViewModel.compareGerminationRotationLevel(parametersReceived, isBluetoothConnected)
+                            parametersViewModel.compareGerminationRotationLevel(parametersReceived, isBluetoothConnected),
+                            parametersViewModel.isGerminationRotationLevelValid()
                         ),
                         ParameterData(
                             "Tempo Total",
                             "h",
                             "",
                             parametersState.germination.totalTime,
-                            parametersViewModel.compareGerminationTotalTime(parametersReceived, isBluetoothConnected)
+                            parametersViewModel.compareGerminationTotalTime(parametersReceived, isBluetoothConnected),
+                            parametersViewModel.isGerminationTotalTimeValid()
                         ),
                         ParameterData(
                             "Volume de Água",
                             "mL",
                             "",
                             parametersState.germination.waterVolume,
-                            parametersViewModel.compareGerminationWaterVolume(parametersReceived, isBluetoothConnected)
+                            parametersViewModel.compareGerminationWaterVolume(parametersReceived, isBluetoothConnected),
+                            parametersViewModel.isGerminationWaterVolumeValid()
                         ),
                         ParameterData(
                             "Adição de Água",
                             "min",
                             "",
                             parametersState.germination.waterAddition,
-                            parametersViewModel.compareGerminationWaterAddition(parametersReceived, isBluetoothConnected)
+                            parametersViewModel.compareGerminationWaterAddition(parametersReceived, isBluetoothConnected),
+                            parametersViewModel.isGerminationWaterAdditionValid()
                         )
                     )
                 )
@@ -100,14 +108,16 @@ fun sections(parametersViewModel: ParametersViewModel, bluetoothViewModel: Bluet
                             "°C",
                             "",
                             parametersState.kilning.temperature,
-                            parametersViewModel.compareKilningTemperature(parametersReceived, isBluetoothConnected)
+                            parametersViewModel.compareKilningTemperature(parametersReceived, isBluetoothConnected),
+                            parametersViewModel.isKilningTemperatureValid()
                         ),
                         ParameterData(
                             "Tempo",
                             "min",
                             "",
                             parametersState.kilning.time,
-                            parametersViewModel.compareKilningTime(parametersReceived, isBluetoothConnected)
+                            parametersViewModel.compareKilningTime(parametersReceived, isBluetoothConnected),
+                            parametersViewModel.isKilningTimeValid()
                         )
                     )
                 )

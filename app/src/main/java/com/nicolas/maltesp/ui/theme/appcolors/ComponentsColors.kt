@@ -14,7 +14,9 @@ object ComponentsColors {
                 unfocusedIndicatorColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
-                focusedContainerColor = MaterialTheme.colorScheme.secondary
+                focusedContainerColor = MaterialTheme.colorScheme.secondary,
+                errorIndicatorColor = Color.Red,
+                errorContainerColor = Color.Red.copy(alpha = 0.05f)
             )
 
         val notEqualState: TextFieldColors
@@ -23,7 +25,9 @@ object ComponentsColors {
                 unfocusedIndicatorColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedContainerColor = MaterialTheme.colorScheme.tertiary,
-                focusedContainerColor = MaterialTheme.colorScheme.tertiary
+                focusedContainerColor = MaterialTheme.colorScheme.tertiary,
+                errorIndicatorColor = Color.Red,
+                errorContainerColor = Color.Red.copy(alpha = 0.05f)
             )
 
         val invalidState: TextFieldColors
@@ -32,7 +36,9 @@ object ComponentsColors {
                 unfocusedIndicatorColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedContainerColor = Color.LightGray,
-                focusedContainerColor = Color.LightGray
+                focusedContainerColor = Color.LightGray,
+                errorIndicatorColor = Color.Red,
+                errorContainerColor = Color.Red.copy(alpha = 0.05f)
             )
 
 
