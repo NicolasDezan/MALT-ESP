@@ -31,9 +31,7 @@ const val ITEM_4 = "Leitura"
 
 @Composable
 fun IconButtonsBottomBar(scaffoldViewModel: ScaffoldViewModel) {
-
     val selectedItem by scaffoldViewModel.bottomBarSelectedItem.collectAsState()
-
     val items = listOf(ITEM_1, ITEM_2, ITEM_3, ITEM_4)
 
     NavigationBar {
@@ -80,9 +78,9 @@ fun ContentBottomBar(
     ) {
         when (selectedItem) {
             0 -> ConectionContent(context = context, bluetoothViewModel = bluetoothViewModel)
-            1 -> ParametersInputContent(parametersViewModel)
+            1 -> ParametersInputContent(parametersViewModel = parametersViewModel, bluetoothViewModel = bluetoothViewModel)
             2 -> TestContent()
-            3 -> Text("4")
+            3 -> TestContent()
         }
     }
 }

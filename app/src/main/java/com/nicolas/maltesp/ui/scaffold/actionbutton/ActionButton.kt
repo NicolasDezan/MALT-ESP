@@ -48,6 +48,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.nicolas.maltesp.R
 import com.nicolas.maltesp.ui.theme.appcolors.ScaffoldColors
+import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 import com.nicolas.maltesp.viewmodels.ParametersViewModel
 import com.nicolas.maltesp.viewmodels.ScaffoldViewModel
 
@@ -59,23 +60,38 @@ import com.nicolas.maltesp.viewmodels.ScaffoldViewModel
 @Composable
 fun SettingFloatingActionButton(
     parametersViewModel: ParametersViewModel,
-    scaffoldViewModel: ScaffoldViewModel
+    scaffoldViewModel: ScaffoldViewModel,
+    bluetoothViewModel: BluetoothViewModel
 )
 {
     val isFabExpanded by scaffoldViewModel.isFabExpanded.collectAsState()
-
+    val parametersReceived by bluetoothViewModel.parametersReceived.collectAsState()
     var showSelectRecipeList by remember { mutableStateOf(false) }
 
     val items = listOf(
         ActionItem(
             icon = ImageVector.vectorResource(id = R.drawable.baseline_menu_24),
+            title = "Puxar Parâmetros",
+            onClick = {
+                parametersViewModel.updateParametersStateFromParametersState(parametersReceived)
+                scaffoldViewModel.toggleFab()
+            }
+        ),
+        ActionItem(
+            icon = ImageVector.vectorResource(id = R.drawable.baseline_menu_24),
             title = "Carregar Receita",
-            onClick = { showSelectRecipeList = true }
+            onClick = {
+                showSelectRecipeList = true
+                scaffoldViewModel.toggleFab()
+            }
         ),
         ActionItem(
             icon = ImageVector.vectorResource(id = R.drawable.baseline_menu_24),
             title = "Iniciar",
-            onClick = { /* TODO: Um dia vamos colocar o envio de dados pro ESP aqui */ }
+            onClick = {
+            /* TODO: Um dia vamos colocar o envio de dados pro ESP aqui */
+                scaffoldViewModel.toggleFab()
+            }
         )
     )
 
@@ -102,7 +118,7 @@ fun SettingFloatingActionButton(
         }
 
         FloatingActionButton(
-            onClick = { scaffoldViewModel.toggleFab(isFabExpanded) },
+            onClick = { scaffoldViewModel.toggleFab() },
             containerColor = ScaffoldColors.ActionButton.ContainerColor,
             contentColor = ScaffoldColors.ActionButton.ContentColor
         ) {

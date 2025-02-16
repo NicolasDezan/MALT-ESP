@@ -26,8 +26,8 @@ class ScaffoldViewModel : ViewModel() {
     val isFabExpanded = _isFabExpanded.asStateFlow()
 
     // Alterna a expansão do FloatingActionButton
-    fun toggleFab(current: Boolean) {
-        _isFabExpanded.value = !current
+    fun toggleFab() {
+        _isFabExpanded.value = !_isFabExpanded.value
     }
 
 

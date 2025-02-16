@@ -21,7 +21,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -30,7 +29,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -39,13 +37,18 @@ import androidx.compose.ui.unit.sp
 import com.nicolas.maltesp.data.dataclasses.ParameterGroup
 import com.nicolas.maltesp.data.newRecipe
 import com.nicolas.maltesp.ui.scaffold.bottombar.content.parameters.sections
+import com.nicolas.maltesp.ui.theme.appcolors.ComponentsColors
+import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 import com.nicolas.maltesp.viewmodels.ParametersViewModel
 import kotlin.random.Random
 
 
 @Composable
-fun ParametersInputContent(parametersViewModel: ParametersViewModel) {
-    val sections = sections(parametersViewModel)
+fun ParametersInputContent(
+    parametersViewModel: ParametersViewModel,
+    bluetoothViewModel: BluetoothViewModel
+) {
+    val sections = sections(parametersViewModel, bluetoothViewModel)
 
     Column {
         LazyColumn(
@@ -110,7 +113,8 @@ private fun ParameterSection(
                         parameterName = parameter.name,
                         unit = parameter.unit,
                         description = parameter.description,
-                        inputState = parameter.state
+                        inputState = parameter.state,
+                        isEquals = parameter.isEquals
                     )
                 }
             }
@@ -148,8 +152,16 @@ fun ParameterInput(
     parameterName: String,
     unit: String,
     description: String,
-    inputState: MutableState<String>
+    inputState: MutableState<String>,
+    isEquals: Boolean?
 ) {
+
+    val textFieldColor = when (isEquals){
+        true -> ComponentsColors.TextField.equalState
+        false -> ComponentsColors.TextField.notEqualState
+        null -> ComponentsColors.TextField.invalidState
+    }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -223,10 +235,7 @@ fun ParameterInput(
                 modifier = Modifier
                     .width(100.dp)
                     .height(48.dp),
-                colors = TextFieldDefaults.colors(
-                    unfocusedIndicatorColor = Color.Transparent,
-                    focusedIndicatorColor = Color.Transparent
-                )
+                colors = textFieldColor
             )
         }
     }

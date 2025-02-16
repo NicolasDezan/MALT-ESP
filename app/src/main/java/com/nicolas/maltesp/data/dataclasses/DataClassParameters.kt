@@ -51,11 +51,34 @@ fun initializeParametersState(): ParametersState {
     )
 }
 
+// FunçãoTroll para forçar valores duvidosos
+fun testParametersState(): ParametersState {
+    return ParametersState( // TODO: configurar o ESP32 para enviar os parametros corretamente
+        steeping = SteepingState(
+            submergedTime = mutableStateOf(10.toString()),
+            waterVolume = mutableStateOf(11.toString()),
+            restTime = mutableStateOf(12.toString()),
+            cycles = mutableStateOf(13.toString())
+        ),
+        germination = GerminationState(
+            rotationLevel = mutableStateOf(14.toString()),
+            totalTime = mutableStateOf(15.toString()),
+            waterVolume = mutableStateOf(16.toString()),
+            waterAddition = mutableStateOf(17.toString())
+        ),
+        kilning = com.nicolas.maltesp.data.dataclasses.KilningState(
+            temperature = mutableStateOf(18.toString()),
+            time = mutableStateOf(19.toString())
+        )
+    )
+}
+
 data class ParameterData(
     val name: String,
     val unit: String,
     val description: String,
-    val state: MutableState<String>
+    val state: MutableState<String>,
+    val isEquals: Boolean? // Se nulo, significa que há problema na conexão
 )
 
 data class ParameterGroup(

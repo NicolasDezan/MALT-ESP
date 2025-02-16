@@ -17,16 +17,14 @@ private val LightColorScheme = lightColorScheme(
     onPrimary = Color(0xFFFFFFFF),    // Texto/ícones sobre primary
 
     secondary = Color(0x9F9AC6EA),    // Bar's
-    onSecondary = Color(0xFFD8D8D8),  // Texto/ícones sobre secondary
+    onSecondary = Color(0xFFFFFFFF),  // Texto/ícones sobre secondary
 
-//    tertiary = Color(0xFF002A4D),     // Drawer?
-//    onTertiary = Color(0xFFB1D6FF),   // Texto/ícones sobre tertiary
+    tertiary = Color(0xFFFBDA6F),     // Drawer?
+    onTertiary = Color(0xFFFFFFFF),   // Texto/ícones sobre tertiary
 //
 //    background = Color(0xFF04427F),
 //    onBackground = Color(0xFF1C1B1F),       // Texto/ícones sobre background
 //
-//    surface = Color(0xFF0C6796),            // background só que mais claro
-//    onSurface = Color(0xFF096ECA),
 )
 
 @Composable

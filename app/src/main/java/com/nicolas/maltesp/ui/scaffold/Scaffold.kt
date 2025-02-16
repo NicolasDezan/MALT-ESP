@@ -45,7 +45,8 @@ fun ScaffoldWithDrawer(
                 floatingActionButton = {
                     SettingFloatingActionButton(
                         parametersViewModel = parametersViewModel,
-                        scaffoldViewModel = scaffoldViewModel
+                        scaffoldViewModel = scaffoldViewModel,
+                        bluetoothViewModel = bluetoothViewModel
                     )
                 },
 

@@ -21,7 +21,6 @@ class ParametersViewModel(private val dao: MaltingRecipeDao) : ViewModel() {
     private val _recipeNames = MutableStateFlow<List<String>>(emptyList())
     val recipeNames = _recipeNames.asStateFlow()
 
-
     fun refreshRecipeNames() {
         viewModelScope.launch {
             _recipeNames.value = dao.getAllRecipeNames() // Busca os nomes das receitas
@@ -47,7 +46,109 @@ class ParametersViewModel(private val dao: MaltingRecipeDao) : ViewModel() {
         }
     }
 
+    fun compareSteepingSubmergedTime(parametersReceived: ParametersState, isBluetoothConnected: Boolean = false): Boolean? {
+        return try{
+            if(isBluetoothConnected) {
+                _parametersState.value.steeping.submergedTime.value.toFloat() == parametersReceived.steeping.submergedTime.value.toFloat()
+            } else null
+        } catch (e: NumberFormatException) {
+            false
+        }
+    }
 
+    fun compareSteepingWaterVolume(parametersReceived: ParametersState, isBluetoothConnected: Boolean = false): Boolean? {
+        return try{
+            if(isBluetoothConnected) {
+                _parametersState.value.steeping.waterVolume.value.toFloat() == parametersReceived.steeping.waterVolume.value.toFloat()
+            } else null
+        } catch (e: NumberFormatException) {
+            false
+        }
+    }
+
+    fun compareSteepingRestTime(parametersReceived: ParametersState, isBluetoothConnected: Boolean = false): Boolean? {
+        return try{
+            if(isBluetoothConnected) {
+                _parametersState.value.steeping.restTime.value.toFloat() == parametersReceived.steeping.restTime.value.toFloat()
+            } else null
+        } catch (e: NumberFormatException) {
+            false
+        }
+    }
+
+    fun compareSteepingCycles(parametersReceived: ParametersState, isBluetoothConnected: Boolean = false): Boolean? {
+        return try{
+            if(isBluetoothConnected) {
+                _parametersState.value.steeping.cycles.value.toFloat() == parametersReceived.steeping.cycles.value.toFloat()
+            } else null
+        } catch (e: NumberFormatException) {
+            false
+        }
+    }
+
+    fun compareGerminationTotalTime(parametersReceived: ParametersState, isBluetoothConnected: Boolean = false): Boolean? {
+        return try{
+            if(isBluetoothConnected) {
+                _parametersState.value.germination.totalTime.value.toFloat() == parametersReceived.germination.totalTime.value.toFloat()
+            } else null
+        } catch (e: NumberFormatException) {
+            false
+        }
+    }
+
+    fun compareGerminationWaterVolume(parametersReceived: ParametersState, isBluetoothConnected: Boolean = false): Boolean? {
+        return try{
+            if(isBluetoothConnected) {
+                _parametersState.value.germination.waterVolume.value.toFloat() == parametersReceived.germination.waterVolume.value.toFloat()
+            } else null
+        } catch (e: NumberFormatException) {
+            false
+        }
+    }
+
+    fun compareGerminationWaterAddition(parametersReceived: ParametersState, isBluetoothConnected: Boolean = false): Boolean? {
+        return try{
+            if(isBluetoothConnected) {
+                _parametersState.value.germination.waterAddition.value.toFloat() == parametersReceived.germination.waterAddition.value.toFloat()
+            } else null
+        } catch (e: NumberFormatException) {
+            false
+        }
+    }
+
+    fun compareGerminationRotationLevel(parametersReceived: ParametersState, isBluetoothConnected: Boolean = false): Boolean? {
+        return try{
+            if(isBluetoothConnected) {
+                _parametersState.value.germination.rotationLevel.value.toFloat() == parametersReceived.germination.rotationLevel.value.toFloat()
+            } else null
+        } catch (e: NumberFormatException) {
+            false
+        }
+    }
+
+    fun compareKilningTemperature(parametersReceived: ParametersState, isBluetoothConnected: Boolean = false): Boolean? {
+        return try{
+            if(isBluetoothConnected) {
+                _parametersState.value.kilning.temperature.value.toFloat() == parametersReceived.kilning.temperature.value.toFloat()
+            } else null
+        } catch (e: NumberFormatException) {
+            false
+        }
+    }
+
+    fun compareKilningTime(parametersReceived: ParametersState, isBluetoothConnected: Boolean = false): Boolean? {
+        return try{
+            if(isBluetoothConnected) {
+                _parametersState.value.kilning.time.value.toFloat() == parametersReceived.kilning.time.value.toFloat()
+            } else null
+        } catch (e: NumberFormatException) {
+            false
+        }
+    }
+
+    fun updateParametersStateFromParametersState(parametersReceived: ParametersState) {
+        _parametersState.value = parametersReceived
+    }
 
     private fun updateParametersStateFromRecipe(recipe: MaltingRecipe) {
         _parametersState.value = ParametersState(
