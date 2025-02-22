@@ -1,8 +1,9 @@
-package com.nicolas.maltesp.viewmodels
+package com.nicolas.maltesp.viewmodels.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.nicolas.maltesp.data.MaltingRecipeDao
+import com.nicolas.maltesp.viewmodels.ParametersViewModel
 
 class ParametersViewModelFactory(
     private val dao: MaltingRecipeDao
