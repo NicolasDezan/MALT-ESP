@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.nicolas.maltesp.data.dataclasses.ParametersState
+import com.nicolas.maltesp.others.dataclasses.ParametersState
 
 @Entity(
     indices = [Index(value = ["recipeName"], unique = true)]
