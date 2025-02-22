@@ -54,7 +54,9 @@ class MainActivity : ComponentActivity() {
 
         //UI
         setContent {
-            MaltEspTheme {
+            MaltEspTheme(
+                darkTheme = settingsViewModel.themeFlow.collectAsState(initial = settingsViewModel.getTheme()).value
+            ) {
                 ScaffoldWithDrawer(
                     context = this,
                     bluetoothViewModel = bluetoothViewModel,
