@@ -15,6 +15,7 @@ import com.nicolas.maltesp.ui.scaffold.topbar.SettingTopAppBar
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 import com.nicolas.maltesp.viewmodels.ScaffoldViewModel
 import com.nicolas.maltesp.viewmodels.ParametersViewModel
+import com.nicolas.maltesp.viewmodels.SettingsViewModel
 
 
 @Composable
@@ -22,7 +23,8 @@ fun ScaffoldWithDrawer(
     context: Context,
     bluetoothViewModel : BluetoothViewModel,
     scaffoldViewModel: ScaffoldViewModel,
-    parametersViewModel: ParametersViewModel
+    parametersViewModel: ParametersViewModel,
+    settingsViewModel: SettingsViewModel
     ){
 
     val scope = rememberCoroutineScope()
@@ -62,7 +64,8 @@ fun ScaffoldWithDrawer(
                         paddingValues = paddingValues,
                         bluetoothViewModel = bluetoothViewModel,
                         scaffoldViewModel = scaffoldViewModel,
-                        parametersViewModel = parametersViewModel
+                        parametersViewModel = parametersViewModel,
+                        settingsViewModel = settingsViewModel
                         )
                 }
             )

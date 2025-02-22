@@ -23,14 +23,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
+import com.nicolas.maltesp.viewmodels.SettingsViewModel
 
 @Composable
 fun ConectionContent(
     context: Context,
     bluetoothViewModel: BluetoothViewModel,
+    settingsViewModel: SettingsViewModel
 ) {
     val temperature by bluetoothViewModel.temperature.collectAsState()
     val connectedDeviceName by bluetoothViewModel.connectedDeviceName.collectAsState()
+
 
     Box(
         contentAlignment = Alignment.Center,
@@ -74,6 +77,14 @@ fun ConectionContent(
 //                val byteArray = byteArrayOf(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20)
 //                bluetoothViewModel.sendCommandArray(context,byteArray)
 //            }) { Text("Enviar array de float") }
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(onClick = {
+                settingsViewModel.saveTheme(true)
+            }) { Text("Tema Escuro") }
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(onClick = {
+                settingsViewModel.saveTheme(false)
+            }) { Text("Tema Claro") }
 
         }
     }

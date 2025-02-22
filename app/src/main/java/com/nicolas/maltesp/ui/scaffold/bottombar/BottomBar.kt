@@ -28,6 +28,7 @@ import com.nicolas.maltesp.ui.theme.appcolors.ScaffoldColors
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 import com.nicolas.maltesp.viewmodels.ScaffoldViewModel
 import com.nicolas.maltesp.viewmodels.ParametersViewModel
+import com.nicolas.maltesp.viewmodels.SettingsViewModel
 
 const val ITEM_1 = "Conexão"
 const val ITEM_2 = "Parâmetros"
@@ -72,7 +73,8 @@ fun ContentBottomBar(
     paddingValues: PaddingValues,
     bluetoothViewModel: BluetoothViewModel,
     scaffoldViewModel: ScaffoldViewModel,
-    parametersViewModel: ParametersViewModel
+    parametersViewModel: ParametersViewModel,
+    settingsViewModel: SettingsViewModel
 ) {
     val selectedItem by scaffoldViewModel.bottomBarSelectedItem.collectAsState()
 
@@ -82,7 +84,7 @@ fun ContentBottomBar(
             .padding(paddingValues)
     ) {
         when (selectedItem) {
-            0 -> ContentBox(scaffoldViewModel) {ConectionContent(context = context, bluetoothViewModel = bluetoothViewModel)}
+            0 -> ContentBox(scaffoldViewModel) {ConectionContent(context = context, bluetoothViewModel = bluetoothViewModel, settingsViewModel = settingsViewModel)}
             1 -> ContentBox(scaffoldViewModel) {ParametersInputContent(parametersViewModel = parametersViewModel, bluetoothViewModel = bluetoothViewModel)}
             2 -> ContentBox(scaffoldViewModel) {TestContent()}
             3 -> ContentBox(scaffoldViewModel) {TestContent()}
