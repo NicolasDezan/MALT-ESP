@@ -1,6 +1,7 @@
 package com.nicolas.maltesp.ui.scaffold.bottombar.content
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,21 +23,22 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.nicolas.maltesp.data.dataclasses.ParameterGroup
+import com.nicolas.maltesp.others.dataclasses.ParameterData
+import com.nicolas.maltesp.others.dataclasses.ParameterGroup
 import com.nicolas.maltesp.data.newRecipe
-import com.nicolas.maltesp.ui.scaffold.bottombar.content.parameters.sections
+import com.nicolas.maltesp.ui.scaffold.bottombar.content.parameters.parameterSectionData
 import com.nicolas.maltesp.ui.theme.appcolors.ComponentsColors
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 import com.nicolas.maltesp.viewmodels.ParametersViewModel
@@ -46,21 +48,22 @@ import kotlin.random.Random
 @Composable
 fun ParametersInputContent(
     parametersViewModel: ParametersViewModel,
-    bluetoothViewModel: BluetoothViewModel
+    bluetoothViewModel: BluetoothViewModel,
 ) {
-    val sections = sections(parametersViewModel, bluetoothViewModel)
+    val parameterSectionData = parameterSectionData(parametersViewModel, bluetoothViewModel)
 
     Column {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp))
         {
-            items(sections) { section ->
+            items(parameterSectionData) { section ->
                 ParameterSection(
                     title = section.title,
-                    groups = section.groups
+                    groups = section.groups,
                 )
+                Spacer(modifier = Modifier.height(8.dp))
             }
-            item { // Divisão pra nao atrapalhar a leitura do ultimo section.item
+            item {
                 Surface(
                     modifier = Modifier.height((86).dp).fillMaxWidth()
                 ) {
@@ -90,14 +93,14 @@ fun ParametersInputContent(
 @Composable
 private fun ParameterSection(
     title: String,
-    groups: List<ParameterGroup>
+    groups: List<ParameterGroup>,
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         SectionTitle(text = title)
-
+        Spacer(modifier = Modifier.height(4.dp))
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -108,14 +111,9 @@ private fun ParameterSection(
                 if (group.title != null) {
                     GroupSubtitle(text = group.title)
                 }
-                group.parameters.forEach { parameter ->
+                group.parameters.forEach { parameterData ->
                     ParameterInput(
-                        parameterName = parameter.name,
-                        unit = parameter.unit,
-                        description = parameter.description,
-                        inputState = parameter.state,
-                        isEquals = parameter.isEquals,
-                        isNumberValid = parameter.isNumberValid
+                        parameterData = parameterData
                     )
                 }
             }
@@ -149,18 +147,16 @@ private fun GroupSubtitle(text: String) {
 }
 
 @Composable
-fun ParameterInput(
-    parameterName: String,
-    unit: String,
-    description: String,
-    inputState: MutableState<String>,
-    isEquals: Boolean?,
-    isNumberValid: Boolean
-) {
-    val textFieldColor = when (isEquals){
+fun ParameterInput(parameterData: ParameterData) {
+    val textFieldColor = when (parameterData.isEquals){
         true -> ComponentsColors.TextField.equalState
         false -> ComponentsColors.TextField.notEqualState
-        null -> ComponentsColors.TextField.invalidState
+        null -> ComponentsColors.TextField.invalidState // -> Estado desconectado
+    }
+
+    var isError = false
+    if(parameterData.isEquals != null) {
+        isError = !parameterData.isNumberValid
     }
 
     Row(
@@ -170,20 +166,19 @@ fun ParameterInput(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        // Coluna para textos alinhados à esquerda
         Column(
             modifier = Modifier.weight(1f),
             horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = if (unit.isEmpty()) parameterName else "$parameterName ($unit)",
+                text = if (parameterData.unit.isEmpty()) parameterData.name else "${parameterData.name} (${parameterData.unit})",
                 style = MaterialTheme.typography.titleMedium,
                 fontSize = 16.sp
             )
 
-            if (description.isNotEmpty()) {
+            if (parameterData.description.isNotEmpty()) {
                 Text(
-                    text = description,
+                    text = parameterData.description,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.secondary,
                     fontSize = 12.sp,
@@ -197,12 +192,12 @@ fun ParameterInput(
             contentAlignment = Alignment.CenterEnd
         ) {
             TextField(
-                value = inputState.value,
+                value = parameterData.state.value,
                 onValueChange = { newValue ->
                     val regex = Regex("^\\d{0,7}(\\.\\d{0,6})?$")
 
                     if (newValue.isEmpty()) {
-                        inputState.value = ""
+                        parameterData.state.value = ""
                     }
 
                     // Corrige "." inicial
@@ -221,7 +216,7 @@ fun ParameterInput(
                     if (sanitizedValue.matches(regex)
                         && sanitizedValue.length <= 7
                         && !sanitizedValue.startsWith(".")) {
-                        inputState.value = sanitizedValue
+                        parameterData.state.value = sanitizedValue
                     }
                 },
                 textStyle = MaterialTheme.typography.bodyLarge.copy(
@@ -235,10 +230,38 @@ fun ParameterInput(
                 ),
                 modifier = Modifier
                     .width(100.dp)
-                    .height(48.dp),
+                    .height(48.dp)
+                    .border(
+                        width = 1.dp,
+                        color = if (isError) MaterialTheme.colorScheme.error else Color.Transparent
+                        ),
                 colors = textFieldColor,
-                isError = !isNumberValid
             )
+            if(isError) {
+                Column(
+                    modifier = Modifier
+                        .offset(y = 40.dp),
+                    horizontalAlignment = Alignment.End,
+                ) {
+                    Text(
+                        text = "Valor inválido",
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodySmall,
+                        maxLines = 1,
+                        textAlign = TextAlign.End
+                    )
+                    Text(
+                        text = "Faixa: ${parameterData.range.min} - ${parameterData.range.max}",
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodySmall.copy(fontSize = 8.sp),
+                        modifier = Modifier
+                            .offset(y = (-6).dp),
+                        maxLines = 1,
+                        textAlign = TextAlign.End
+                    )
+                }
+
+            }
         }
     }
 }
@@ -248,13 +271,12 @@ fun NewRecipeButton(textButton: String, parametersViewModel: ParametersViewModel
     val showDialog = remember { mutableStateOf(false) }
     Button(
         onClick = {
-            showDialog.value = true // Atualiza o estado para mostrar o diálogo
+            showDialog.value = true
         }
     ) {
         Text(textButton)
     }
 
-    // Exibe o diálogo apenas se o estado for true
     if (showDialog.value) {
         StringInputDialog(
             title = "Digite o Nome",
