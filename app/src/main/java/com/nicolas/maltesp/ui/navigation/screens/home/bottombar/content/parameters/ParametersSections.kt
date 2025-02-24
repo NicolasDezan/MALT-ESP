@@ -15,7 +15,8 @@ data class ParameterData(
     val state: MutableState<String>,
     val range: ParametersRange,
     val isEquals: Boolean?, // Se nulo, significa que há problema na conexão
-    val isNumberValid: Boolean = false
+    val isNumberValid: Boolean = false,
+    val numerFormat: String = "%.0f"
 )
 
 data class ParameterGroup(
@@ -66,7 +67,8 @@ fun parameterSectionData(parametersViewModel: ParametersViewModel, bluetoothView
                             state = parametersState.steeping.restTime,
                             range = parametersRange.steeping.restTime,
                             isEquals = parametersViewModel.compareSteepingRestTime(parametersReceived, isBluetoothConnected),
-                            isNumberValid = parametersViewModel.isSteepingRestTimeValid()
+                            isNumberValid = parametersViewModel.isSteepingRestTimeValid(),
+                            numerFormat = "%.1f"
                         ),
                         ParameterData(
                             name = "Número de Ciclos",
@@ -147,7 +149,8 @@ fun parameterSectionData(parametersViewModel: ParametersViewModel, bluetoothView
                             state = parametersState.kilning.time,
                             range = parametersRange.kilning.time,
                             isEquals = parametersViewModel.compareKilningTime(parametersReceived, isBluetoothConnected),
-                            isNumberValid = parametersViewModel.isKilningTimeValid()
+                            isNumberValid = parametersViewModel.isKilningTimeValid(),
+                            numerFormat = "%.1f"
                         )
                     )
                 )

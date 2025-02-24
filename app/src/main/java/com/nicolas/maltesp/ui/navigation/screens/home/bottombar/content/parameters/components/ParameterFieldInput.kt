@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.parameters.ParameterData
 import com.nicolas.maltesp.ui.theme.appcolors.ComponentsColors
+import java.util.Locale
 
 @Composable
 fun ParameterFieldInput(parameterData: ParameterData) {
@@ -131,7 +132,7 @@ fun ParameterFieldInput(parameterData: ParameterData) {
                         textAlign = TextAlign.End
                     )
                     Text(
-                        text = "Faixa: ${parameterData.range.min} - ${parameterData.range.max}",
+                        text = "Faixa: ${String.format(Locale.US, parameterData.numerFormat, parameterData.range.min)} - ${String.format(Locale.US, parameterData.numerFormat, parameterData.range.max)}",
                         color = MaterialTheme.colorScheme.error,
                         style = MaterialTheme.typography.bodySmall.copy(fontSize = 8.sp),
                         modifier = Modifier

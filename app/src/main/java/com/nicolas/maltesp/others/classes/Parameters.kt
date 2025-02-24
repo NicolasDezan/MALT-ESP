@@ -149,7 +149,7 @@ class Parameters {
             )
         }
 
-        private fun calculateMaxValue(multiplier: Int, minValue: Float): Float {
+        private fun calculateMaxValue(multiplier: Float, minValue: Float): Float {
             return (minValue + 255 * multiplier)
         }
     }

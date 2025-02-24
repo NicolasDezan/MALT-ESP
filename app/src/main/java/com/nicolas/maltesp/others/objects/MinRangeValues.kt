@@ -12,7 +12,7 @@ object MinRangeValues {
         const val ROTATION_LEVEL = 0f
         const val TOTAL_TIME = 24f
         const val WATER_VOLUME = 100f
-        const val WATER_ADDITION = 20f
+        const val WATER_ADDITION = 10f
     }
 
     object Kilning {
