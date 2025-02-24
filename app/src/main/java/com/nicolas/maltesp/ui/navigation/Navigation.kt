@@ -1,10 +1,7 @@
 package com.nicolas.maltesp.ui.navigation
 
 import android.content.Context
-import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -35,13 +32,15 @@ fun NavigationApp(
                 bluetoothViewModel = bluetoothViewModel,
                 scaffoldViewModel = scaffoldViewModel,
                 parametersViewModel = parametersViewModel,
-                settingsViewModel = settingsViewModel,
+                //settingsViewModel = settingsViewModel,
                 navController = navController
             )
         }
 
         composable("settings"){
-            SettingsScreen()
+            SettingsScreen(
+                settingsViewModel = settingsViewModel
+            )
         }
 
     }

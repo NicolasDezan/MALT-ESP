@@ -15,7 +15,7 @@ import com.nicolas.maltesp.ui.navigation.screens.home.topbar.SettingTopAppBar
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 import com.nicolas.maltesp.viewmodels.ParametersViewModel
 import com.nicolas.maltesp.viewmodels.ScaffoldViewModel
-import com.nicolas.maltesp.viewmodels.SettingsViewModel
+//import com.nicolas.maltesp.viewmodels.SettingsViewModel
 
 @Composable
 fun MainScaffold(
@@ -23,7 +23,7 @@ fun MainScaffold(
     bluetoothViewModel : BluetoothViewModel,
     scaffoldViewModel: ScaffoldViewModel,
     parametersViewModel: ParametersViewModel,
-    settingsViewModel: SettingsViewModel,
+    //settingsViewModel: SettingsViewModel,
     navController: NavController,
     ){
     val scope = rememberCoroutineScope()
@@ -61,8 +61,7 @@ fun MainScaffold(
                     paddingValues = paddingValues,
                     bluetoothViewModel = bluetoothViewModel,
                     scaffoldViewModel = scaffoldViewModel,
-                    parametersViewModel = parametersViewModel,
-                    settingsViewModel = settingsViewModel
+                    parametersViewModel = parametersViewModel
                 )
             }
         )
