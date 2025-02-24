@@ -5,14 +5,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nicolas.maltesp.data.MaltingRecipe
 import com.nicolas.maltesp.data.MaltingRecipeDao
-import com.nicolas.maltesp.data.dataclasses.GerminationState
-import com.nicolas.maltesp.data.dataclasses.KilningState
-import com.nicolas.maltesp.data.dataclasses.ParametersState
-import com.nicolas.maltesp.data.dataclasses.SteepingState
-import com.nicolas.maltesp.data.dataclasses.initializeParametersState
-import com.nicolas.maltesp.data.objects.GerminationParametersRange
-import com.nicolas.maltesp.data.objects.KilningParametersRange
-import com.nicolas.maltesp.data.objects.SteepingParametersRange
+import com.nicolas.maltesp.others.dataclasses.GerminationState
+import com.nicolas.maltesp.others.dataclasses.KilningState
+import com.nicolas.maltesp.others.dataclasses.ParametersRange
+import com.nicolas.maltesp.others.dataclasses.ParametersState
+import com.nicolas.maltesp.others.dataclasses.SteepingState
+import com.nicolas.maltesp.others.dataclasses.GerminationParametersRange
+import com.nicolas.maltesp.others.dataclasses.KilningParametersRange
+import com.nicolas.maltesp.others.dataclasses.ParametersRangeGroup
+import com.nicolas.maltesp.others.dataclasses.SteepingParametersRange
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -21,6 +22,9 @@ class ParametersViewModel(private val dao: MaltingRecipeDao) : ViewModel() {
 
     private val _parametersState = MutableStateFlow(initializeParametersState())
     val parametersState = _parametersState.asStateFlow()
+
+    private val _parametersRange = MutableStateFlow(initializeRangeGroup())
+    val parametersRange = _parametersRange.asStateFlow()
 
 
     /*################################################################
@@ -227,8 +231,8 @@ class ParametersViewModel(private val dao: MaltingRecipeDao) : ViewModel() {
 
     fun isSteepingSubmergedTimeValid(): Boolean {
         return try{
-            val rangeMin = SteepingParametersRange.SubmergedTime.min
-            val rangeMax = SteepingParametersRange.SubmergedTime.max
+            val rangeMin = _parametersRange.value.steeping.submergedTime.min
+            val rangeMax = _parametersRange.value.steeping.submergedTime.max
             val submergedTime = _parametersState.value.steeping.submergedTime.value.toFloat()
             submergedTime in rangeMin..rangeMax
         } catch (e: NumberFormatException) { false }
@@ -236,8 +240,8 @@ class ParametersViewModel(private val dao: MaltingRecipeDao) : ViewModel() {
 
     fun isSteepingWaterVolumeValid(): Boolean {
         return try{
-            val rangeMin = SteepingParametersRange.WaterVolume.min
-            val rangeMax = SteepingParametersRange.WaterVolume.max
+            val rangeMin = _parametersRange.value.steeping.waterVolume.min
+            val rangeMax = _parametersRange.value.steeping.waterVolume.max
             val waterVolume = _parametersState.value.steeping.waterVolume.value.toFloat()
             waterVolume in rangeMin..rangeMax
         } catch (e: NumberFormatException) { false }
@@ -245,8 +249,8 @@ class ParametersViewModel(private val dao: MaltingRecipeDao) : ViewModel() {
 
     fun isSteepingRestTimeValid(): Boolean {
         return try{
-            val rangeMin = SteepingParametersRange.RestTime.min
-            val rangeMax = SteepingParametersRange.RestTime.max
+            val rangeMin = _parametersRange.value.steeping.restTime.min
+            val rangeMax = _parametersRange.value.steeping.restTime.max
             val restTime = _parametersState.value.steeping.restTime.value.toFloat()
             restTime in rangeMin..rangeMax
         } catch (e: NumberFormatException) { false }
@@ -254,8 +258,8 @@ class ParametersViewModel(private val dao: MaltingRecipeDao) : ViewModel() {
 
     fun isSteepingCyclesValid(): Boolean {
         return try{
-            val rangeMin = SteepingParametersRange.Cycles.min
-            val rangeMax = SteepingParametersRange.Cycles.max
+            val rangeMin = _parametersRange.value.steeping.cycles.min
+            val rangeMax = _parametersRange.value.steeping.cycles.max
             val cycles = _parametersState.value.steeping.cycles.value.toFloat()
             cycles in rangeMin..rangeMax
         } catch (e: NumberFormatException) { false }
@@ -263,8 +267,8 @@ class ParametersViewModel(private val dao: MaltingRecipeDao) : ViewModel() {
 
     fun isGerminationTotalTimeValid(): Boolean {
         return try{
-            val rangeMin = GerminationParametersRange.TotalTime.min
-            val rangeMax = GerminationParametersRange.TotalTime.max
+            val rangeMin = _parametersRange.value.germination.totalTime.min
+            val rangeMax = _parametersRange.value.germination.totalTime.max
             val totalTime = _parametersState.value.germination.totalTime.value.toFloat()
             totalTime in rangeMin..rangeMax
         } catch (e: NumberFormatException) { false }
@@ -272,8 +276,8 @@ class ParametersViewModel(private val dao: MaltingRecipeDao) : ViewModel() {
 
     fun isGerminationWaterVolumeValid(): Boolean {
         return try{
-            val rangeMin = GerminationParametersRange.WaterVolume.min
-            val rangeMax = GerminationParametersRange.WaterVolume.max
+            val rangeMin = _parametersRange.value.germination.waterVolume.min
+            val rangeMax = _parametersRange.value.germination.waterVolume.max
             val waterVolume = _parametersState.value.germination.waterVolume.value.toFloat()
             waterVolume in rangeMin..rangeMax
         } catch (e: NumberFormatException) { false }
@@ -281,8 +285,8 @@ class ParametersViewModel(private val dao: MaltingRecipeDao) : ViewModel() {
 
     fun isGerminationWaterAdditionValid(): Boolean {
         return try{
-            val rangeMin = GerminationParametersRange.WaterAddition.min
-            val rangeMax = GerminationParametersRange.WaterAddition.max
+            val rangeMin = _parametersRange.value.germination.waterAddition.min
+            val rangeMax = _parametersRange.value.germination.waterAddition.max
             val waterAddition = _parametersState.value.germination.waterAddition.value.toFloat()
             waterAddition in rangeMin..rangeMax
         } catch (e: NumberFormatException) { false }
@@ -290,8 +294,8 @@ class ParametersViewModel(private val dao: MaltingRecipeDao) : ViewModel() {
 
     fun isGerminationRotationLevelValid(): Boolean {
         return try{
-            val rangeMin = GerminationParametersRange.RotationLevel.min
-            val rangeMax = GerminationParametersRange.RotationLevel.max
+            val rangeMin = _parametersRange.value.germination.rotationLevel.min
+            val rangeMax = _parametersRange.value.germination.rotationLevel.max
             val rotationLevel = _parametersState.value.germination.rotationLevel.value.toFloat()
             rotationLevel in rangeMin..rangeMax
         } catch (e: NumberFormatException) { false }
@@ -299,8 +303,8 @@ class ParametersViewModel(private val dao: MaltingRecipeDao) : ViewModel() {
 
     fun isKilningTemperatureValid(): Boolean {
         return try{
-            val rangeMin = KilningParametersRange.Temperature.min
-            val rangeMax = KilningParametersRange.Temperature.max
+            val rangeMin = _parametersRange.value.kilning.temperature.min
+            val rangeMax = _parametersRange.value.kilning.temperature.max
             val temperature = _parametersState.value.kilning.temperature.value.toFloat()
             temperature in rangeMin..rangeMax
         } catch (e: NumberFormatException) { false }
@@ -308,10 +312,80 @@ class ParametersViewModel(private val dao: MaltingRecipeDao) : ViewModel() {
 
     fun isKilningTimeValid(): Boolean {
         return try{
-            val rangeMin = KilningParametersRange.Time.min
-            val rangeMax = KilningParametersRange.Time.max
+            val rangeMin = _parametersRange.value.kilning.time.min
+            val rangeMax = _parametersRange.value.kilning.time.max
             val time = _parametersState.value.kilning.time.value.toFloat()
             time in rangeMin..rangeMax
         } catch (e: NumberFormatException) { false }
     }
+}
+
+
+/*################################################################
+################# UTILS ##########################################
+##################################################################*/
+
+// Função para inicializar os estados
+fun initializeParametersState(): ParametersState {
+    return ParametersState(
+        steeping = SteepingState(
+            submergedTime = mutableStateOf(""),
+            waterVolume = mutableStateOf(""),
+            restTime = mutableStateOf(""),
+            cycles = mutableStateOf("")
+        ),
+        germination = GerminationState(
+            rotationLevel = mutableStateOf(""),
+            totalTime = mutableStateOf(""),
+            waterVolume = mutableStateOf(""),
+            waterAddition = mutableStateOf("")
+        ),
+        kilning = KilningState(
+            temperature = mutableStateOf(""),
+            time = mutableStateOf("")
+        )
+    )
+}
+
+// FunçãoTroll para forçar valores duvidosos
+fun testParametersState(): ParametersState {
+    return ParametersState(
+        steeping = SteepingState(
+            submergedTime = mutableStateOf(10.toString()),
+            waterVolume = mutableStateOf(11.toString()),
+            restTime = mutableStateOf(12.toString()),
+            cycles = mutableStateOf(13.toString())
+        ),
+        germination = GerminationState(
+            rotationLevel = mutableStateOf(14.toString()),
+            totalTime = mutableStateOf(15.toString()),
+            waterVolume = mutableStateOf(16.toString()),
+            waterAddition = mutableStateOf(17.toString())
+        ),
+        kilning = KilningState(
+            temperature = mutableStateOf(18.toString()),
+            time = mutableStateOf(19.toString())
+        )
+    )
+}
+
+fun initializeRangeGroup(): ParametersRangeGroup {
+    return ParametersRangeGroup(
+        steeping = SteepingParametersRange(
+            submergedTime = ParametersRange(min = 0f, max = 100f),
+            waterVolume = ParametersRange(min = 0f, max = 100f),
+            restTime = ParametersRange(min = 0f, max = 100f),
+            cycles = ParametersRange(min = 0f, max = 100f)
+        ),
+        germination = GerminationParametersRange(
+            rotationLevel = ParametersRange(min = 0f, max = 100f),
+            totalTime = ParametersRange(min = 0f, max = 100f),
+            waterVolume = ParametersRange(min = 0f, max = 100f),
+            waterAddition = ParametersRange(min = 0f, max = 100f)
+        ),
+        kilning = KilningParametersRange(
+            temperature = ParametersRange(min = 0f, max = 100f),
+            time = ParametersRange(min = 0f, max = 100f)
+        )
+    )
 }

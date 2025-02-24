@@ -4,8 +4,6 @@ import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import com.nicolas.maltesp.core.BluetoothUtils
-import com.nicolas.maltesp.data.dataclasses.initializeParametersState
-import com.nicolas.maltesp.data.dataclasses.testParametersState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
