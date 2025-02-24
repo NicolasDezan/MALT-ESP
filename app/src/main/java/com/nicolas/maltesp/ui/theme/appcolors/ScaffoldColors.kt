@@ -14,7 +14,7 @@ object ScaffoldColors {
     val TopBar: TopAppBarColors
         @Composable
         get() = TopAppBarDefaults.topAppBarColors(
-
+            containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
         )
 
     val BottomBar: NavigationBarItemColors
