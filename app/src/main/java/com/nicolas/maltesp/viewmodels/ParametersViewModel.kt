@@ -107,7 +107,7 @@ class ParametersViewModel(private val dao: MaltingRecipeDao) : ViewModel() {
     ######################## BLUETOOTH ###############################
     ##################################################################*/
 
-    fun updateParametersStateFromParametersState(parametersReceived: ParametersState) {
+    fun updateParametersStateFromParametersReceived(parametersReceived: ParametersState) {
         _parametersState.value = parametersReceived
     }
 

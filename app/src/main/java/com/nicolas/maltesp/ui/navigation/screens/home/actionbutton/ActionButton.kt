@@ -73,7 +73,7 @@ fun SettingFloatingActionButton(
             icon = ImageVector.vectorResource(id = R.drawable.baseline_menu_24),
             title = "Puxar Parâmetros",
             onClick = {
-                parametersViewModel.updateParametersStateFromParametersState(parametersReceived)
+                parametersViewModel.updateParametersStateFromParametersReceived(parametersReceived)
                 scaffoldViewModel.toggleFab()
             }
         ),
