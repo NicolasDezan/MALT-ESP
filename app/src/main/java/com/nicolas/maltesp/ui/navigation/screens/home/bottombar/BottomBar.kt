@@ -21,9 +21,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import com.nicolas.maltesp.R
-import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.ConectionContent
-import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.ParametersInputContent
-import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.TestContent
+import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.conection.ConectionContent
+import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.parameters.ParametersContent
+import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.test.TestContent
 import com.nicolas.maltesp.ui.theme.appcolors.ScaffoldColors
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 import com.nicolas.maltesp.viewmodels.ScaffoldViewModel
@@ -85,7 +85,7 @@ fun ContentBottomBar(
     ) {
         when (selectedItem) {
             0 -> ContentBox(scaffoldViewModel) { ConectionContent(context = context, bluetoothViewModel = bluetoothViewModel, settingsViewModel = settingsViewModel) }
-            1 -> ContentBox(scaffoldViewModel) { ParametersInputContent(parametersViewModel = parametersViewModel, bluetoothViewModel = bluetoothViewModel) }
+            1 -> ContentBox(scaffoldViewModel) { ParametersContent(parametersViewModel = parametersViewModel, bluetoothViewModel = bluetoothViewModel) }
             2 -> ContentBox(scaffoldViewModel) { TestContent() }
             3 -> ContentBox(scaffoldViewModel) { TestContent() }
         }
