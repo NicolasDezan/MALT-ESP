@@ -1,4 +1,4 @@
-package com.nicolas.maltesp.ui.navigation.scaffold.drawer
+package com.nicolas.maltesp.ui.navigation.drawer
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,7 +31,7 @@ fun DrawerMenuItems(
     val menuItems = listOf(
         DrawerMenuItem(
             title = "Início",
-            route = "home-scaffold"
+            route = "home"
         ),
         DrawerMenuItem(
             title = "Configurações",

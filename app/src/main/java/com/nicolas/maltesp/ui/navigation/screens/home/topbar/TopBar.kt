@@ -1,4 +1,4 @@
-package com.nicolas.maltesp.ui.navigation.scaffold.topbar
+package com.nicolas.maltesp.ui.navigation.screens.home.topbar
 
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api

@@ -1,4 +1,4 @@
-package com.nicolas.maltesp.ui.navigation.scaffold.drawer
+package com.nicolas.maltesp.ui.navigation.drawer
 
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth

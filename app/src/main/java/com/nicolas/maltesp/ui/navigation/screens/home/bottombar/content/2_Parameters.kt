@@ -1,4 +1,4 @@
-package com.nicolas.maltesp.ui.navigation.scaffold.bottombar.content
+package com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.sp
 import com.nicolas.maltesp.others.dataclasses.ParameterData
 import com.nicolas.maltesp.others.dataclasses.ParameterGroup
 import com.nicolas.maltesp.data.newRecipe
-import com.nicolas.maltesp.ui.navigation.scaffold.bottombar.content.parameters.parameterSectionData
+import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.parameters.parameterSectionData
 import com.nicolas.maltesp.ui.theme.appcolors.ComponentsColors
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 import com.nicolas.maltesp.viewmodels.ParametersViewModel

@@ -1,4 +1,4 @@
-package com.nicolas.maltesp.ui.navigation.scaffold.bottombar
+package com.nicolas.maltesp.ui.navigation.screens.home.bottombar
 
 import android.content.Context
 import androidx.compose.foundation.clickable
@@ -21,9 +21,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import com.nicolas.maltesp.R
-import com.nicolas.maltesp.ui.navigation.scaffold.bottombar.content.ConectionContent
-import com.nicolas.maltesp.ui.navigation.scaffold.bottombar.content.ParametersInputContent
-import com.nicolas.maltesp.ui.navigation.scaffold.bottombar.content.TestContent
+import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.ConectionContent
+import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.ParametersInputContent
+import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.TestContent
 import com.nicolas.maltesp.ui.theme.appcolors.ScaffoldColors
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 import com.nicolas.maltesp.viewmodels.ScaffoldViewModel
