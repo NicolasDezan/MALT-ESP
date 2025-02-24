@@ -1,4 +1,4 @@
-package com.nicolas.maltesp.ui.scaffold.actionbutton
+package com.nicolas.maltesp.ui.navigation.scaffold.actionbutton
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloat

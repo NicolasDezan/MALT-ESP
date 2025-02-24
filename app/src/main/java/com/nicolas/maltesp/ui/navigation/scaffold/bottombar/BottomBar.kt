@@ -1,4 +1,4 @@
-package com.nicolas.maltesp.ui.scaffold.bottombar
+package com.nicolas.maltesp.ui.navigation.scaffold.bottombar
 
 import android.content.Context
 import androidx.compose.foundation.clickable
@@ -21,9 +21,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import com.nicolas.maltesp.R
-import com.nicolas.maltesp.ui.scaffold.bottombar.content.ConectionContent
-import com.nicolas.maltesp.ui.scaffold.bottombar.content.ParametersInputContent
-import com.nicolas.maltesp.ui.scaffold.bottombar.content.TestContent
+import com.nicolas.maltesp.ui.navigation.scaffold.bottombar.content.ConectionContent
+import com.nicolas.maltesp.ui.navigation.scaffold.bottombar.content.ParametersInputContent
+import com.nicolas.maltesp.ui.navigation.scaffold.bottombar.content.TestContent
 import com.nicolas.maltesp.ui.theme.appcolors.ScaffoldColors
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 import com.nicolas.maltesp.viewmodels.ScaffoldViewModel
@@ -84,10 +84,10 @@ fun ContentBottomBar(
             .padding(paddingValues)
     ) {
         when (selectedItem) {
-            0 -> ContentBox(scaffoldViewModel) {ConectionContent(context = context, bluetoothViewModel = bluetoothViewModel, settingsViewModel = settingsViewModel)}
-            1 -> ContentBox(scaffoldViewModel) {ParametersInputContent(parametersViewModel = parametersViewModel, bluetoothViewModel = bluetoothViewModel)}
-            2 -> ContentBox(scaffoldViewModel) {TestContent()}
-            3 -> ContentBox(scaffoldViewModel) {TestContent()}
+            0 -> ContentBox(scaffoldViewModel) { ConectionContent(context = context, bluetoothViewModel = bluetoothViewModel, settingsViewModel = settingsViewModel) }
+            1 -> ContentBox(scaffoldViewModel) { ParametersInputContent(parametersViewModel = parametersViewModel, bluetoothViewModel = bluetoothViewModel) }
+            2 -> ContentBox(scaffoldViewModel) { TestContent() }
+            3 -> ContentBox(scaffoldViewModel) { TestContent() }
         }
     }
 }

@@ -13,7 +13,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
 import com.nicolas.maltesp.core.BluetoothUtils
 import com.nicolas.maltesp.data.AppDatabase
-import com.nicolas.maltesp.ui.scaffold.ScaffoldWithDrawer
+import com.nicolas.maltesp.ui.navigation.NavigationApp
 import com.nicolas.maltesp.ui.theme.MaltEspTheme
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 import com.nicolas.maltesp.viewmodels.ScaffoldViewModel
@@ -57,7 +57,7 @@ class MainActivity : ComponentActivity() {
             MaltEspTheme(
                 darkTheme = settingsViewModel.themeFlow.collectAsState(initial = settingsViewModel.getTheme()).value
             ) {
-                ScaffoldWithDrawer(
+                NavigationApp(
                     context = this,
                     bluetoothViewModel = bluetoothViewModel,
                     scaffoldViewModel = scaffoldViewModel,

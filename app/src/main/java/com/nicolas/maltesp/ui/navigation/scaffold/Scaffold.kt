@@ -1,4 +1,4 @@
-package com.nicolas.maltesp.ui.scaffold
+package com.nicolas.maltesp.ui.navigation.scaffold
 
 import android.content.Context
 import androidx.compose.material3.DrawerValue
@@ -7,16 +7,16 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import com.nicolas.maltesp.ui.scaffold.actionbutton.SettingFloatingActionButton
-import com.nicolas.maltesp.ui.scaffold.bottombar.ContentBottomBar
-import com.nicolas.maltesp.ui.scaffold.bottombar.IconButtonsBottomBar
-import com.nicolas.maltesp.ui.scaffold.drawer.SettingDrawerContent
-import com.nicolas.maltesp.ui.scaffold.topbar.SettingTopAppBar
+import androidx.navigation.NavController
+import com.nicolas.maltesp.ui.navigation.scaffold.actionbutton.SettingFloatingActionButton
+import com.nicolas.maltesp.ui.navigation.scaffold.bottombar.ContentBottomBar
+import com.nicolas.maltesp.ui.navigation.scaffold.bottombar.IconButtonsBottomBar
+import com.nicolas.maltesp.ui.navigation.scaffold.drawer.DrawerContent
+import com.nicolas.maltesp.ui.navigation.scaffold.topbar.SettingTopAppBar
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 import com.nicolas.maltesp.viewmodels.ScaffoldViewModel
 import com.nicolas.maltesp.viewmodels.ParametersViewModel
 import com.nicolas.maltesp.viewmodels.SettingsViewModel
-
 
 @Composable
 fun ScaffoldWithDrawer(
@@ -24,18 +24,20 @@ fun ScaffoldWithDrawer(
     bluetoothViewModel : BluetoothViewModel,
     scaffoldViewModel: ScaffoldViewModel,
     parametersViewModel: ParametersViewModel,
-    settingsViewModel: SettingsViewModel
+    settingsViewModel: SettingsViewModel,
+    navController: NavController
     ){
 
     val scope = rememberCoroutineScope()
     val drawerState = rememberDrawerState(DrawerValue.Closed)
 
-    ModalNavigationDrawer(
-        drawerState = drawerState,
 
-        drawerContent = {
-            SettingDrawerContent()
-                        },
+    ModalNavigationDrawer(
+        drawerState = drawerState, drawerContent = {
+            DrawerContent(
+                navController = navController
+            )
+        },
 
         content = {
             Scaffold(

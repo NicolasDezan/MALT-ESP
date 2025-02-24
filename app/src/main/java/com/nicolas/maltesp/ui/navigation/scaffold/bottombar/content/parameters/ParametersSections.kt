@@ -1,4 +1,4 @@
-package com.nicolas.maltesp.ui.scaffold.bottombar.content.parameters
+package com.nicolas.maltesp.ui.navigation.scaffold.bottombar.content.parameters
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
