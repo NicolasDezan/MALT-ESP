@@ -1,13 +1,32 @@
 package com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.parameters
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import com.nicolas.maltesp.others.dataclasses.ParameterData
-import com.nicolas.maltesp.others.dataclasses.ParameterGroup
-import com.nicolas.maltesp.others.dataclasses.ParameterSectionData
+import com.nicolas.maltesp.others.dataclasses.ParametersRange
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 import com.nicolas.maltesp.viewmodels.ParametersViewModel
+
+data class ParameterData(
+    val name: String,
+    val unit: String,
+    val description: String,
+    val state: MutableState<String>,
+    val range: ParametersRange,
+    val isEquals: Boolean?, // Se nulo, significa que há problema na conexão
+    val isNumberValid: Boolean = false
+)
+
+data class ParameterGroup(
+    val title: String? = null,
+    val parameters: List<ParameterData>
+)
+
+data class ParameterSectionData(
+    val title: String,
+    val groups: List<ParameterGroup>
+)
 
 @Composable
 fun parameterSectionData(parametersViewModel: ParametersViewModel, bluetoothViewModel: BluetoothViewModel): List<ParameterSectionData> {

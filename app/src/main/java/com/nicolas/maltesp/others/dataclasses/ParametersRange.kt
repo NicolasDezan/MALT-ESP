@@ -1,5 +1,10 @@
 package com.nicolas.maltesp.others.dataclasses
 
+data class ParametersRange(
+    val min: Float,
+    val max: Float
+)
+
 data class ParametersRangeGroup(
     val steeping: SteepingParametersRange,
     val germination: GerminationParametersRange,

@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nicolas.maltesp.data.MaltingRecipe
 import com.nicolas.maltesp.data.MaltingRecipeDao
+import com.nicolas.maltesp.others.classes.Parameters
 import com.nicolas.maltesp.others.dataclasses.GerminationState
 import com.nicolas.maltesp.others.dataclasses.KilningState
-import com.nicolas.maltesp.others.dataclasses.ParametersRange
 import com.nicolas.maltesp.others.dataclasses.ParametersState
 import com.nicolas.maltesp.others.dataclasses.SteepingState
 import com.nicolas.maltesp.others.dataclasses.GerminationParametersRange
@@ -20,10 +20,10 @@ import kotlinx.coroutines.launch
 
 class ParametersViewModel(private val dao: MaltingRecipeDao) : ViewModel() {
 
-    private val _parametersState = MutableStateFlow(initializeParametersState())
+    private val _parametersState = MutableStateFlow(Parameters.initializeParametersState())
     val parametersState = _parametersState.asStateFlow()
 
-    private val _parametersRange = MutableStateFlow(initializeRangeGroup())
+    private val _parametersRange = MutableStateFlow(Parameters.initializeRangeGroup())
     val parametersRange = _parametersRange.asStateFlow()
 
 
@@ -318,74 +318,4 @@ class ParametersViewModel(private val dao: MaltingRecipeDao) : ViewModel() {
             time in rangeMin..rangeMax
         } catch (e: NumberFormatException) { false }
     }
-}
-
-
-/*################################################################
-################# UTILS ##########################################
-##################################################################*/
-
-// Função para inicializar os estados
-fun initializeParametersState(): ParametersState {
-    return ParametersState(
-        steeping = SteepingState(
-            submergedTime = mutableStateOf(""),
-            waterVolume = mutableStateOf(""),
-            restTime = mutableStateOf(""),
-            cycles = mutableStateOf("")
-        ),
-        germination = GerminationState(
-            rotationLevel = mutableStateOf(""),
-            totalTime = mutableStateOf(""),
-            waterVolume = mutableStateOf(""),
-            waterAddition = mutableStateOf("")
-        ),
-        kilning = KilningState(
-            temperature = mutableStateOf(""),
-            time = mutableStateOf("")
-        )
-    )
-}
-
-// FunçãoTroll para forçar valores duvidosos
-fun testParametersState(): ParametersState {
-    return ParametersState(
-        steeping = SteepingState(
-            submergedTime = mutableStateOf(10.toString()),
-            waterVolume = mutableStateOf(11.toString()),
-            restTime = mutableStateOf(12.toString()),
-            cycles = mutableStateOf(13.toString())
-        ),
-        germination = GerminationState(
-            rotationLevel = mutableStateOf(14.toString()),
-            totalTime = mutableStateOf(15.toString()),
-            waterVolume = mutableStateOf(16.toString()),
-            waterAddition = mutableStateOf(17.toString())
-        ),
-        kilning = KilningState(
-            temperature = mutableStateOf(18.toString()),
-            time = mutableStateOf(19.toString())
-        )
-    )
-}
-
-fun initializeRangeGroup(): ParametersRangeGroup {
-    return ParametersRangeGroup(
-        steeping = SteepingParametersRange(
-            submergedTime = ParametersRange(min = 0f, max = 100f),
-            waterVolume = ParametersRange(min = 0f, max = 100f),
-            restTime = ParametersRange(min = 0f, max = 100f),
-            cycles = ParametersRange(min = 0f, max = 100f)
-        ),
-        germination = GerminationParametersRange(
-            rotationLevel = ParametersRange(min = 0f, max = 100f),
-            totalTime = ParametersRange(min = 0f, max = 100f),
-            waterVolume = ParametersRange(min = 0f, max = 100f),
-            waterAddition = ParametersRange(min = 0f, max = 100f)
-        ),
-        kilning = KilningParametersRange(
-            temperature = ParametersRange(min = 0f, max = 100f),
-            time = ParametersRange(min = 0f, max = 100f)
-        )
-    )
 }

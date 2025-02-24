@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import com.nicolas.maltesp.core.BluetoothUtils
+import com.nicolas.maltesp.others.classes.Parameters
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -20,7 +21,7 @@ class BluetoothViewModel(application: Application) : AndroidViewModel(applicatio
     private val _connectedDeviceName = MutableStateFlow<String?>(null)
     val connectedDeviceName = _connectedDeviceName.asStateFlow()
 
-    private val _parametersReceived = MutableStateFlow(initializeParametersState())
+    private val _parametersReceived = MutableStateFlow(Parameters.initializeParametersState())
     val parametersReceived = _parametersReceived.asStateFlow()
 
 
@@ -39,11 +40,11 @@ class BluetoothViewModel(application: Application) : AndroidViewModel(applicatio
             onDisconnected = {
                 _connectedDeviceName.value = null
                 _temperature.value = ""
-                _parametersReceived.value = initializeParametersState()
+                _parametersReceived.value = Parameters.initializeParametersState()
             },
             onReadUpdate = { temp ->
                 _temperature.value = temp
-                _parametersReceived.value = testParametersState() // TODO: Implementar o receive real no ESP32
+                _parametersReceived.value = Parameters.testParametersState() // TODO: Implementar o receive real no ESP32
             },
             serviceUuid = SERVICE_UUID,
             writeCharacteristicUuid = WRITE_UUID,
