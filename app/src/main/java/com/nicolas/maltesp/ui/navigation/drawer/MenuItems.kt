@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.DrawerState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -18,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 data class DrawerMenuItem(
     val title: String,
@@ -26,7 +29,9 @@ data class DrawerMenuItem(
 
 @Composable
 fun DrawerMenuItems(
-    navController: NavController
+    navController: NavController,
+    drawerState: DrawerState,
+    scope: CoroutineScope
 ){
     val menuItems = listOf(
         DrawerMenuItem(
@@ -46,7 +51,9 @@ fun DrawerMenuItems(
         menuItems.forEach { menuItem ->
             DrawerItemButton(
                 navController = navController,
-                menuItem = menuItem
+                menuItem = menuItem,
+                drawerState = drawerState,
+                scope = scope
             )
         }
     }
@@ -55,7 +62,9 @@ fun DrawerMenuItems(
 @Composable
 fun DrawerItemButton(
     navController: NavController,
-    menuItem: DrawerMenuItem
+    menuItem: DrawerMenuItem,
+    scope: CoroutineScope,
+    drawerState: DrawerState
 ) {
     val isAlredySelected = navController.currentBackStackEntry?.destination?.route == menuItem.route
 
@@ -66,6 +75,7 @@ fun DrawerItemButton(
             .clickable {
                 if(!isAlredySelected) {
                     navController.navigate(route = menuItem.route)
+                    scope.launch { drawerState.close() }
                 }
             },
     ) {
