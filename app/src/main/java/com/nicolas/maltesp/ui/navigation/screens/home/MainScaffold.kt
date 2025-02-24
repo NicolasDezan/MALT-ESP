@@ -42,6 +42,7 @@ fun MainScaffold(
 
             floatingActionButton = {
                 SettingFloatingActionButton(
+                    context = context,
                     parametersViewModel = parametersViewModel,
                     scaffoldViewModel = scaffoldViewModel,
                     bluetoothViewModel = bluetoothViewModel

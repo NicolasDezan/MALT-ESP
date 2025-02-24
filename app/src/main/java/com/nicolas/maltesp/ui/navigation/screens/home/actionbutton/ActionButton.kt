@@ -1,5 +1,6 @@
 package com.nicolas.maltesp.ui.navigation.screens.home.actionbutton
 
+import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.updateTransition
@@ -11,13 +12,11 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -26,13 +25,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -57,8 +52,15 @@ import com.nicolas.maltesp.viewmodels.ScaffoldViewModel
     /\ A base desse arquivo foi construída a partir desse repositório /\
 */
 
+data class ActionItem(
+    val icon: ImageVector,
+    val title: String,
+    val onClick: () -> Unit
+)
+
 @Composable
 fun SettingFloatingActionButton(
+    context: Context,
     parametersViewModel: ParametersViewModel,
     scaffoldViewModel: ScaffoldViewModel,
     bluetoothViewModel: BluetoothViewModel
@@ -68,7 +70,7 @@ fun SettingFloatingActionButton(
     val parametersReceived by bluetoothViewModel.parametersReceived.collectAsState()
     var showSelectRecipeList by remember { mutableStateOf(false) }
 
-    val items = listOf(
+    val fabMenuItems = listOf(
         ActionItem(
             icon = ImageVector.vectorResource(id = R.drawable.baseline_menu_24),
             title = "Puxar Parâmetros",
@@ -89,8 +91,18 @@ fun SettingFloatingActionButton(
             icon = ImageVector.vectorResource(id = R.drawable.baseline_menu_24),
             title = "Iniciar",
             onClick = {
-            /* TODO: Um dia vamos colocar o envio de dados pro ESP aqui */
-                scaffoldViewModel.toggleFab()
+                if (parametersViewModel.isAllParametersValid() && bluetoothViewModel.isConnected()) {
+                    try {
+                        bluetoothViewModel.sendCommandArray(
+                            context = context,
+                            byteArray = parametersViewModel.parametersToByteArray()
+                                ?: throw IllegalArgumentException("byteArray retornou null")
+                        )
+                        scaffoldViewModel.toggleFab()
+                    } catch (e: IllegalArgumentException) { println("$e") }
+                } else{
+                    println(listOf("não...","Não!", "NÃO!!!").random())
+                }
             }
         )
     )
@@ -105,11 +117,11 @@ fun SettingFloatingActionButton(
                 modifier = Modifier.padding(bottom = 8.dp),
                 horizontalAlignment = Alignment.End
             ) {
-                items(items.size) {
+                items(fabMenuItems.size) {
                     ItemUi(
-                        icon = items[it].icon,
-                        title = items[it].title,
-                        onClick = items[it].onClick
+                        icon = fabMenuItems[it].icon,
+                        title = fabMenuItems[it].title,
+                        onClick = fabMenuItems[it].onClick
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 }
@@ -141,12 +153,15 @@ fun SettingFloatingActionButton(
 }
 
 @Composable
-fun ItemUi(icon: ImageVector, title: String, onClick: () -> Unit) {
+fun ItemUi(
+    icon: ImageVector,
+    title: String,
+    onClick: () -> Unit
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.End,
         modifier = Modifier
-//            .clickable { onClick() }
     )
     {
         Box(
@@ -171,56 +186,5 @@ fun ItemUi(icon: ImageVector, title: String, onClick: () -> Unit) {
     }
 }
 
-data class ActionItem(
-    val icon: ImageVector,
-    val title: String,
-    val onClick: () -> Unit // Nova propriedade
-)
 
-@Composable
-fun SelectRecipeDialog(
-    parametersViewModel: ParametersViewModel,
-    onDismiss: () -> Unit
-) {
-    val recipeNames by parametersViewModel.recipeNames.collectAsState()
-    parametersViewModel.refreshRecipeNames()
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text("Selecione uma receita") },
-        text = {
-            LazyColumn { item{
-                recipeNames.forEach { recipeName ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp)
-                            .clickable {
-                                parametersViewModel.loadRecipeByName(recipeName)
-                                onDismiss()
-                            },
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = recipeName
-                        )
-                        IconButton(onClick = {
-                            parametersViewModel.deleteRecipeByName(recipeName)
-                            onDismiss()
-                        }) {
-                            Icon(
-                                imageVector = ImageVector.vectorResource(R.drawable.baseline_delete_24),
-                                contentDescription = "Excluir"
-                            )
-                        }
-                    }
-                    HorizontalDivider()
-                }
-            }}
-        },
-        confirmButton = {
-            TextButton(onClick = onDismiss) {
-                Text("Fechar")
-            }
-        }
-    )
-}
+

@@ -10,6 +10,8 @@ import com.nicolas.maltesp.others.dataclasses.GerminationState
 import com.nicolas.maltesp.others.dataclasses.KilningState
 import com.nicolas.maltesp.others.dataclasses.ParametersState
 import com.nicolas.maltesp.others.dataclasses.SteepingState
+import com.nicolas.maltesp.others.objects.MinRangeValues
+import com.nicolas.maltesp.others.objects.MultiplierRange
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -313,5 +315,36 @@ class ParametersViewModel(private val dao: MaltingRecipeDao) : ViewModel() {
             val time = _parametersState.value.kilning.time.value.toFloat()
             time in rangeMin..rangeMax
         } catch (e: NumberFormatException) { false }
+    }
+
+    fun parametersToByteArray(): ByteArray? {
+        return try{
+        val bytes = byteArrayOf(
+
+            /*...0...*/(-128), // == 0: IDENTIFICADOR DE PARAMETROS -- WRITE
+
+            /*...1...*/parameterToByte(_parametersState.value.steeping.submergedTime.value, MinRangeValues.Steeping.SUBMERGED_TIME, MultiplierRange.Steeping.SUBMERGED_TIME),
+            /*...2...*/parameterToByte(_parametersState.value.steeping.waterVolume.value, MinRangeValues.Steeping.WATER_VOLUME, MultiplierRange.Steeping.WATER_VOLUME),
+            /*...3...*/parameterToByte(_parametersState.value.steeping.restTime.value, MinRangeValues.Steeping.REST_TIME, MultiplierRange.Steeping.REST_TIME),
+            /*...4...*/parameterToByte(_parametersState.value.steeping.cycles.value, MinRangeValues.Steeping.CYCLES, MultiplierRange.Steeping.CYCLES),
+
+            /*...5...*/parameterToByte(_parametersState.value.germination.totalTime.value, MinRangeValues.Germination.TOTAL_TIME, MultiplierRange.Germination.TOTAL_TIME),
+            /*...6...*/parameterToByte(_parametersState.value.germination.waterVolume.value, MinRangeValues.Germination.WATER_VOLUME, MultiplierRange.Germination.WATER_VOLUME),
+            /*...7...*/parameterToByte(_parametersState.value.germination.waterAddition.value, MinRangeValues.Germination.WATER_ADDITION, MultiplierRange.Germination.WATER_ADDITION),
+            /*...8...*/parameterToByte(_parametersState.value.germination.rotationLevel.value, MinRangeValues.Germination.ROTATION_LEVEL, MultiplierRange.Germination.ROTATION_LEVEL),
+
+            /*...9...*/parameterToByte(_parametersState.value.kilning.temperature.value, MinRangeValues.Kilning.TEMPERATURE, MultiplierRange.Kilning.TEMPERATURE),
+            /*...10..*/parameterToByte(_parametersState.value.kilning.time.value, MinRangeValues.Kilning.TIME, MultiplierRange.Kilning.TIME)
+
+        )
+            bytes
+        } catch (e: NumberFormatException) { null }
+    }
+
+    // Transformo os valores em um int de 0 a 255 e depois subtraio por 128 para que os valores fiquem entre -128 e 127
+    private fun parameterToByte(parameter: String, minParameterValue: Float, multiplierRange: Float): Byte {
+        val byteComum = ((parameter.toFloat() - minParameterValue) / multiplierRange).toInt()
+        val byteKotlin = ((byteComum - 128).toByte())
+        return byteKotlin
     }
 }
