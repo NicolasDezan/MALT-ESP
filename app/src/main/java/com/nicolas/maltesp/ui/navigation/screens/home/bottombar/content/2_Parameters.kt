@@ -35,9 +35,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.nicolas.maltesp.others.dataclasses.ParameterData
-import com.nicolas.maltesp.others.dataclasses.ParameterGroup
 import com.nicolas.maltesp.data.newRecipe
+import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.parameters.ParameterData
+import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.parameters.ParameterGroup
 import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.parameters.parameterSectionData
 import com.nicolas.maltesp.ui.theme.appcolors.ComponentsColors
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel

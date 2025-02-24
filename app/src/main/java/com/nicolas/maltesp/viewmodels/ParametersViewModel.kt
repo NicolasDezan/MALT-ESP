@@ -10,10 +10,6 @@ import com.nicolas.maltesp.others.dataclasses.GerminationState
 import com.nicolas.maltesp.others.dataclasses.KilningState
 import com.nicolas.maltesp.others.dataclasses.ParametersState
 import com.nicolas.maltesp.others.dataclasses.SteepingState
-import com.nicolas.maltesp.others.dataclasses.GerminationParametersRange
-import com.nicolas.maltesp.others.dataclasses.KilningParametersRange
-import com.nicolas.maltesp.others.dataclasses.ParametersRangeGroup
-import com.nicolas.maltesp.others.dataclasses.SteepingParametersRange
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch

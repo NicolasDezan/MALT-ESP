@@ -142,7 +142,7 @@ fun parameterSectionData(parametersViewModel: ParametersViewModel, bluetoothView
                         ),
                         ParameterData(
                             name = "Tempo",
-                            unit = "min",
+                            unit = "h",
                             description = "",
                             state = parametersState.kilning.time,
                             range = parametersRange.kilning.time,

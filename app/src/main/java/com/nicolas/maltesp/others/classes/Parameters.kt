@@ -40,19 +40,19 @@ class Parameters {
             return ParametersState(
                 steeping = SteepingState(
                     submergedTime = mutableStateOf(10.toString()),
-                    waterVolume = mutableStateOf(11.toString()),
-                    restTime = mutableStateOf(12.toString()),
-                    cycles = mutableStateOf(13.toString())
+                    waterVolume = mutableStateOf(500.toString()),
+                    restTime = mutableStateOf(4.toString()),
+                    cycles = mutableStateOf(4.toString())
                 ),
                 germination = GerminationState(
-                    rotationLevel = mutableStateOf(14.toString()),
-                    totalTime = mutableStateOf(15.toString()),
-                    waterVolume = mutableStateOf(16.toString()),
-                    waterAddition = mutableStateOf(17.toString())
+                    rotationLevel = mutableStateOf(10.toString()),
+                    totalTime = mutableStateOf(78.toString()),
+                    waterVolume = mutableStateOf(150.toString()),
+                    waterAddition = mutableStateOf(20.toString())
                 ),
                 kilning = KilningState(
-                    temperature = mutableStateOf(18.toString()),
-                    time = mutableStateOf(19.toString())
+                    temperature = mutableStateOf(65.toString()),
+                    time = mutableStateOf(4.toString())
                 )
             )
         }
