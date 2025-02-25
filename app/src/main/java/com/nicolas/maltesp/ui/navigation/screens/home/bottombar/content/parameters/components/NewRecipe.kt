@@ -1,5 +1,6 @@
 package com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.parameters.components
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -13,6 +14,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.nicolas.maltesp.data.newRecipe
 import com.nicolas.maltesp.viewmodels.ParametersViewModel
@@ -21,6 +23,8 @@ import kotlin.random.Random
 @Composable
 fun NewRecipeButton(textButton: String, parametersViewModel: ParametersViewModel){
     val showDialog = remember { mutableStateOf(false) }
+    val context = LocalContext.current
+
     Button(
         onClick = {
             showDialog.value = true
@@ -43,6 +47,7 @@ fun NewRecipeButton(textButton: String, parametersViewModel: ParametersViewModel
                 )
                 parametersViewModel.saveRecipe(recipe)
                 showDialog.value = false
+                Toast.makeText(context, "A receita '$inputRecipeName' foi salva", Toast.LENGTH_SHORT).show()
             }
         )
     }
@@ -54,8 +59,10 @@ fun StringInputDialog(
     label: String = "Por favor, insira um nome abaixo:",
     placeholder: String = "Nome",
     onDismiss: () -> Unit,
-    onConfirm: (String) -> Unit
+    onConfirm: (String) -> Unit,
+
 ) {
+
     var text by remember { mutableStateOf("") }
 
     AlertDialog(
@@ -74,7 +81,9 @@ fun StringInputDialog(
             }
         },
         confirmButton = {
-            Button(onClick = { onConfirm(text) }) {
+            Button(onClick = {
+                onConfirm(text)
+            }) {
                 Text("Confirmar")
             }
         },

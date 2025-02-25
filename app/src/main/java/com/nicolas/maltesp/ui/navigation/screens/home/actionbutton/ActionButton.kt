@@ -1,6 +1,7 @@
 package com.nicolas.maltesp.ui.navigation.screens.home.actionbutton
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.updateTransition
@@ -41,6 +42,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import com.nicolas.maltesp.data.newRecipe
+import com.nicolas.maltesp.others.classes.Parameters
 import com.nicolas.maltesp.others.objects.VectorIcons
 import com.nicolas.maltesp.ui.theme.appcolors.ScaffoldColors
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
@@ -55,7 +58,7 @@ import com.nicolas.maltesp.viewmodels.ScaffoldViewModel
 data class ActionItem(
     val icon: ImageVector,
     val title: String,
-    val onClick: () -> Unit
+    val onClick: () -> Unit,
 )
 
 @Composable
@@ -63,9 +66,8 @@ fun SettingFloatingActionButton(
     context: Context,
     parametersViewModel: ParametersViewModel,
     scaffoldViewModel: ScaffoldViewModel,
-    bluetoothViewModel: BluetoothViewModel
-)
-{
+    bluetoothViewModel: BluetoothViewModel,
+) {
     val isFabExpanded by scaffoldViewModel.isFabExpanded.collectAsState()
     val parametersReceived by bluetoothViewModel.parametersReceived.collectAsState()
     var showSelectRecipeList by remember { mutableStateOf(false) }
@@ -75,8 +77,13 @@ fun SettingFloatingActionButton(
             icon = ImageVector.vectorResource(id = VectorIcons.menu),
             title = "Puxar Parâmetros",
             onClick = {
-                parametersViewModel.updateParametersStateFromParametersReceived(parametersReceived)
-                scaffoldViewModel.toggleFab()
+                if (parametersReceived != Parameters.initializeParametersState() && bluetoothViewModel.isConnected()) {
+                    parametersViewModel.updateParametersStateFromParametersReceived(parametersReceived)
+                    scaffoldViewModel.toggleFab()
+                    Toast.makeText(context, "Os parâmetros foram obtidos e carregados", Toast.LENGTH_SHORT).show()
+                }else {
+                    Toast.makeText(context, "Erro ao puxar os parâmetros. Verifique a conexão", Toast.LENGTH_SHORT).show()
+                }
             }
         ),
         ActionItem(
@@ -96,12 +103,27 @@ fun SettingFloatingActionButton(
                         bluetoothViewModel.sendCommandArray(
                             context = context,
                             byteArray = parametersViewModel.parametersToByteArray()
-                                ?: throw IllegalArgumentException("byteArray retornou null")
+                                ?: throw IllegalArgumentException("byteArray returned null")
+                        )
+                        parametersViewModel.saveRecipe(
+                            newRecipe(
+                                uid = 10,
+                                recipeName = "Última Enviada",
+                                parametersViewModel.parametersState.value
+                            )
                         )
                         scaffoldViewModel.toggleFab()
-                    } catch (e: IllegalArgumentException) { println("$e") }
-                } else{
-                    println(listOf("não...","Não!", "NÃO!!!").random())
+                        Toast.makeText(
+                            context,
+                            "Parâmetros enviados com sucesso",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } catch (e: IllegalArgumentException) {
+                        Toast.makeText(context, "Erro: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(context, "Erro no envio dos parâmetros", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         )
@@ -147,7 +169,8 @@ fun SettingFloatingActionButton(
     if (showSelectRecipeList) {
         SelectRecipeDialog(
             parametersViewModel = parametersViewModel,
-            onDismiss = { showSelectRecipeList = false }
+            onDismiss = { showSelectRecipeList = false },
+            context = context
         )
     }
 }
@@ -156,7 +179,7 @@ fun SettingFloatingActionButton(
 fun ItemUi(
     icon: ImageVector,
     title: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
