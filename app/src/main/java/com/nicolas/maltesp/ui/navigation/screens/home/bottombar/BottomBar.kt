@@ -46,9 +46,7 @@ fun IconButtonsBottomBar(scaffoldViewModel: ScaffoldViewModel) {
                 icon = {
                     val iconId = when (item) {
                         ITEM_1 -> VectorIcons.bluetooth
-                        ITEM_2 -> VectorIcons.menu
-                        ITEM_3 -> VectorIcons.menu
-                        ITEM_4 -> VectorIcons.menu
+                        ITEM_2 -> VectorIcons.parameters
                         else -> {
                             VectorIcons.menu
                         }

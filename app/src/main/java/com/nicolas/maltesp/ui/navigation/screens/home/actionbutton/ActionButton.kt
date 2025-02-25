@@ -74,7 +74,7 @@ fun SettingFloatingActionButton(
 
     val fabMenuItems = listOf(
         ActionItem(
-            icon = ImageVector.vectorResource(id = VectorIcons.menu),
+            icon = ImageVector.vectorResource(id = VectorIcons.bluetoothInteraction),
             title = "Puxar Parâmetros",
             onClick = {
                 if (parametersReceived != Parameters.initializeParametersState() && bluetoothViewModel.isConnected()) {
@@ -87,7 +87,7 @@ fun SettingFloatingActionButton(
             }
         ),
         ActionItem(
-            icon = ImageVector.vectorResource(id = VectorIcons.menu),
+            icon = ImageVector.vectorResource(id = VectorIcons.loadRecipe),
             title = "Carregar Receita",
             onClick = {
                 showSelectRecipeList = true
@@ -95,7 +95,7 @@ fun SettingFloatingActionButton(
             }
         ),
         ActionItem(
-            icon = ImageVector.vectorResource(id = VectorIcons.menu),
+            icon = ImageVector.vectorResource(id = VectorIcons.play),
             title = "Iniciar",
             onClick = {
                 if (parametersViewModel.isAllParametersValid() && bluetoothViewModel.isConnected()) {
