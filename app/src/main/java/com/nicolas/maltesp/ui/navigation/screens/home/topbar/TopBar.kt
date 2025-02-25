@@ -1,5 +1,9 @@
 package com.nicolas.maltesp.ui.navigation.screens.home.topbar
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -9,10 +13,14 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.dp
 import com.nicolas.maltesp.R
 import com.nicolas.maltesp.ui.theme.appcolors.ScaffoldColors
+import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 import com.nicolas.maltesp.viewmodels.ScaffoldViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -21,10 +29,11 @@ import kotlinx.coroutines.launch
 @Composable
 fun SettingTopAppBar(scope: CoroutineScope,
                      drawerState: DrawerState,
-                     scaffoldViewModel: ScaffoldViewModel
+                     scaffoldViewModel: ScaffoldViewModel,
+                     bluetoothViewModel: BluetoothViewModel
 ) {
     TopAppBar(
-        title = { TobBarTitle(scaffoldViewModel) },
+        title = { TobBarTitle(scaffoldViewModel, bluetoothViewModel) },
         navigationIcon = {
             IconButton(onClick = { scope.launch { drawerState.open() } }) {
                 Icon(
@@ -38,12 +47,25 @@ fun SettingTopAppBar(scope: CoroutineScope,
 }
 
 @Composable
-fun TobBarTitle(scaffoldViewModel: ScaffoldViewModel){
+fun TobBarTitle(
+    scaffoldViewModel: ScaffoldViewModel,
+    bluetoothViewModel: BluetoothViewModel
+) {
     val selectedItem by scaffoldViewModel.bottomBarSelectedItem.collectAsState()
 
-    if(selectedItem == 1){
-        Text(text = "Parâmetros")
-    }else{
-        Text(text = "ESP32 x Malteador")
-    }
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(end = 4.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            if (selectedItem == 1) {
+                Text(text = "Parâmetros")
+            } else {
+                Text(text = "ESP32 x Malteador")
+            }
+            ConnectionIndicator(
+                bluetoothViewModel = bluetoothViewModel
+            )
+        }
+
 }

@@ -3,10 +3,14 @@ package com.nicolas.maltesp.viewmodels
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import com.nicolas.maltesp.core.BluetoothUtils
 import com.nicolas.maltesp.others.classes.Parameters
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 class BluetoothViewModel(application: Application) : AndroidViewModel(application) {
     companion object {
@@ -20,6 +24,10 @@ class BluetoothViewModel(application: Application) : AndroidViewModel(applicatio
 
     private val _connectedDeviceName = MutableStateFlow<String?>(null)
     val connectedDeviceName = _connectedDeviceName.asStateFlow()
+
+    private var pulseJob: Job? = null
+    private val _pulseConection = MutableStateFlow(false)
+    val pulseConnection = _pulseConection.asStateFlow()
 
     private val _parametersReceived = MutableStateFlow(Parameters.initializeParametersState())
     val parametersReceived = _parametersReceived.asStateFlow()
@@ -44,7 +52,19 @@ class BluetoothViewModel(application: Application) : AndroidViewModel(applicatio
             },
             onReadUpdate = { temp ->
                 _temperature.value = temp
-                _parametersReceived.value = Parameters.testParametersState() // TODO: Implementar o receive real no ESP32
+                _parametersReceived.value = Parameters.testParametersState() //
+
+                // Cancela o pulso anterior, se existir
+                pulseJob?.cancel()
+
+                // Ativa o pulso
+                _pulseConection.value = true
+
+                // Agenda a desativação do pulso após 500 ms
+                pulseJob = viewModelScope.launch {
+                    delay(500) // Aguarda 500 ms aiiii que gastura ta muito rapido
+                    _pulseConection.value = false
+                }
             },
             serviceUuid = SERVICE_UUID,
             writeCharacteristicUuid = WRITE_UUID,

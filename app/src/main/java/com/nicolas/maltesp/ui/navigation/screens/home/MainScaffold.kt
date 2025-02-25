@@ -38,7 +38,9 @@ fun MainScaffold(
             topBar = { SettingTopAppBar(
                 scope = scope,
                 drawerState = drawerState,
-                scaffoldViewModel = scaffoldViewModel) },
+                scaffoldViewModel = scaffoldViewModel,
+                bluetoothViewModel = bluetoothViewModel
+            ) },
 
             floatingActionButton = {
                 SettingFloatingActionButton(
