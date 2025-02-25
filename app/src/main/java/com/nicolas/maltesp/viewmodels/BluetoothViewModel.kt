@@ -64,6 +64,8 @@ class BluetoothViewModel(application: Application) : AndroidViewModel(applicatio
                 pulseJob = viewModelScope.launch {
                     delay(500) // Aguarda 500 ms aiiii que gastura ta muito rapido
                     _pulseConection.value = false
+
+                    // TODO: Triagem de recebimento: PARAMETROS ATUAIS; PING_LIVE; LEITURA DE SENSORES
                 }
             },
             serviceUuid = SERVICE_UUID,

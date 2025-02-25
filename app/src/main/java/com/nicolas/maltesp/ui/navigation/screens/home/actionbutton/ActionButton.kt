@@ -41,7 +41,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import com.nicolas.maltesp.R
+import com.nicolas.maltesp.others.objects.VectorIcons
 import com.nicolas.maltesp.ui.theme.appcolors.ScaffoldColors
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 import com.nicolas.maltesp.viewmodels.ParametersViewModel
@@ -72,7 +72,7 @@ fun SettingFloatingActionButton(
 
     val fabMenuItems = listOf(
         ActionItem(
-            icon = ImageVector.vectorResource(id = R.drawable.baseline_menu_24),
+            icon = ImageVector.vectorResource(id = VectorIcons.menu),
             title = "Puxar Parâmetros",
             onClick = {
                 parametersViewModel.updateParametersStateFromParametersReceived(parametersReceived)
@@ -80,7 +80,7 @@ fun SettingFloatingActionButton(
             }
         ),
         ActionItem(
-            icon = ImageVector.vectorResource(id = R.drawable.baseline_menu_24),
+            icon = ImageVector.vectorResource(id = VectorIcons.menu),
             title = "Carregar Receita",
             onClick = {
                 showSelectRecipeList = true
@@ -88,7 +88,7 @@ fun SettingFloatingActionButton(
             }
         ),
         ActionItem(
-            icon = ImageVector.vectorResource(id = R.drawable.baseline_menu_24),
+            icon = ImageVector.vectorResource(id = VectorIcons.menu),
             title = "Iniciar",
             onClick = {
                 if (parametersViewModel.isAllParametersValid() && bluetoothViewModel.isConnected()) {

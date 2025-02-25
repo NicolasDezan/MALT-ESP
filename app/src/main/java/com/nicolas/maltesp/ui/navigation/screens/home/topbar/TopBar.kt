@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.nicolas.maltesp.R
+import com.nicolas.maltesp.others.objects.VectorIcons
 import com.nicolas.maltesp.ui.theme.appcolors.ScaffoldColors
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 import com.nicolas.maltesp.viewmodels.ScaffoldViewModel
@@ -37,7 +38,7 @@ fun SettingTopAppBar(scope: CoroutineScope,
         navigationIcon = {
             IconButton(onClick = { scope.launch { drawerState.open() } }) {
                 Icon(
-                    ImageVector.vectorResource(id = R.drawable.baseline_menu_24),
+                    ImageVector.vectorResource(id = VectorIcons.menu),
                     contentDescription = "Menu"
                 )
             }

@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.nicolas.maltesp.R
+import com.nicolas.maltesp.others.objects.VectorIcons
 import com.nicolas.maltesp.viewmodels.ParametersViewModel
 
 @Composable
@@ -54,7 +55,7 @@ fun SelectRecipeDialog(
                                 onDismiss()
                             }) {
                                 Icon(
-                                    imageVector = ImageVector.vectorResource(R.drawable.baseline_delete_24),
+                                    imageVector = ImageVector.vectorResource(VectorIcons.thrashDelete),
                                     contentDescription = "Excluir"
                                 )
                             }

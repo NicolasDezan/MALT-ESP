@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import com.nicolas.maltesp.R
+import com.nicolas.maltesp.others.objects.VectorIcons
 import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.conection.ConectionContent
 import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.parameters.ParametersContent
 import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.test.TestContent
@@ -44,12 +45,12 @@ fun IconButtonsBottomBar(scaffoldViewModel: ScaffoldViewModel) {
             NavigationBarItem(
                 icon = {
                     val iconId = when (item) {
-                        ITEM_1 -> R.drawable.baseline_bluetooth
-                        ITEM_2 -> R.drawable.baseline_menu_24
-                        ITEM_3 -> R.drawable.baseline_menu_24
-                        ITEM_4 -> R.drawable.baseline_menu_24
+                        ITEM_1 -> VectorIcons.bluetooth
+                        ITEM_2 -> VectorIcons.menu
+                        ITEM_3 -> VectorIcons.menu
+                        ITEM_4 -> VectorIcons.menu
                         else -> {
-                            R.drawable.baseline_menu_24
+                            VectorIcons.menu
                         }
                     }
                     Icon(
