@@ -39,7 +39,8 @@ fun NavigationApp(
 
         composable("settings"){
             SettingsScreen(
-                settingsViewModel = settingsViewModel
+                settingsViewModel = settingsViewModel,
+                navController = navController
             )
         }
 

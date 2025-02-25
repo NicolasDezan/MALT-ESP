@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -15,7 +17,11 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.nicolas.maltesp.others.objects.VectorIcons
 import com.nicolas.maltesp.ui.theme.appcolors.ScaffoldColors
 import com.nicolas.maltesp.viewmodels.SettingsViewModel
 
@@ -23,6 +29,7 @@ import com.nicolas.maltesp.viewmodels.SettingsViewModel
 @Composable
 fun SettingsScreen(
     settingsViewModel: SettingsViewModel,
+    navController: NavController
 ) {
     Scaffold(
         topBar = {
@@ -30,7 +37,15 @@ fun SettingsScreen(
                 title = {
                     Text(text = "Configurações")
                 },
-                colors = ScaffoldColors.TopBar
+                colors = ScaffoldColors.TopBar,
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            ImageVector.vectorResource(id = VectorIcons.backArrow),
+                            contentDescription = "BackButton"
+                        )
+                    }
+                },
             )
         },
         content = { paddingValues ->
