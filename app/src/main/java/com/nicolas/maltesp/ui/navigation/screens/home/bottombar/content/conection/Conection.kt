@@ -13,13 +13,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
@@ -29,9 +29,7 @@ fun ConectionContent(
     context: Context,
     bluetoothViewModel: BluetoothViewModel,
 ) {
-    val temperature by bluetoothViewModel.temperature.collectAsState()
     val connectedDeviceName by bluetoothViewModel.connectedDeviceName.collectAsState()
-
 
     Box(
         contentAlignment = Alignment.Center,
@@ -49,14 +47,13 @@ fun ConectionContent(
                         modifier = Modifier
                             .size(16.dp)
                             .padding(end = 8.dp)
-                            .background(color = Color.Green, shape = CircleShape)
+                            .background(color = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f), shape = CircleShape)
                     )
                     Text(text = "Conectado: $connectedDeviceName", fontSize = 18.sp)
                 } else {
                     Text(text = "Não conectado", fontSize = 18.sp)
                 }
             }
-            Text("Temperatura: $temperature °C", fontSize = 24.sp)
             Spacer(modifier = Modifier.height(16.dp))
             Row {
                 Button(onClick = {
@@ -69,10 +66,6 @@ fun ConectionContent(
                     enabled = connectedDeviceName != null
                 ) { Text("Desconectar") }
             }
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = { bluetoothViewModel.sendCommand(context,"ON") }) { Text("Ligar LED") }
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = { bluetoothViewModel.sendCommand(context,"OFF") }) { Text("Desligar LED") }
         }
     }
 }

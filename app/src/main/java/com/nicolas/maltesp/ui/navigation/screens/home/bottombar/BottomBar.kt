@@ -20,11 +20,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
-import com.nicolas.maltesp.R
 import com.nicolas.maltesp.others.objects.VectorIcons
 import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.conection.ConectionContent
 import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.parameters.ParametersContent
-import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.test.TestContent
 import com.nicolas.maltesp.ui.theme.appcolors.ScaffoldColors
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 import com.nicolas.maltesp.viewmodels.ParametersViewModel
@@ -32,13 +30,11 @@ import com.nicolas.maltesp.viewmodels.ScaffoldViewModel
 
 const val ITEM_1 = "Conexão"
 const val ITEM_2 = "Parâmetros"
-const val ITEM_3 = "..."
-const val ITEM_4 = "Leitura"
 
 @Composable
 fun IconButtonsBottomBar(scaffoldViewModel: ScaffoldViewModel) {
     val selectedItem by scaffoldViewModel.bottomBarSelectedItem.collectAsState()
-    val items = listOf(ITEM_1, ITEM_2, ITEM_3, ITEM_4)
+    val items = listOf(ITEM_1, ITEM_2)
 
     NavigationBar {
         items.forEachIndexed { index, item ->
@@ -72,7 +68,6 @@ fun ContentBottomBar(
     bluetoothViewModel: BluetoothViewModel,
     scaffoldViewModel: ScaffoldViewModel,
     parametersViewModel: ParametersViewModel,
-    //settingsViewModel: SettingsViewModel
 ) {
     val selectedItem by scaffoldViewModel.bottomBarSelectedItem.collectAsState()
 
@@ -84,8 +79,6 @@ fun ContentBottomBar(
         when (selectedItem) {
             0 -> ContentBox(scaffoldViewModel) { ConectionContent(context = context, bluetoothViewModel = bluetoothViewModel) }
             1 -> ContentBox(scaffoldViewModel) { ParametersContent(parametersViewModel = parametersViewModel, bluetoothViewModel = bluetoothViewModel) }
-            2 -> ContentBox(scaffoldViewModel) { TestContent() }
-            3 -> ContentBox(scaffoldViewModel) { TestContent() }
         }
     }
 }
@@ -101,7 +94,7 @@ fun ContentBox(
         content()
         if (isFabExpanded) {
             Surface(
-                color = Color.Black.copy(alpha = 0.035f), // Cor semi-transparente
+                color = Color.Black.copy(alpha = 0.035f),
                 modifier = Modifier
                     .fillMaxSize()
                     .clickable(

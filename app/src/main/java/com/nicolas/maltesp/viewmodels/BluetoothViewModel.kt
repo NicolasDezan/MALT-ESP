@@ -19,9 +19,6 @@ class BluetoothViewModel(application: Application) : AndroidViewModel(applicatio
         const val READ_UUID = "12345678-1234-1234-1234-1234567890ac"
     }
 
-    private val _temperature = MutableStateFlow<String?>("")
-    val temperature = _temperature.asStateFlow()
-
     private val _connectedDeviceName = MutableStateFlow<String?>(null)
     val connectedDeviceName = _connectedDeviceName.asStateFlow()
 
@@ -47,12 +44,14 @@ class BluetoothViewModel(application: Application) : AndroidViewModel(applicatio
             },
             onDisconnected = {
                 _connectedDeviceName.value = null
-                _temperature.value = ""
                 _parametersReceived.value = Parameters.initializeParametersState()
             },
-            onReadUpdate = { temp ->
-                _temperature.value = temp
-                _parametersReceived.value = Parameters.testParametersState() //
+            onReadUpdate = { data ->
+                //Triagem de recebimento: PARAMETROS ATUAIS; PING_LIVE; LEITURA DE SENSORES
+
+                println("Received data: $data")
+
+                _parametersReceived.value = Parameters.testParametersState() // -> Vai virar um recebimento ja ja
 
                 // Cancela o pulso anterior, se existir
                 pulseJob?.cancel()
@@ -64,8 +63,6 @@ class BluetoothViewModel(application: Application) : AndroidViewModel(applicatio
                 pulseJob = viewModelScope.launch {
                     delay(500) // Aguarda 500 ms aiiii que gastura ta muito rapido
                     _pulseConection.value = false
-
-                    // TODO: Triagem de recebimento: PARAMETROS ATUAIS; PING_LIVE; LEITURA DE SENSORES
                 }
             },
             serviceUuid = SERVICE_UUID,
@@ -77,12 +74,11 @@ class BluetoothViewModel(application: Application) : AndroidViewModel(applicatio
     fun disconnect(context: Context) {
         BluetoothUtils.disconnectDevice(context)
         _connectedDeviceName.value = null
-        _temperature.value = ""
     }
 
-    fun sendCommand(context: Context, command: String) {
-        BluetoothUtils.writeCommand(context, command)
-    }
+//    fun sendCommandString(context: Context, command: String) {
+//        BluetoothUtils.writeCommand(context, command)
+//    }
 
     fun sendCommandArray(context: Context, byteArray: ByteArray) {
         BluetoothUtils.writeArrayByteCommand(context, byteArray)

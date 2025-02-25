@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         // BLUETOOTH
-        BluetoothUtils.requestBlePermissions(this)
+        BluetoothUtils.requestPermissions(this)
 
         // Inicialização do Banco de Dados:
         val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "database-name").build()

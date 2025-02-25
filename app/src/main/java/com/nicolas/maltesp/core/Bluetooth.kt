@@ -12,14 +12,12 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
 object BluetoothUtils {
-
     private var bluetoothGatt: BluetoothGatt? = null
     private var readCharacteristic: BluetoothGattCharacteristic? = null
     private var writeCharacteristic: BluetoothGattCharacteristic? = null
 
-    // Função para solicitar permissões BLE
     @RequiresApi(Build.VERSION_CODES.S)
-    fun requestBlePermissions(activity: Activity) {
+    fun requestPermissions(activity: Activity) {
         val requiredPermissions = arrayOf(
             Manifest.permission.BLUETOOTH_SCAN,
             Manifest.permission.BLUETOOTH_CONNECT,
@@ -33,21 +31,28 @@ object BluetoothUtils {
         }
     }
 
-    // Função para conectar ao dispositivo BLE e configurar características
+    // Função para conectar ao dispositivo e configurar características
+    @Suppress("DEPRECATION")
     fun connectToDevice(
         context: Context,
         deviceName: String,
         serviceUuid: String,
-        readCharacteristicUuid: String?, // UUID para característica de leitura (opcional)
-        writeCharacteristicUuid: String?, // UUID para característica de escrita (opcional)
-        onConnected: (String) -> Unit, // Callback chamado quando conectado
-        onDisconnected: () -> Unit, // Callback chamado quando desconectado
-        onReadUpdate: (String) -> Unit // Callback chamado quando há atualização de leitura
+        readCharacteristicUuid: String?,
+        writeCharacteristicUuid: String?,
+        onConnected: (String) -> Unit,
+        onDisconnected: () -> Unit,
+        onReadUpdate: (String) -> Unit
     ) {
-        val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+        val bluetoothManager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+        val bluetoothAdapter = bluetoothManager.adapter
+
+        if (bluetoothAdapter == null) {
+            Toast.makeText(context, "Dispositivo sem Bluetooth", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(context, "Permissão BLE negada", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Permissão Bluetooth negada\nPermita a permissão Bluetooth no aplicativo", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -94,10 +99,19 @@ object BluetoothUtils {
                         val descriptor = characteristic.getDescriptor(
                             java.util.UUID.fromString("00002902-0000-1000-8000-00805f9b34fb")
                         )
-                        descriptor?.value = BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE
-                        gatt.writeDescriptor(descriptor)
+                        descriptor?.let {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                // API 33 (Android 13)
+                                gatt.writeDescriptor(it, BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE)
+                            } else {
+                                // Este bloco else utiliza um método depreciado para rodar em dispositivos mais antigos
+                                it.value = BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE
+                                gatt.writeDescriptor(it)
+                            }
+                        }
                     } catch (e: SecurityException) {
-                        Toast.makeText(context, "Erro ao configurar notificações BLE", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Erro em readCharacteristic", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
 
@@ -105,6 +119,7 @@ object BluetoothUtils {
                     Toast.makeText(context, "Nenhuma característica válida encontrada", Toast.LENGTH_SHORT).show()
                 }
             }
+
 
             @Deprecated("Deprecated in Java")
             override fun onCharacteristicChanged(gatt: BluetoothGatt, characteristic: BluetoothGattCharacteristic) {
@@ -117,7 +132,8 @@ object BluetoothUtils {
         })
     }
 
-    // Função para desconectar o dispositivo BLE
+
+    @Suppress("DEPRECATION")
     fun disconnectDevice(context: Context) {
         try {
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED) {
@@ -128,8 +144,16 @@ object BluetoothUtils {
                         val descriptor = characteristic.getDescriptor(
                             java.util.UUID.fromString("00002902-0000-1000-8000-00805f9b34fb")
                         )
-                        descriptor?.value = BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE
-                        gatt.writeDescriptor(descriptor)
+                        descriptor?.let {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                // API 33 (Android 13)
+                                gatt.writeDescriptor(it, BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE)
+                            } else {
+                                // Este bloco else utiliza um método depreciado para rodar em dispositivos mais antigos
+                                it.value = BluetoothGattDescriptor.DISABLE_NOTIFICATION_VALUE
+                                gatt.writeDescriptor(it)
+                            }
+                        }
                     }
 
                     gatt.disconnect()
@@ -139,7 +163,7 @@ object BluetoothUtils {
                 readCharacteristic = null
                 writeCharacteristic = null
             } else {
-                Toast.makeText(context, "Permissão BLE negada", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Permissão negada", Toast.LENGTH_SHORT).show()
             }
         } catch (e: SecurityException) {
             Toast.makeText(context, "Erro ao desconectar: permissão necessária", Toast.LENGTH_SHORT).show()
@@ -148,96 +172,29 @@ object BluetoothUtils {
         }
     }
 
-    // Função para enviar um comando para a característica de escrita
-    // Função para enviar um comando à característica configurada
-    fun writeCommand(context: Context, command: Any) {
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(context, "Permissão BLE negada", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        try {
-            writeCharacteristic?.let {
-                when (command) {
-                    is String -> it.setValue(command) // Passa a String diretamente
-                    is ByteArray -> it.setValue(command) // Passa o ByteArray diretamente
-                    else -> {
-                        Toast.makeText(context, "Tipo de comando inválido", Toast.LENGTH_SHORT).show()
-                        return
-                    }
-                }
-                bluetoothGatt?.writeCharacteristic(it) // Envia o comando ao dispositivo
-            } ?: run {
-                Toast.makeText(context, "Característica de escrita não configurada", Toast.LENGTH_SHORT).show()
-            }
-        } catch (e: SecurityException) {
-            Toast.makeText(context, "Erro ao enviar comando", Toast.LENGTH_SHORT).show()
-        }
-    }
-
+    @Suppress("DEPRECATION")
     fun writeArrayByteCommand(context: Context, array: ByteArray) {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(context, "Permissão BLE negada", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Permissão negada", Toast.LENGTH_SHORT).show()
             return
         }
 
         try {
             writeCharacteristic?.let { characteristic ->
-                // Definir valor da característica e enviar
-                characteristic.value = array
-                bluetoothGatt?.writeCharacteristic(characteristic)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    // API 33 (Android 13) ou superior: usar o novo método
+                    bluetoothGatt?.writeCharacteristic(characteristic, array, BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT)
+                } else {
+                    // Este bloco else utiliza um método depreciado para rodar em dispositivos mais antigos
+                    characteristic.value = array
+                    bluetoothGatt?.writeCharacteristic(characteristic)
+                }
+
             } ?: run {
-                Toast.makeText(context, "Característica de escrita não configurada", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Erro em writeCharacteristic", Toast.LENGTH_SHORT).show()
             }
         } catch (e: SecurityException) {
             Toast.makeText(context, "Erro ao enviar comando", Toast.LENGTH_SHORT).show()
         }
     }
-
-//    fun writeArrayFloatCommand(context: Context, array: FloatArray) {
-//        if (ContextCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-//            Toast.makeText(context, "Permissão BLE negada", Toast.LENGTH_SHORT).show()
-//            return
-//        }
-//
-//        try {
-//            writeCharacteristic?.let { characteristic ->
-//                // Converter Array<Float> para ByteArray
-//                val byteBuffer = ByteBuffer.allocate(array.size * 4).order(ByteOrder.LITTLE_ENDIAN)
-//                array.forEach { byteBuffer.putFloat(it) }
-//                val byteArray = byteBuffer.array()
-//                // Definir valor da característica e enviar
-//                characteristic.value = byteArray
-//                bluetoothGatt?.writeCharacteristic(characteristic)
-//            } ?: run {
-//                Toast.makeText(context, "Característica de escrita não configurada", Toast.LENGTH_SHORT).show()
-//            }
-//        } catch (e: SecurityException) {
-//            Toast.makeText(context, "Erro ao enviar comando", Toast.LENGTH_SHORT).show()
-//        }
-//    }
-//
-//    fun writeArrayShortCommand(context: Context, array: ShortArray) {
-//        if (ContextCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-//            Toast.makeText(context, "Permissão BLE negada", Toast.LENGTH_SHORT).show()
-//            return
-//        }
-//
-//        try {
-//            writeCharacteristic?.let { characteristic ->
-//                // Converter Array<Short> para ByteArray
-//                val byteBuffer = ByteBuffer.allocate(array.size * 2).order(ByteOrder.LITTLE_ENDIAN)
-//                array.forEach { byteBuffer.putShort(it) }
-//                val byteArray = byteBuffer.array()
-//                // Definir valor da característica e enviar
-//                characteristic.value = byteArray
-//                bluetoothGatt?.writeCharacteristic(characteristic)
-//            } ?: run {
-//                Toast.makeText(context, "Característica de escrita não configurada", Toast.LENGTH_SHORT).show()
-//            }
-//        } catch (e: SecurityException) {
-//            Toast.makeText(context, "Erro ao enviar comando", Toast.LENGTH_SHORT).show()
-//        }
-//    }
-
 }
