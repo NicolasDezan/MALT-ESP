@@ -59,7 +59,10 @@ fun ConectionContent(
             Text("Temperatura: $temperature °C", fontSize = 24.sp)
             Spacer(modifier = Modifier.height(16.dp))
             Row {
-                Button(onClick = { bluetoothViewModel.connect(context) }) { Text("Conectar") }
+                Button(onClick = {
+                    if (!bluetoothViewModel.isConnected()){
+                    bluetoothViewModel.connect(context)}
+                }) { Text("Conectar") }
                 Spacer(modifier = Modifier.width(16.dp))
                 Button(
                     onClick = { bluetoothViewModel.disconnect(context) },
