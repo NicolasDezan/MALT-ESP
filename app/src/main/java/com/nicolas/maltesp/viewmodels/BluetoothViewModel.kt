@@ -61,7 +61,7 @@ class BluetoothViewModel(application: Application) : AndroidViewModel(applicatio
 
                 // Agenda a desativação do pulso após 500 ms
                 pulseJob = viewModelScope.launch {
-                    delay(500) // Aguarda 500 ms aiiii que gastura ta muito rapido
+                    delay(1000) // Aguarda 500 ms aiiii que gastura ta muito rapido
                     _pulseConection.value = false
                 }
             },
