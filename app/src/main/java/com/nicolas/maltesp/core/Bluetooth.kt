@@ -41,7 +41,7 @@ object BluetoothUtils {
         writeCharacteristicUuid: String?,
         onConnected: (String) -> Unit,
         onDisconnected: () -> Unit,
-        onReadUpdate: (String) -> Unit
+        onReadUpdate: (ByteArray) -> Unit
     ) {
         val bluetoothManager = context.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
         val bluetoothAdapter = bluetoothManager.adapter
@@ -125,8 +125,8 @@ object BluetoothUtils {
             override fun onCharacteristicChanged(gatt: BluetoothGatt, characteristic: BluetoothGattCharacteristic) {
                 if (characteristic.uuid == readCharacteristic?.uuid) {
                     val value = characteristic.value
-                    val data = value?.let { String(it) } ?: "N/A"
-                    onReadUpdate(data)
+                    //val data = value?.let { String(it) } ?: "N/A" //Se quiser receber String esse é o caminho...
+                    onReadUpdate(value)
                 }
             }
         })
