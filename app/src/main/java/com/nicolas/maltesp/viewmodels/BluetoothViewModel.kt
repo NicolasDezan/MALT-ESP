@@ -83,4 +83,11 @@ class BluetoothViewModel(application: Application) : AndroidViewModel(applicatio
     fun sendCommandArray(context: Context, byteArray: ByteArray) {
         BluetoothUtils.writeArrayByteCommand(context, byteArray)
     }
+
+        private fun convertBytesESPToIntKotlin(espBytes: ByteArray): List<Int> {
+            val byteArray = espBytes.map { (it.toInt() - 128).toByte() }.toByteArray()
+            val intArray = byteArray.map { it.toInt() + 128 }
+            return intArray
+        }
+
 }
