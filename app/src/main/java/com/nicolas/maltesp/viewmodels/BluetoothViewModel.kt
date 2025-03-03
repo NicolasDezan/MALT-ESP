@@ -49,9 +49,13 @@ class BluetoothViewModel(application: Application) : AndroidViewModel(applicatio
             onReadUpdate = { data ->
                 //Triagem de recebimento: PARAMETROS ATUAIS; PING_LIVE; LEITURA DE SENSORES
 
-                println("Received data: $data")
 
-                _parametersReceived.value = Parameters.testParametersState() // -> Vai virar um recebimento ja ja
+                val convertedData = convertBytesESPToIntKotlin(data)
+                println("Converted Data: $convertedData")
+
+                if(convertedData[0] == 1) {
+                    _parametersReceived.value = Parameters.receiveParameters(convertedData) // -> Vai virar um recebimento ja ja
+                }
 
                 // Cancela o pulso anterior, se existir
                 pulseJob?.cancel()
