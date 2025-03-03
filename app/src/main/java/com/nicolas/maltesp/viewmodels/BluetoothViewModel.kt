@@ -54,7 +54,7 @@ class BluetoothViewModel(application: Application) : AndroidViewModel(applicatio
                 println("Converted Data: $convertedData")
 
                 if(convertedData[0] == 1) {
-                    _parametersReceived.value = Parameters.receiveParameters(convertedData) // -> Vai virar um recebimento ja ja
+                    _parametersReceived.value = Parameters.receiveParameters(convertedData)
                 }
 
                 // Cancela o pulso anterior, se existir
