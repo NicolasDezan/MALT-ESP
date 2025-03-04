@@ -78,9 +78,15 @@ fun SettingFloatingActionButton(
             title = "Puxar Parâmetros",
             onClick = {
                 if (parametersReceived != Parameters.initializeParametersState() && bluetoothViewModel.isConnected()) {
+
+                    bluetoothViewModel.sendCommandArray(
+                        context = context,
+                        byteArray = byteArrayOf(-127)
+                    )
+
+                    // TODO: Pequeno bug de sincronia para resolver.
                     parametersViewModel.updateParametersStateFromParametersReceived(parametersReceived)
                     scaffoldViewModel.toggleFab()
-                    Toast.makeText(context, "Os parâmetros foram obtidos e carregados", Toast.LENGTH_SHORT).show()
                 }else {
                     Toast.makeText(context, "Erro ao puxar os parâmetros. Verifique a conexão", Toast.LENGTH_SHORT).show()
                 }
