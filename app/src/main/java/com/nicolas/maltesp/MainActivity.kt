@@ -16,11 +16,11 @@ import com.nicolas.maltesp.data.AppDatabase
 import com.nicolas.maltesp.ui.navigation.NavigationApp
 import com.nicolas.maltesp.ui.theme.MaltEspTheme
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
-import com.nicolas.maltesp.viewmodels.ScaffoldViewModel
 import com.nicolas.maltesp.viewmodels.ParametersViewModel
 import com.nicolas.maltesp.viewmodels.factory.ParametersViewModelFactory
 import com.nicolas.maltesp.viewmodels.SettingsViewModel
 import com.nicolas.maltesp.viewmodels.factory.SettingsViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
 /*################################################################
 ######################## MAIN ACTIVITY ###########################
@@ -29,6 +29,7 @@ import com.nicolas.maltesp.viewmodels.factory.SettingsViewModelFactory
 // Extensão para acessar o DataStore no contexto da Activity
 private val ComponentActivity.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +48,6 @@ class MainActivity : ComponentActivity() {
         val settingsViewModelFactory = SettingsViewModelFactory(dataStore)
 
         // VIEW MODELS
-        val scaffoldViewModel by viewModels<ScaffoldViewModel>()
         val parametersViewModel: ParametersViewModel by viewModels { parametersDao }
         val bluetoothViewModel by viewModels<BluetoothViewModel>()
         val settingsViewModel: SettingsViewModel by viewModels { settingsViewModelFactory }
@@ -60,7 +60,6 @@ class MainActivity : ComponentActivity() {
                 NavigationApp(
                     context = this,
                     bluetoothViewModel = bluetoothViewModel,
-                    scaffoldViewModel = scaffoldViewModel,
                     parametersViewModel = parametersViewModel,
                     settingsViewModel = settingsViewModel
                 )

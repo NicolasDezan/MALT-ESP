@@ -1,34 +1,24 @@
 package com.nicolas.maltesp.viewmodels
 
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import com.nicolas.maltesp.viewmodels.repositories.ScaffoldRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
+@HiltViewModel
+class ScaffoldViewModel
+@Inject constructor(
+    private val repository: ScaffoldRepository,
+) : ViewModel() {
+    val bottomBarSelectedItem = repository.bottomBarSelectedItem
 
-class ScaffoldViewModel : ViewModel() {
-
-    /*################################################################
-    ######################## BOTTOMBAR ###############################
-    ##################################################################*/
-
-    private val _bottomBarSelectedItem = MutableStateFlow(0)
-    val bottomBarSelectedItem = _bottomBarSelectedItem.asStateFlow()
+    val isFabExpanded = repository.isFabExpanded
 
     fun bottomBarSelectItem(index: Int) {
-        _bottomBarSelectedItem.value = index
+        repository.bottomBarSelectItem(index)
     }
 
-    /*################################################################
-    ######################## FAB #####################################
-    ##################################################################*/
-
-    private val _isFabExpanded = MutableStateFlow(false)
-    val isFabExpanded = _isFabExpanded.asStateFlow()
-
-    // Alterna a expansão do FloatingActionButton
     fun toggleFab() {
-        _isFabExpanded.value = !_isFabExpanded.value
+        repository.toggleFab()
     }
-
-
 }

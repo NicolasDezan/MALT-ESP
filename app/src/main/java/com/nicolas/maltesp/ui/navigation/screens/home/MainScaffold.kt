@@ -14,13 +14,11 @@ import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.IconButtonsBotto
 import com.nicolas.maltesp.ui.navigation.screens.home.topbar.SettingTopAppBar
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 import com.nicolas.maltesp.viewmodels.ParametersViewModel
-import com.nicolas.maltesp.viewmodels.ScaffoldViewModel
 
 @Composable
 fun MainScaffold(
     context: Context,
     bluetoothViewModel : BluetoothViewModel,
-    scaffoldViewModel: ScaffoldViewModel,
     parametersViewModel: ParametersViewModel,
     navController: NavController,
     ){
@@ -36,7 +34,6 @@ fun MainScaffold(
             topBar = { SettingTopAppBar(
                 scope = scope,
                 drawerState = drawerState,
-                scaffoldViewModel = scaffoldViewModel,
                 bluetoothViewModel = bluetoothViewModel
             ) },
 
@@ -44,14 +41,12 @@ fun MainScaffold(
                 SettingFloatingActionButton(
                     context = context,
                     parametersViewModel = parametersViewModel,
-                    scaffoldViewModel = scaffoldViewModel,
                     bluetoothViewModel = bluetoothViewModel
                 )
             },
 
             bottomBar = {
                 IconButtonsBottomBar(
-                    scaffoldViewModel = scaffoldViewModel
                 )
             },
 
@@ -60,7 +55,6 @@ fun MainScaffold(
                     context = context,
                     paddingValues = paddingValues,
                     bluetoothViewModel = bluetoothViewModel,
-                    scaffoldViewModel = scaffoldViewModel,
                     parametersViewModel = parametersViewModel
                 )
             }

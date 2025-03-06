@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.nicolas.maltesp.others.objects.VectorIcons
 import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.conection.ConectionContent
 import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.parameters.ParametersContent
@@ -32,7 +33,9 @@ const val ITEM_1 = "Conexão"
 const val ITEM_2 = "Parâmetros"
 
 @Composable
-fun IconButtonsBottomBar(scaffoldViewModel: ScaffoldViewModel) {
+fun IconButtonsBottomBar(
+    scaffoldViewModel: ScaffoldViewModel = hiltViewModel()
+    ) {
     val selectedItem by scaffoldViewModel.bottomBarSelectedItem.collectAsState()
     val items = listOf(ITEM_1, ITEM_2)
 
@@ -66,7 +69,7 @@ fun ContentBottomBar(
     context: Context,
     paddingValues: PaddingValues,
     bluetoothViewModel: BluetoothViewModel,
-    scaffoldViewModel: ScaffoldViewModel,
+    scaffoldViewModel: ScaffoldViewModel = hiltViewModel(),
     parametersViewModel: ParametersViewModel,
 ) {
     val selectedItem by scaffoldViewModel.bottomBarSelectedItem.collectAsState()
@@ -77,15 +80,15 @@ fun ContentBottomBar(
             .padding(paddingValues)
     ) {
         when (selectedItem) {
-            0 -> ContentBox(scaffoldViewModel) { ConectionContent(context = context, bluetoothViewModel = bluetoothViewModel) }
-            1 -> ContentBox(scaffoldViewModel) { ParametersContent(parametersViewModel = parametersViewModel, bluetoothViewModel = bluetoothViewModel) }
+            0 -> ContentBox { ConectionContent(context = context, bluetoothViewModel = bluetoothViewModel) }
+            1 -> ContentBox { ParametersContent(parametersViewModel = parametersViewModel, bluetoothViewModel = bluetoothViewModel) }
         }
     }
 }
 
 @Composable
 fun ContentBox(
-    scaffoldViewModel: ScaffoldViewModel,
+    scaffoldViewModel: ScaffoldViewModel = hiltViewModel(),
     content: @Composable () -> Unit
 ){
     val isFabExpanded by scaffoldViewModel.isFabExpanded.collectAsState()

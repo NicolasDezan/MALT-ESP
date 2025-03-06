@@ -42,6 +42,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.nicolas.maltesp.data.newRecipe
 import com.nicolas.maltesp.others.classes.Parameters
 import com.nicolas.maltesp.others.objects.VectorIcons
@@ -64,8 +65,8 @@ data class ActionItem(
 @Composable
 fun SettingFloatingActionButton(
     context: Context,
+    scaffoldViewModel: ScaffoldViewModel = hiltViewModel(),
     parametersViewModel: ParametersViewModel,
-    scaffoldViewModel: ScaffoldViewModel,
     bluetoothViewModel: BluetoothViewModel,
 ) {
     val isFabExpanded by scaffoldViewModel.isFabExpanded.collectAsState()

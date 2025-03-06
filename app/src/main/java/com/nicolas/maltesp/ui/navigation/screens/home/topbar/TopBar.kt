@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import com.nicolas.maltesp.R
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.nicolas.maltesp.others.objects.VectorIcons
 import com.nicolas.maltesp.ui.theme.appcolors.ScaffoldColors
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
@@ -30,11 +30,10 @@ import kotlinx.coroutines.launch
 @Composable
 fun SettingTopAppBar(scope: CoroutineScope,
                      drawerState: DrawerState,
-                     scaffoldViewModel: ScaffoldViewModel,
                      bluetoothViewModel: BluetoothViewModel
 ) {
     TopAppBar(
-        title = { TobBarTitle(scaffoldViewModel, bluetoothViewModel) },
+        title = { TobBarTitle(bluetoothViewModel) },
         navigationIcon = {
             IconButton(onClick = { scope.launch { drawerState.open() } }) {
                 Icon(
@@ -49,16 +48,18 @@ fun SettingTopAppBar(scope: CoroutineScope,
 
 @Composable
 fun TobBarTitle(
-    scaffoldViewModel: ScaffoldViewModel,
-    bluetoothViewModel: BluetoothViewModel
-) {
+    bluetoothViewModel: BluetoothViewModel,
+    scaffoldViewModel: ScaffoldViewModel = hiltViewModel(),
+    ) {
     val selectedItem by scaffoldViewModel.bottomBarSelectedItem.collectAsState()
 
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(end = 4.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(end = 4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
             if (selectedItem == 1) {
                 Text(text = "Parâmetros")
             } else {
