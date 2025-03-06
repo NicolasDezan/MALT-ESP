@@ -66,7 +66,7 @@ data class ActionItem(
 fun SettingFloatingActionButton(
     context: Context,
     scaffoldViewModel: ScaffoldViewModel = hiltViewModel(),
-    parametersViewModel: ParametersViewModel,
+    parametersViewModel: ParametersViewModel = hiltViewModel(),
     bluetoothViewModel: BluetoothViewModel,
 ) {
     val isFabExpanded by scaffoldViewModel.isFabExpanded.collectAsState()
@@ -175,7 +175,6 @@ fun SettingFloatingActionButton(
 
     if (showSelectRecipeList) {
         SelectRecipeDialog(
-            parametersViewModel = parametersViewModel,
             onDismiss = { showSelectRecipeList = false },
             context = context
         )

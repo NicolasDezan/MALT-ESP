@@ -12,11 +12,16 @@ import com.nicolas.maltesp.others.dataclasses.ParametersState
 import com.nicolas.maltesp.others.dataclasses.SteepingState
 import com.nicolas.maltesp.others.objects.MinRangeValues
 import com.nicolas.maltesp.others.objects.MultiplierRange
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ParametersViewModel(private val dao: MaltingRecipeDao) : ViewModel() {
+@HiltViewModel
+class ParametersViewModel @Inject constructor(
+    private val dao: MaltingRecipeDao
+) : ViewModel() {
 
     private val _parametersState = MutableStateFlow(Parameters.initializeParametersState())
     val parametersState = _parametersState.asStateFlow()

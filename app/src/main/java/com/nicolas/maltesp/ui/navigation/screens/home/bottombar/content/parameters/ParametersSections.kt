@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.nicolas.maltesp.others.dataclasses.ParametersRange
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 import com.nicolas.maltesp.viewmodels.ParametersViewModel
@@ -30,7 +31,11 @@ data class ParameterSectionData(
 )
 
 @Composable
-fun parameterSectionData(parametersViewModel: ParametersViewModel, bluetoothViewModel: BluetoothViewModel): List<ParameterSectionData> {
+fun parameterSectionData(
+    parametersViewModel: ParametersViewModel = hiltViewModel(),
+    bluetoothViewModel: BluetoothViewModel
+): List<ParameterSectionData> {
+
     val parametersState by parametersViewModel.parametersState.collectAsState()
     val parametersRange by parametersViewModel.parametersRange.collectAsState()
     val parametersReceived by bluetoothViewModel.parametersReceived.collectAsState()

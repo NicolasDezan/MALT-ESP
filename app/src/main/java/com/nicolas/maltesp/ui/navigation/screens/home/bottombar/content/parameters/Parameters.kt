@@ -20,15 +20,13 @@ import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.paramete
 import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.parameters.components.ParameterFieldInput
 import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.parameters.components.SectionTitle
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
-import com.nicolas.maltesp.viewmodels.ParametersViewModel
 
 
 @Composable
 fun ParametersContent(
-    parametersViewModel: ParametersViewModel,
     bluetoothViewModel: BluetoothViewModel,
 ) {
-    val parameterSectionData = parameterSectionData(parametersViewModel, bluetoothViewModel)
+    val parameterSectionData = parameterSectionData(bluetoothViewModel = bluetoothViewModel)
 
     Column {
         LazyColumn(
@@ -58,7 +56,6 @@ fun ParametersContent(
                         ) {
                             NewRecipeButton(
                                 textButton = "Salvar Nova Receita",
-                                parametersViewModel = parametersViewModel
                             )
                         }
                     }

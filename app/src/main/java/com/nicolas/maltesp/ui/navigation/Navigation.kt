@@ -8,14 +8,12 @@ import androidx.navigation.compose.rememberNavController
 import com.nicolas.maltesp.ui.navigation.screens.home.MainScaffold
 import com.nicolas.maltesp.ui.navigation.screens.settings.SettingsScreen
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
-import com.nicolas.maltesp.viewmodels.ParametersViewModel
 import com.nicolas.maltesp.viewmodels.SettingsViewModel
 
 @Composable
 fun NavigationApp(
     context: Context,
     bluetoothViewModel : BluetoothViewModel,
-    parametersViewModel: ParametersViewModel,
     settingsViewModel: SettingsViewModel
 ){
     val navController = rememberNavController()
@@ -28,8 +26,6 @@ fun NavigationApp(
             MainScaffold(
                 context = context,
                 bluetoothViewModel = bluetoothViewModel,
-                parametersViewModel = parametersViewModel,
-                //settingsViewModel = settingsViewModel,
                 navController = navController
             )
         }

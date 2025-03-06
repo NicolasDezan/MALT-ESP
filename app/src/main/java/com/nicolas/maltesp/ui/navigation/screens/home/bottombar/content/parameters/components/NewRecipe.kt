@@ -16,12 +16,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.nicolas.maltesp.data.newRecipe
 import com.nicolas.maltesp.viewmodels.ParametersViewModel
 import kotlin.random.Random
 
 @Composable
-fun NewRecipeButton(textButton: String, parametersViewModel: ParametersViewModel){
+fun NewRecipeButton(
+    textButton: String,
+    parametersViewModel: ParametersViewModel = hiltViewModel()
+){
     val showDialog = remember { mutableStateOf(false) }
     val context = LocalContext.current
 

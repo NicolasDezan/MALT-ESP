@@ -70,7 +70,6 @@ fun ContentBottomBar(
     paddingValues: PaddingValues,
     bluetoothViewModel: BluetoothViewModel,
     scaffoldViewModel: ScaffoldViewModel = hiltViewModel(),
-    parametersViewModel: ParametersViewModel,
 ) {
     val selectedItem by scaffoldViewModel.bottomBarSelectedItem.collectAsState()
 
@@ -81,7 +80,7 @@ fun ContentBottomBar(
     ) {
         when (selectedItem) {
             0 -> ContentBox { ConectionContent(context = context, bluetoothViewModel = bluetoothViewModel) }
-            1 -> ContentBox { ParametersContent(parametersViewModel = parametersViewModel, bluetoothViewModel = bluetoothViewModel) }
+            1 -> ContentBox { ParametersContent(bluetoothViewModel = bluetoothViewModel) }
         }
     }
 }

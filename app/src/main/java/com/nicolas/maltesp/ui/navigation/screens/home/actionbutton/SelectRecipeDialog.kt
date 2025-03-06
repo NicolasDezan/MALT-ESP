@@ -21,12 +21,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.nicolas.maltesp.others.objects.VectorIcons
 import com.nicolas.maltesp.viewmodels.ParametersViewModel
 
 @Composable
 fun SelectRecipeDialog(
-    parametersViewModel: ParametersViewModel,
+    parametersViewModel: ParametersViewModel = hiltViewModel(),
     onDismiss: () -> Unit,
     context: Context
 ) {

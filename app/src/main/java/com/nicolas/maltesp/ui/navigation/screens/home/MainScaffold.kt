@@ -13,13 +13,11 @@ import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.ContentBottomBar
 import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.IconButtonsBottomBar
 import com.nicolas.maltesp.ui.navigation.screens.home.topbar.SettingTopAppBar
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
-import com.nicolas.maltesp.viewmodels.ParametersViewModel
 
 @Composable
 fun MainScaffold(
     context: Context,
     bluetoothViewModel : BluetoothViewModel,
-    parametersViewModel: ParametersViewModel,
     navController: NavController,
     ){
     val scope = rememberCoroutineScope()
@@ -40,7 +38,6 @@ fun MainScaffold(
             floatingActionButton = {
                 SettingFloatingActionButton(
                     context = context,
-                    parametersViewModel = parametersViewModel,
                     bluetoothViewModel = bluetoothViewModel
                 )
             },
@@ -55,7 +52,6 @@ fun MainScaffold(
                     context = context,
                     paddingValues = paddingValues,
                     bluetoothViewModel = bluetoothViewModel,
-                    parametersViewModel = parametersViewModel
                 )
             }
         )

@@ -16,8 +16,6 @@ import com.nicolas.maltesp.data.AppDatabase
 import com.nicolas.maltesp.ui.navigation.NavigationApp
 import com.nicolas.maltesp.ui.theme.MaltEspTheme
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
-import com.nicolas.maltesp.viewmodels.ParametersViewModel
-import com.nicolas.maltesp.viewmodels.factory.ParametersViewModelFactory
 import com.nicolas.maltesp.viewmodels.SettingsViewModel
 import com.nicolas.maltesp.viewmodels.factory.SettingsViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,14 +39,10 @@ class MainActivity : ComponentActivity() {
         // Inicialização do Banco de Dados:
         val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "database-name").build()
 
-        // DAO
-        val parametersDao = ParametersViewModelFactory(db.maltingRecipeDao())
-
         // DATASTORE
         val settingsViewModelFactory = SettingsViewModelFactory(dataStore)
 
         // VIEW MODELS
-        val parametersViewModel: ParametersViewModel by viewModels { parametersDao }
         val bluetoothViewModel by viewModels<BluetoothViewModel>()
         val settingsViewModel: SettingsViewModel by viewModels { settingsViewModelFactory }
 
@@ -60,7 +54,6 @@ class MainActivity : ComponentActivity() {
                 NavigationApp(
                     context = this,
                     bluetoothViewModel = bluetoothViewModel,
-                    parametersViewModel = parametersViewModel,
                     settingsViewModel = settingsViewModel
                 )
             }
