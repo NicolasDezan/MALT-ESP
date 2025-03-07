@@ -15,6 +15,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -31,6 +36,8 @@ fun SettingsScreen(
     settingsViewModel: SettingsViewModel,
     navController: NavController
 ) {
+    var enabledIcon by remember {mutableStateOf(true)}
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -39,7 +46,14 @@ fun SettingsScreen(
                 },
                 colors = ScaffoldColors.TopBar,
                 navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(
+                        onClick = {
+                            navController.popBackStack()
+                            enabledIcon = false
+                                  },
+                        enabled = enabledIcon
+                    )
+                    {
                         Icon(
                             ImageVector.vectorResource(id = VectorIcons.backArrow),
                             contentDescription = "BackButton"
