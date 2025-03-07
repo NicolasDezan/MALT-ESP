@@ -7,6 +7,8 @@ import com.nicolas.maltesp.viewmodels.repositories.BluetoothRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -31,6 +33,8 @@ class BluetoothRepositoryImpl @Inject constructor(
     private val _parametersReceived = MutableStateFlow(Parameters.initializeParametersState())
     override val parametersReceived = _parametersReceived.asStateFlow()
 
+    private val coroutineScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+
     override fun connect(deviceName: String) {
         BluetoothUtils.connectToDevice(
             context = context,
@@ -52,7 +56,7 @@ class BluetoothRepositoryImpl @Inject constructor(
                 pulseJob?.cancel()
                 _pulseConnection.value = true
 
-                pulseJob = CoroutineScope(Dispatchers.IO).launch {
+                pulseJob = coroutineScope.launch {
                     delay(1000)
                     _pulseConnection.value = false
                 }
@@ -65,6 +69,9 @@ class BluetoothRepositoryImpl @Inject constructor(
 
     override fun disconnect() {
         BluetoothUtils.disconnectDevice(context)
+        coroutineScope.cancel()
+        _pulseConnection.value = false
+        pulseJob?.cancel()
         _connectedDeviceName.value = null
     }
 
