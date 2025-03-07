@@ -10,9 +10,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.room.Room
 import com.nicolas.maltesp.core.BluetoothUtils
-import com.nicolas.maltesp.data.AppDatabase
 import com.nicolas.maltesp.ui.navigation.NavigationApp
 import com.nicolas.maltesp.ui.theme.MaltEspTheme
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
@@ -35,9 +33,6 @@ class MainActivity : ComponentActivity() {
 
         // BLUETOOTH
         BluetoothUtils.requestPermissions(this)
-
-        // Inicialização do Banco de Dados:
-        val db = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "database-name").build()
 
         // DATASTORE
         val settingsViewModelFactory = SettingsViewModelFactory(dataStore)
