@@ -1,6 +1,5 @@
 package com.nicolas.maltesp.ui.navigation.screens.home.bottombar
 
-import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -25,8 +24,6 @@ import com.nicolas.maltesp.others.objects.VectorIcons
 import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.conection.ConectionContent
 import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.parameters.ParametersContent
 import com.nicolas.maltesp.ui.theme.appcolors.ScaffoldColors
-import com.nicolas.maltesp.viewmodels.BluetoothViewModel
-import com.nicolas.maltesp.viewmodels.ParametersViewModel
 import com.nicolas.maltesp.viewmodels.ScaffoldViewModel
 
 const val ITEM_1 = "Conexão"
@@ -66,9 +63,7 @@ fun IconButtonsBottomBar(
 
 @Composable
 fun ContentBottomBar(
-    context: Context,
     paddingValues: PaddingValues,
-    bluetoothViewModel: BluetoothViewModel,
     scaffoldViewModel: ScaffoldViewModel = hiltViewModel(),
 ) {
     val selectedItem by scaffoldViewModel.bottomBarSelectedItem.collectAsState()
@@ -79,8 +74,8 @@ fun ContentBottomBar(
             .padding(paddingValues)
     ) {
         when (selectedItem) {
-            0 -> ContentBox { ConectionContent(context = context, bluetoothViewModel = bluetoothViewModel) }
-            1 -> ContentBox { ParametersContent(bluetoothViewModel = bluetoothViewModel) }
+            0 -> ContentBox { ConectionContent() }
+            1 -> ContentBox { ParametersContent() }
         }
     }
 }

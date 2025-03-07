@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.nicolas.maltesp.others.objects.VectorIcons
 import com.nicolas.maltesp.ui.theme.appcolors.ScaffoldColors
@@ -33,7 +34,6 @@ import com.nicolas.maltesp.viewmodels.SettingsViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
-    settingsViewModel: SettingsViewModel,
     navController: NavController
 ) {
     var enabledIcon by remember {mutableStateOf(true)}
@@ -65,7 +65,6 @@ fun SettingsScreen(
         content = { paddingValues ->
             SettingsContent(
                 paddingValues = paddingValues,
-                settingsViewModel = settingsViewModel
             )
         }
     )
@@ -74,8 +73,10 @@ fun SettingsScreen(
 @Composable
 fun SettingsContent(
     paddingValues: PaddingValues,
-    settingsViewModel: SettingsViewModel,
+    settingsViewModel: SettingsViewModel = hiltViewModel(),
 ) {
+    val isDarkTheme by settingsViewModel.themeFlow.collectAsState()
+
     Box(
         modifier = Modifier
             .padding(paddingValues)
@@ -96,16 +97,16 @@ fun SettingsContent(
                         style = MaterialTheme.typography.titleMedium)
                     Box(contentAlignment = Alignment.CenterEnd, modifier = Modifier.fillMaxWidth()) {
                         ThemeSwitcher(
-                            darkTheme = settingsViewModel.getTheme(),
+                            darkTheme = isDarkTheme,
                             size = 48.dp
-                        ) { settingsViewModel.saveTheme(!settingsViewModel.getTheme()) }
+                        ) { settingsViewModel.saveTheme(!isDarkTheme) }
                     }
                 }
             }
 
         }
 
-        // Implementar "Salvar ultima receita enviada true false"}
+        // TODO: Implementar "Salvar ultima receita enviada true false"}
 
     }
 }

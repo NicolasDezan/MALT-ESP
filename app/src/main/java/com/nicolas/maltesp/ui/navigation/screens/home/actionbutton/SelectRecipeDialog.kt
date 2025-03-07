@@ -1,7 +1,5 @@
 package com.nicolas.maltesp.ui.navigation.screens.home.actionbutton
 
-import android.content.Context
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,7 +27,6 @@ import com.nicolas.maltesp.viewmodels.RecipesViewModel
 fun SelectRecipeDialog(
     recipesViewModel: RecipesViewModel = hiltViewModel(),
     onDismiss: () -> Unit,
-    context: Context
 ) {
     val recipeNames by recipesViewModel.recipeNames.collectAsState()
     recipesViewModel.refreshRecipeNames()
@@ -56,7 +53,7 @@ fun SelectRecipeDialog(
                             IconButton(onClick = {
                                 recipesViewModel.deleteRecipeByName(recipeName)
                                 onDismiss()
-                                Toast.makeText(context, "A receita '$recipeName' foi excluída", Toast.LENGTH_SHORT).show()
+                                //Toast.makeText(context, "A receita '$recipeName' foi excluída", Toast.LENGTH_SHORT).show()
                             }) {
                                 Icon(
                                     imageVector = ImageVector.vectorResource(VectorIcons.thrashDelete),

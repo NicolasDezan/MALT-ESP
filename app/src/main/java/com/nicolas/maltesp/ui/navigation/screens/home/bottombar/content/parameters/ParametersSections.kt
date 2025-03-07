@@ -33,7 +33,7 @@ data class ParameterSectionData(
 @Composable
 fun parameterSectionData(
     parametersViewModel: ParametersViewModel = hiltViewModel(),
-    bluetoothViewModel: BluetoothViewModel
+    bluetoothViewModel: BluetoothViewModel = hiltViewModel()
 ): List<ParameterSectionData> {
 
     val parametersState by parametersViewModel.parametersState.collectAsState()

@@ -1,6 +1,5 @@
 package com.nicolas.maltesp.ui.navigation.screens.home
 
-import android.content.Context
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
@@ -12,12 +11,9 @@ import com.nicolas.maltesp.ui.navigation.screens.home.actionbutton.SettingFloati
 import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.ContentBottomBar
 import com.nicolas.maltesp.ui.navigation.screens.home.bottombar.IconButtonsBottomBar
 import com.nicolas.maltesp.ui.navigation.screens.home.topbar.SettingTopAppBar
-import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 
 @Composable
 fun MainScaffold(
-    context: Context,
-    bluetoothViewModel : BluetoothViewModel,
     navController: NavController,
     ){
     val scope = rememberCoroutineScope()
@@ -32,13 +28,10 @@ fun MainScaffold(
             topBar = { SettingTopAppBar(
                 scope = scope,
                 drawerState = drawerState,
-                bluetoothViewModel = bluetoothViewModel
             ) },
 
             floatingActionButton = {
                 SettingFloatingActionButton(
-                    context = context,
-                    bluetoothViewModel = bluetoothViewModel
                 )
             },
 
@@ -49,9 +42,7 @@ fun MainScaffold(
 
             content = { paddingValues ->
                 ContentBottomBar(
-                    context = context,
                     paddingValues = paddingValues,
-                    bluetoothViewModel = bluetoothViewModel,
                 )
             }
         )

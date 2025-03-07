@@ -65,11 +65,10 @@ data class ActionItem(
 
 @Composable
 fun SettingFloatingActionButton(
-    context: Context,
     scaffoldViewModel: ScaffoldViewModel = hiltViewModel(),
     parametersViewModel: ParametersViewModel = hiltViewModel(),
     recipesViewModel: RecipesViewModel = hiltViewModel(),
-    bluetoothViewModel: BluetoothViewModel,
+    bluetoothViewModel: BluetoothViewModel = hiltViewModel(),
 ) {
     val isFabExpanded by scaffoldViewModel.isFabExpanded.collectAsState()
     val parametersReceived by bluetoothViewModel.parametersReceived.collectAsState()
@@ -83,7 +82,6 @@ fun SettingFloatingActionButton(
                 if (parametersReceived != Parameters.initializeParametersState() && bluetoothViewModel.isConnected()) {
 
                     bluetoothViewModel.sendCommandArray(
-                        context = context,
                         byteArray = byteArrayOf(-127)
                     )
 
@@ -91,7 +89,7 @@ fun SettingFloatingActionButton(
                     parametersViewModel.updateParametersStateFromParametersReceived(parametersReceived)
                     scaffoldViewModel.toggleFab()
                 }else {
-                    Toast.makeText(context, "Erro ao puxar os parâmetros. Verifique a conexão", Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(context, "Erro ao puxar os parâmetros. Verifique a conexão", Toast.LENGTH_SHORT).show()
                 }
             }
         ),
@@ -110,7 +108,6 @@ fun SettingFloatingActionButton(
                 if (parametersViewModel.isAllParametersValid() && bluetoothViewModel.isConnected()) {
                     try {
                         bluetoothViewModel.sendCommandArray(
-                            context = context,
                             byteArray = parametersViewModel.parametersToByteArray()
                                 ?: throw IllegalArgumentException("byteArray returned null")
                         )
@@ -122,17 +119,12 @@ fun SettingFloatingActionButton(
                             )
                         )
                         scaffoldViewModel.toggleFab()
-                        Toast.makeText(
-                            context,
-                            "Parâmetros enviados com sucesso",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        //Toast.makeText(context, "Parâmetros enviados com sucesso", Toast.LENGTH_SHORT).show()
                     } catch (e: IllegalArgumentException) {
-                        Toast.makeText(context, "Erro: ${e.message}", Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(context, "Erro: ${e.message}", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    Toast.makeText(context, "Erro no envio dos parâmetros", Toast.LENGTH_SHORT)
-                        .show()
+                    //Toast.makeText(context, "Erro no envio dos parâmetros", Toast.LENGTH_SHORT).show()
                 }
             }
         )
@@ -178,7 +170,6 @@ fun SettingFloatingActionButton(
     if (showSelectRecipeList) {
         SelectRecipeDialog(
             onDismiss = { showSelectRecipeList = false },
-            context = context
         )
     }
 }

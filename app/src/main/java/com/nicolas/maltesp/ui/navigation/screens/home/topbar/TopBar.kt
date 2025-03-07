@@ -30,10 +30,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun SettingTopAppBar(scope: CoroutineScope,
                      drawerState: DrawerState,
-                     bluetoothViewModel: BluetoothViewModel
 ) {
     TopAppBar(
-        title = { TobBarTitle(bluetoothViewModel) },
+        title = { TobBarTitle() },
         navigationIcon = {
             IconButton(onClick = { scope.launch { drawerState.open() } }) {
                 Icon(
@@ -48,7 +47,6 @@ fun SettingTopAppBar(scope: CoroutineScope,
 
 @Composable
 fun TobBarTitle(
-    bluetoothViewModel: BluetoothViewModel,
     scaffoldViewModel: ScaffoldViewModel = hiltViewModel(),
     ) {
     val selectedItem by scaffoldViewModel.bottomBarSelectedItem.collectAsState()
@@ -65,9 +63,7 @@ fun TobBarTitle(
             } else {
                 Text(text = "ESP32 x Malteador")
             }
-            ConnectionIndicator(
-                bluetoothViewModel = bluetoothViewModel
-            )
+            ConnectionIndicator()
         }
 
 }

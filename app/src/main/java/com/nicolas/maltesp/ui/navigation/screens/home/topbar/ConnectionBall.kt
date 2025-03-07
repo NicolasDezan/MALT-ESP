@@ -10,11 +10,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 
 @Composable
 fun ConnectionIndicator(
-    bluetoothViewModel: BluetoothViewModel
+    bluetoothViewModel: BluetoothViewModel = hiltViewModel()
 ){
     val pulseConnection: Boolean = bluetoothViewModel.pulseConnection.collectAsState().value
 

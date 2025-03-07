@@ -1,6 +1,5 @@
 package com.nicolas.maltesp.ui.navigation.screens.home.bottombar.content.conection
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,12 +21,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 
 @Composable
 fun ConectionContent(
-    context: Context,
-    bluetoothViewModel: BluetoothViewModel,
+    bluetoothViewModel: BluetoothViewModel = hiltViewModel(),
 ) {
     val connectedDeviceName by bluetoothViewModel.connectedDeviceName.collectAsState()
 
@@ -58,11 +57,11 @@ fun ConectionContent(
             Row {
                 Button(onClick = {
                     if (!bluetoothViewModel.isConnected()){
-                    bluetoothViewModel.connect(context)}
+                    bluetoothViewModel.connect()}
                 }) { Text("Conectar") }
                 Spacer(modifier = Modifier.width(16.dp))
                 Button(
-                    onClick = { bluetoothViewModel.disconnect(context) },
+                    onClick = { bluetoothViewModel.disconnect() },
                     enabled = connectedDeviceName != null
                 ) { Text("Desconectar") }
             }
