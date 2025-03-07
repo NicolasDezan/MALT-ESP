@@ -19,11 +19,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.nicolas.maltesp.data.newRecipe
 import com.nicolas.maltesp.viewmodels.ParametersViewModel
+import com.nicolas.maltesp.viewmodels.RecipesViewModel
 import kotlin.random.Random
 
 @Composable
 fun NewRecipeButton(
     textButton: String,
+    recipesViewModel: RecipesViewModel = hiltViewModel(),
     parametersViewModel: ParametersViewModel = hiltViewModel()
 ){
     val showDialog = remember { mutableStateOf(false) }
@@ -49,7 +51,7 @@ fun NewRecipeButton(
                     recipeName = inputRecipeName,
                     parametersState = parametersViewModel.parametersState.value
                 )
-                parametersViewModel.saveRecipe(recipe)
+                recipesViewModel.saveRecipe(recipe)
                 showDialog.value = false
                 Toast.makeText(context, "A receita '$inputRecipeName' foi salva", Toast.LENGTH_SHORT).show()
             }

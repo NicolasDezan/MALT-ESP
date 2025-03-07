@@ -23,16 +23,16 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.nicolas.maltesp.others.objects.VectorIcons
-import com.nicolas.maltesp.viewmodels.ParametersViewModel
+import com.nicolas.maltesp.viewmodels.RecipesViewModel
 
 @Composable
 fun SelectRecipeDialog(
-    parametersViewModel: ParametersViewModel = hiltViewModel(),
+    recipesViewModel: RecipesViewModel = hiltViewModel(),
     onDismiss: () -> Unit,
     context: Context
 ) {
-    val recipeNames by parametersViewModel.recipeNames.collectAsState()
-    parametersViewModel.refreshRecipeNames()
+    val recipeNames by recipesViewModel.recipeNames.collectAsState()
+    recipesViewModel.refreshRecipeNames()
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text("Selecione uma receita") },
@@ -45,7 +45,7 @@ fun SelectRecipeDialog(
                                 .fillMaxWidth()
                                 .padding(8.dp)
                                 .clickable {
-                                    parametersViewModel.loadRecipeByName(recipeName)
+                                    recipesViewModel.loadRecipeByName(recipeName)
                                     onDismiss()
                                 },
                             verticalAlignment = Alignment.CenterVertically
@@ -54,7 +54,7 @@ fun SelectRecipeDialog(
                                 text = recipeName
                             )
                             IconButton(onClick = {
-                                parametersViewModel.deleteRecipeByName(recipeName)
+                                recipesViewModel.deleteRecipeByName(recipeName)
                                 onDismiss()
                                 Toast.makeText(context, "A receita '$recipeName' foi excluída", Toast.LENGTH_SHORT).show()
                             }) {

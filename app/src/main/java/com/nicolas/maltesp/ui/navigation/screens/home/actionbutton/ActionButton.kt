@@ -49,6 +49,7 @@ import com.nicolas.maltesp.others.objects.VectorIcons
 import com.nicolas.maltesp.ui.theme.appcolors.ScaffoldColors
 import com.nicolas.maltesp.viewmodels.BluetoothViewModel
 import com.nicolas.maltesp.viewmodels.ParametersViewModel
+import com.nicolas.maltesp.viewmodels.RecipesViewModel
 import com.nicolas.maltesp.viewmodels.ScaffoldViewModel
 
 /*
@@ -67,6 +68,7 @@ fun SettingFloatingActionButton(
     context: Context,
     scaffoldViewModel: ScaffoldViewModel = hiltViewModel(),
     parametersViewModel: ParametersViewModel = hiltViewModel(),
+    recipesViewModel: RecipesViewModel = hiltViewModel(),
     bluetoothViewModel: BluetoothViewModel,
 ) {
     val isFabExpanded by scaffoldViewModel.isFabExpanded.collectAsState()
@@ -112,7 +114,7 @@ fun SettingFloatingActionButton(
                             byteArray = parametersViewModel.parametersToByteArray()
                                 ?: throw IllegalArgumentException("byteArray returned null")
                         )
-                        parametersViewModel.saveRecipe(
+                        recipesViewModel.saveRecipe(
                             newRecipe(
                                 uid = 10,
                                 recipeName = "Última Enviada",
