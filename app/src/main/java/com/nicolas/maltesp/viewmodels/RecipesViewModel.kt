@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nicolas.maltesp.data.MaltingRecipe
 import com.nicolas.maltesp.viewmodels.repositories.RecipesRepository
-import com.nicolas.maltesp.viewmodels.repositories.SharedRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
