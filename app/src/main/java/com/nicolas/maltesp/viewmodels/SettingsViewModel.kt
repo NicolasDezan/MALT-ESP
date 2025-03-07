@@ -1,39 +1,29 @@
 package com.nicolas.maltesp.viewmodels
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nicolas.maltesp.data.preferences.PreferencesKeys
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
+import com.nicolas.maltesp.viewmodels.repositories.SettingsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
-class SettingsViewModel(
-    private val dataStore: DataStore<Preferences>
+@HiltViewModel
+class SettingsViewModel @Inject constructor(
+    private val settingsRepository: SettingsRepository
 ) : ViewModel(){
 
-    val themeFlow: Flow<Boolean> = dataStore.data.map { preferences ->
-        preferences[PreferencesKeys.THEME] ?: false
-    }
+    val themeFlow: StateFlow<Boolean> = settingsRepository.getTheme()
+        .stateIn(viewModelScope, SharingStarted.Lazily, false)
 
     fun saveTheme(isDarkMode: Boolean) {
         viewModelScope.launch {
-            dataStore.edit { preferences ->
-                preferences[PreferencesKeys.THEME] = isDarkMode
-            }
-        }
-    }
-
-
-
-    // Se um dia algo der merda, é culpa dessa função:
-    fun getTheme(): Boolean {
-        return runBlocking {
-            dataStore.data.first()[PreferencesKeys.THEME] ?: false
+            settingsRepository.saveTheme(isDarkMode)
         }
     }
 }
+
+
+
