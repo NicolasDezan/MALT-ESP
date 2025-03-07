@@ -31,12 +31,12 @@ class BluetoothRepositoryImpl @Inject constructor(
     private val _parametersReceived = MutableStateFlow(Parameters.initializeParametersState())
     override val parametersReceived = _parametersReceived.asStateFlow()
 
-    override fun connect() {
+    override fun connect(deviceName: String) {
         BluetoothUtils.connectToDevice(
             context = context,
             deviceName = "ESP32-BLE",
-            onConnected = { deviceName ->
-                _connectedDeviceName.value = deviceName
+            onConnected = { name ->
+                _connectedDeviceName.value = name
             },
             onDisconnected = {
                 _connectedDeviceName.value = null
@@ -45,6 +45,7 @@ class BluetoothRepositoryImpl @Inject constructor(
             onReadUpdate = { data ->
                 val convertedData = convertBytesESPToIntKotlin(data)
                 if (convertedData[0] == 1) {
+                    println("Change Parameters: $convertedData")
                     _parametersReceived.value = Parameters.receiveParameters(convertedData)
                 }
 

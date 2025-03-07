@@ -8,7 +8,7 @@ interface BluetoothRepository {
     val pulseConnection: StateFlow<Boolean>
     val parametersReceived: StateFlow<ParametersState>
 
-    fun connect()
+    fun connect(deviceName: String)
     fun disconnect()
     fun isConnected(): Boolean
     fun sendCommandArray(byteArray: ByteArray)

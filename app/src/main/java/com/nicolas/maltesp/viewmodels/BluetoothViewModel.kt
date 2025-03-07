@@ -14,7 +14,7 @@ class BluetoothViewModel @Inject constructor(
     val pulseConnection = repository.pulseConnection
     val parametersReceived = repository.parametersReceived
 
-    fun connect() = repository.connect()
+    fun connect() = repository.connect( deviceName = "ESP32-BLE" )
     fun disconnect() = repository.disconnect()
     fun isConnected() = repository.isConnected()
     fun sendCommandArray(byteArray: ByteArray) = repository.sendCommandArray(byteArray)
