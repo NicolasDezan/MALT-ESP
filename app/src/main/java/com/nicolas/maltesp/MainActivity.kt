@@ -7,15 +7,11 @@ import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.nicolas.maltesp.core.BluetoothUtils
-import com.nicolas.maltesp.ui.navigation.NavigationApp
-import com.nicolas.maltesp.ui.theme.MaltEspTheme
-import com.nicolas.maltesp.viewmodels.SettingsViewModel
+import com.nicolas.maltesp.data.core.BluetoothUtils
+import com.nicolas.maltesp.presentation.ui.navigation.NavigationApp
+import com.nicolas.maltesp.presentation.ui.theme.MaltEspTheme
+import com.nicolas.maltesp.presentation.viewmodels.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-
-/*################################################################
-######################## MAIN ACTIVITY ###########################
-##################################################################*/
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
