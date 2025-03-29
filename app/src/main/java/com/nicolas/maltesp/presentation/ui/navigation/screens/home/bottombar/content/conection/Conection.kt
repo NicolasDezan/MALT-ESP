@@ -29,6 +29,7 @@ fun ConectionContent(
     bluetoothViewModel: BluetoothViewModel = hiltViewModel(),
 ) {
     val connectedDeviceName by bluetoothViewModel.connectedDeviceName.collectAsState()
+    val memoryUsage by bluetoothViewModel.memoryUsage.collectAsState()
 
     Box(
         contentAlignment = Alignment.Center,
@@ -53,7 +54,8 @@ fun ConectionContent(
                     Text(text = "Não conectado", fontSize = 18.sp)
                 }
             }
-            Spacer(modifier = Modifier.height(16.dp))
+            Text(text = "RAM: $memoryUsage")
+            Spacer(modifier = Modifier.height(12.dp))
             Row {
                 Button(onClick = {
                     if (!bluetoothViewModel.isConnected()){
@@ -64,6 +66,7 @@ fun ConectionContent(
                     onClick = { bluetoothViewModel.disconnect() },
                     enabled = connectedDeviceName != null
                 ) { Text("Desconectar") }
+
             }
         }
     }

@@ -34,6 +34,13 @@ class BluetoothRepositoryImpl @Inject constructor(
         return _parametersReceived.value != Parameters.initializeParametersState() && _isBluetoothConnected.value
     }
 
+    private val _memoryUsage = MutableStateFlow<Float?>(null)
+    override val memoryUsage = _memoryUsage.asStateFlow()
+
+    private fun updateMemoryUsage(newMemoryUsage: Float) {
+        _memoryUsage.value = newMemoryUsage
+    }
+
     override fun connect(deviceName: String, onPulseReceived: () -> Unit) {
         BluetoothUtils.connectToDevice(
             context = context,
@@ -42,18 +49,26 @@ class BluetoothRepositoryImpl @Inject constructor(
             onDisconnected = {
                 _connectedDeviceName.value = null
                 _parametersReceived.value = Parameters.initializeParametersState()
+                _pulseConnection.value = false
+                _memoryUsage.value = null
             },
             onReadUpdate = { data ->
                 val convertedData = convertBytesESPToIntKotlin(data)
 
-                onPulseReceived()
+                println("Data received: $convertedData")
+
+                if (convertedData[0] == 255) {
+                    onPulseReceived()
+                    val memUseData = convertedData[1].toFloat() + convertedData[2].toFloat() / 100
+                    updateMemoryUsage(memUseData)
+                }
 
                 if (convertedData[0] == 1) {
                     println("Change Parameters: $convertedData")
                     _parametersReceived.value = ParametersMapper.receiveParameters(convertedData)
                     sharedRepository.updateParameters(_parametersReceived.value)
-
                 }
+
 
             },
             serviceUuid = serviceUUID,
@@ -66,6 +81,7 @@ class BluetoothRepositoryImpl @Inject constructor(
         BluetoothUtils.disconnectDevice(context)
         _pulseConnection.value = false
         _connectedDeviceName.value = null
+        _memoryUsage.value = null
     }
 
     override fun isConnected(): Boolean {

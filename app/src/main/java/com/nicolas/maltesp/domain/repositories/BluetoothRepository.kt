@@ -7,6 +7,7 @@ interface BluetoothRepository {
     val connectedDeviceName: StateFlow<String?>
     val pulseConnection: StateFlow<Boolean>
     val parametersReceived: StateFlow<ParametersState>
+    val memoryUsage: StateFlow<Float?>
 
     fun isReadToPullParameters(): Boolean
 

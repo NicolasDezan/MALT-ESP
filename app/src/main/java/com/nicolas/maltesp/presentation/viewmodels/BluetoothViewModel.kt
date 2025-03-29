@@ -6,6 +6,9 @@ import com.nicolas.maltesp.domain.repositories.BluetoothRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,6 +20,8 @@ class BluetoothViewModel @Inject constructor(
     val connectedDeviceName = bluetoothRepository.connectedDeviceName
     val pulseConnection = bluetoothRepository.pulseConnection
     val parametersReceived = bluetoothRepository.parametersReceived
+    val memoryUsage = bluetoothRepository.memoryUsage.map { it?.let { "%.2f%%".format(it) } ?: " ---" }
+        .stateIn(scope = viewModelScope, started = SharingStarted.Lazily, initialValue = " ---")
 
     private var pulseJob: Job? = null
 
