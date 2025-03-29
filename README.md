@@ -42,4 +42,4 @@ Para executar esse aplicativo é necessário ter o Android Studio instalado e um
    
 3. Ative a depuração por wifi ou usb e conecte o celular no computador
    
-5. Rode a aplicação
+4. Rode a aplicação
