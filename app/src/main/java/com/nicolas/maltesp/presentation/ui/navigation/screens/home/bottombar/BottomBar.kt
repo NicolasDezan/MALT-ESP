@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.nicolas.maltesp.presentation.ui.icons.VectorIcons
+import com.nicolas.maltesp.presentation.ui.navigation.screens.home.bottombar.content.actuators.ActuatorStatusScreen
 import com.nicolas.maltesp.presentation.ui.navigation.screens.home.bottombar.content.conection.ConectionContent
 import com.nicolas.maltesp.presentation.ui.navigation.screens.home.bottombar.content.parameters.ParametersContent
 import com.nicolas.maltesp.presentation.ui.navigation.screens.home.bottombar.content.sensors.SensorReadScreen
@@ -30,6 +31,7 @@ import com.nicolas.maltesp.presentation.viewmodels.ScaffoldViewModel
 const val ITEM_1 = "Conexão"
 const val ITEM_2 = "Parâmetros"
 const val ITEM_3 = "Sensores"
+const val ITEM_4 = "Atuadores"
 
 
 @Composable
@@ -37,7 +39,7 @@ fun IconButtonsBottomBar(
     scaffoldViewModel: ScaffoldViewModel = hiltViewModel()
     ) {
     val selectedItem by scaffoldViewModel.bottomBarSelectedItem.collectAsState()
-    val items = listOf(ITEM_1, ITEM_2, ITEM_3)
+    val items = listOf(ITEM_1, ITEM_2, ITEM_3, ITEM_4)
 
     NavigationBar {
         items.forEachIndexed { index, item ->
@@ -47,6 +49,7 @@ fun IconButtonsBottomBar(
                         ITEM_1 -> VectorIcons.bluetooth
                         ITEM_2 -> VectorIcons.parameters
                         ITEM_3 -> VectorIcons.sensors
+                        ITEM_4 -> VectorIcons.actuators
                         else -> {
                             VectorIcons.menu
                         }
@@ -81,6 +84,7 @@ fun ContentBottomBar(
             0 -> ContentBox { ConectionContent() }
             1 -> ContentBox { ParametersContent() }
             2 -> ContentBox { SensorReadScreen() }
+            3 -> ContentBox { ActuatorStatusScreen() }
         }
     }
 }

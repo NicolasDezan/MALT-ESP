@@ -1,5 +1,6 @@
 package com.nicolas.maltesp.domain.repositories
 
+import com.nicolas.maltesp.domain.models.ActuatorState
 import com.nicolas.maltesp.domain.models.ParametersState
 import com.nicolas.maltesp.domain.models.SensorReadData
 import kotlinx.coroutines.flow.StateFlow
@@ -10,6 +11,7 @@ interface BluetoothRepository {
     val parametersReceived: StateFlow<ParametersState>
     val memoryUsage: StateFlow<Float?>
     val sensorRead: StateFlow<SensorReadData?>
+    val actuatorState: StateFlow<ActuatorState?>
 
     fun isReadToPullParameters(): Boolean
 

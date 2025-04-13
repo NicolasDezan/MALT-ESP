@@ -2,6 +2,7 @@ package com.nicolas.maltesp.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nicolas.maltesp.domain.models.ActuatorUiState
 import com.nicolas.maltesp.domain.models.SensorReadUiState
 import com.nicolas.maltesp.domain.repositories.BluetoothRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -35,6 +36,25 @@ class BluetoothViewModel @Inject constructor(
             } ?: SensorReadUiState("—", "—", "—")
         }
         .stateIn(scope = viewModelScope, started = SharingStarted.Lazily, initialValue = SensorReadUiState("—", "—", "—"))
+
+    val actuatorUiState = bluetoothRepository.actuatorState
+        .map { state ->
+            state?.let {
+                ActuatorUiState(
+                    entrada = if (it.entrada) "Ligado" else "Desligado",
+                    saida = if (it.saida) "Ligado" else "Desligado",
+                    rotacao = if (it.rotacao) "Ligado" else "Desligado",
+                    resistencia = if (it.resistencia) "Ligado" else "Desligado",
+                    bombaAr = if (it.bombaAr) "Ligado" else "Desligado"
+                )
+            } ?: ActuatorUiState("—", "—", "—", "—", "—")
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.Lazily,
+            initialValue = ActuatorUiState("—", "—", "—", "—", "—")
+        )
+
 
     private var pulseJob: Job? = null
 

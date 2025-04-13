@@ -3,6 +3,7 @@ package com.nicolas.maltesp.data.repositories
 import android.content.Context
 import com.nicolas.maltesp.data.core.BluetoothUtils
 import com.nicolas.maltesp.data.mappers.ParametersMapper
+import com.nicolas.maltesp.domain.models.ActuatorState
 import com.nicolas.maltesp.domain.models.Parameters
 import com.nicolas.maltesp.domain.models.SensorReadData
 import com.nicolas.maltesp.domain.repositories.BluetoothRepository
@@ -41,12 +42,19 @@ class BluetoothRepositoryImpl @Inject constructor(
     private val _sensorRead = MutableStateFlow<SensorReadData?>(null)
     override val sensorRead = _sensorRead.asStateFlow()
 
+    private val _actuatorState = MutableStateFlow<ActuatorState?>(null)
+    override val actuatorState = _actuatorState.asStateFlow()
+
     private fun updateMemoryUsage(newMemoryUsage: Float) {
         _memoryUsage.value = newMemoryUsage
     }
 
     private fun updateSensorRead(newSensorRead: SensorReadData) {
         _sensorRead.value = newSensorRead
+    }
+
+    private fun updateActuatorState(newActuatorState: ActuatorState) {
+        _actuatorState.value = newActuatorState
     }
 
     override fun connect(deviceName: String, onPulseReceived: () -> Unit) {
@@ -95,6 +103,24 @@ class BluetoothRepositoryImpl @Inject constructor(
                     updateSensorRead(sensorData)
                 }
 
+                if (convertedData[0] == 3) {
+                    // Esperado:
+                    // Index 1: Válvula de Entrada
+                    // Index 2: Válvula de Saída
+                    // Index 3: Rotação
+                    // Index 4: Resistência
+                    // Index 5: Bomba de Ar
+
+                    val actuatorState = ActuatorState(
+                        entrada = convertedData[1] == 1,
+                        saida = convertedData[2] == 1,
+                        rotacao = convertedData[3] == 1,
+                        resistencia = convertedData[4] == 1,
+                        bombaAr = convertedData[5] == 1
+                    )
+
+                    updateActuatorState(actuatorState)
+                }
 
             },
             serviceUuid = serviceUUID,
