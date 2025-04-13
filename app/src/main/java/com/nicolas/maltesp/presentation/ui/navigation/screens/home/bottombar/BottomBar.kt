@@ -23,18 +23,21 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.nicolas.maltesp.presentation.ui.icons.VectorIcons
 import com.nicolas.maltesp.presentation.ui.navigation.screens.home.bottombar.content.conection.ConectionContent
 import com.nicolas.maltesp.presentation.ui.navigation.screens.home.bottombar.content.parameters.ParametersContent
+import com.nicolas.maltesp.presentation.ui.navigation.screens.home.bottombar.content.sensors.SensorReadScreen
 import com.nicolas.maltesp.presentation.ui.theme.appcolors.ScaffoldColors
 import com.nicolas.maltesp.presentation.viewmodels.ScaffoldViewModel
 
 const val ITEM_1 = "Conexão"
 const val ITEM_2 = "Parâmetros"
+const val ITEM_3 = "Sensores"
+
 
 @Composable
 fun IconButtonsBottomBar(
     scaffoldViewModel: ScaffoldViewModel = hiltViewModel()
     ) {
     val selectedItem by scaffoldViewModel.bottomBarSelectedItem.collectAsState()
-    val items = listOf(ITEM_1, ITEM_2)
+    val items = listOf(ITEM_1, ITEM_2, ITEM_3)
 
     NavigationBar {
         items.forEachIndexed { index, item ->
@@ -43,6 +46,7 @@ fun IconButtonsBottomBar(
                     val iconId = when (item) {
                         ITEM_1 -> VectorIcons.bluetooth
                         ITEM_2 -> VectorIcons.parameters
+                        ITEM_3 -> VectorIcons.sensors
                         else -> {
                             VectorIcons.menu
                         }
@@ -76,6 +80,7 @@ fun ContentBottomBar(
         when (selectedItem) {
             0 -> ContentBox { ConectionContent() }
             1 -> ContentBox { ParametersContent() }
+            2 -> ContentBox { SensorReadScreen() }
         }
     }
 }

@@ -2,6 +2,7 @@ package com.nicolas.maltesp.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nicolas.maltesp.domain.models.SensorReadUiState
 import com.nicolas.maltesp.domain.repositories.BluetoothRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -22,6 +23,18 @@ class BluetoothViewModel @Inject constructor(
     val parametersReceived = bluetoothRepository.parametersReceived
     val memoryUsage = bluetoothRepository.memoryUsage.map { it?.let { "%.2f%%".format(it) } ?: " ---" }
         .stateIn(scope = viewModelScope, started = SharingStarted.Lazily, initialValue = " ---")
+
+    val sensorReadUiState = bluetoothRepository.sensorRead
+        .map { sensor ->
+            sensor?.let {
+                SensorReadUiState(
+                    temperature = "%.2f°C".format(it.temperature),
+                    humidity = "%.2f%%".format(it.humidity),
+                    eco2 = "${it.eco2} ppm"
+                )
+            } ?: SensorReadUiState("—", "—", "—")
+        }
+        .stateIn(scope = viewModelScope, started = SharingStarted.Lazily, initialValue = SensorReadUiState("—", "—", "—"))
 
     private var pulseJob: Job? = null
 

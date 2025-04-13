@@ -1,6 +1,7 @@
 package com.nicolas.maltesp.domain.repositories
 
 import com.nicolas.maltesp.domain.models.ParametersState
+import com.nicolas.maltesp.domain.models.SensorReadData
 import kotlinx.coroutines.flow.StateFlow
 
 interface BluetoothRepository {
@@ -8,6 +9,7 @@ interface BluetoothRepository {
     val pulseConnection: StateFlow<Boolean>
     val parametersReceived: StateFlow<ParametersState>
     val memoryUsage: StateFlow<Float?>
+    val sensorRead: StateFlow<SensorReadData?>
 
     fun isReadToPullParameters(): Boolean
 
