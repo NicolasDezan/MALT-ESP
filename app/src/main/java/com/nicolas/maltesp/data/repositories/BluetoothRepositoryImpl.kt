@@ -2,7 +2,7 @@ package com.nicolas.maltesp.data.repositories
 
 import android.content.Context
 import com.nicolas.maltesp.data.core.BluetoothUtils
-import com.nicolas.maltesp.data.mappers.ParametersMapper
+import com.nicolas.maltesp.data.mappers.*
 import com.nicolas.maltesp.domain.models.ActuatorState
 import com.nicolas.maltesp.domain.models.Parameters
 import com.nicolas.maltesp.domain.models.SensorReadData
@@ -71,55 +71,11 @@ class BluetoothRepositoryImpl @Inject constructor(
             onReadUpdate = { data ->
                 val convertedData = convertBytesESPToIntKotlin(data)
 
-                if (convertedData[0] == 1) {
-                    println("Change Parameters: $convertedData")
-                    _parametersReceived.value = ParametersMapper.receiveParameters(convertedData)
-                    sharedRepository.updateParameters(_parametersReceived.value)
-                }
-
-                if (convertedData[0] == 255) {
-                    onPulseReceived()
-                    val memUseData = convertedData[1].toFloat() + convertedData[2].toFloat() / 100
-                    updateMemoryUsage(memUseData)
-                }
-
-                if (convertedData[0] == 2) {
-                    // Estrutura esperada:
-                    // Index 1-2: Umidade (int + decimal)
-                    // Index 3-4: Temperatura (int + decimal)
-                    // Index 5-7: eCO2 (3 bytes)
-
-                    val humidity = convertedData[1].toFloat() + convertedData[2].toFloat() / 100
-                    val temperature = convertedData[3].toFloat() + convertedData[4].toFloat() / 100
-
-                    val eco2 = (convertedData[5] * 10000) + (convertedData[6] * 100) + convertedData[7]
-
-                    val sensorData = SensorReadData(
-                        humidity = humidity,
-                        temperature = temperature,
-                        eco2 = eco2
-                    )
-
-                    updateSensorRead(sensorData)
-                }
-
-                if (convertedData[0] == 3) {
-                    // Esperado:
-                    // Index 1: Válvula de Entrada
-                    // Index 2: Válvula de Saída
-                    // Index 3: Rotação
-                    // Index 4: Resistência
-                    // Index 5: Bomba de Ar
-
-                    val actuatorState = ActuatorState(
-                        entrada = convertedData[1] == 1,
-                        saida = convertedData[2] == 1,
-                        rotacao = convertedData[3] == 1,
-                        resistencia = convertedData[4] == 1,
-                        bombaAr = convertedData[5] == 1
-                    )
-
-                    updateActuatorState(actuatorState)
+                when (convertedData[0]) {
+                    1 -> handleParameters(convertedData)
+                    255 -> handleSystemData(convertedData, onPulseReceived)
+                    2 -> handleSensorData(convertedData)
+                    3 -> handleActuatorData(convertedData)
                 }
 
             },
@@ -151,5 +107,27 @@ class BluetoothRepositoryImpl @Inject constructor(
 
     private fun convertBytesESPToIntKotlin(espBytes: ByteArray): List<Int> {
         return espBytes.map { (it.toInt() - 128).toByte() }.map { it.toInt() + 128 }
+    }
+
+    private fun handleParameters(data: List<Int>) {
+        println("[DEBUG] Change Parameters received: $data")
+        _parametersReceived.value = receiveParameters(data)
+        sharedRepository.updateParameters(_parametersReceived.value)
+    }
+
+    private fun handleSystemData(data: List<Int>, onPulseReceived: () -> Unit) {
+        println("[DEBUG] Heartbeat received: $data")
+        onPulseReceived()
+        updateMemoryUsage(mapToMemoryUsage(data))
+    }
+
+    private fun handleSensorData(data: List<Int>) {
+        println("[DEBUG] Sensors received: $data")
+        updateSensorRead(mapToSensorReadData(data))
+    }
+
+    private fun handleActuatorData(data: List<Int>) {
+        println("[DEBUG] Actuators received: $data")
+        updateActuatorState(mapToActuatorState(data))
     }
 }
