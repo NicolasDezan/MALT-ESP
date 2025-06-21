@@ -1,5 +1,6 @@
 package com.nicolas.maltesp.presentation.ui.navigation.screens.home.bottombar.content.conection
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,12 +25,14 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.nicolas.maltesp.presentation.viewmodels.BluetoothViewModel
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun ConectionContent(
     bluetoothViewModel: BluetoothViewModel = hiltViewModel(),
 ) {
     val connectedDeviceName by bluetoothViewModel.connectedDeviceName.collectAsState()
     val memoryUsage by bluetoothViewModel.memoryUsage.collectAsState()
+    val processStatus by bluetoothViewModel.processStatus.collectAsState()
 
     Box(
         contentAlignment = Alignment.Center,
@@ -66,8 +69,21 @@ fun ConectionContent(
                     onClick = { bluetoothViewModel.disconnect() },
                     enabled = connectedDeviceName != null
                 ) { Text("Desconectar") }
-
             }
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                "Status do Processo: $processStatus"
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Button(
+                onClick = {
+                    val abortArray = byteArrayOf(60)
+                    println("([DEBUG] Interromper acionado: $abortArray")
+                    bluetoothViewModel.sendCommandArray(abortArray)
+                },
+                enabled = !(processStatus == "???" || processStatus == "Conectado")
+            ) { Text("Interromper") }
+
         }
     }
 }

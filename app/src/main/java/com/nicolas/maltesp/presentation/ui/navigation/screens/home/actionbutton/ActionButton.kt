@@ -97,10 +97,22 @@ fun SettingFloatingActionButton(
             onClick = {
                 if (parametersViewModel.isAllParametersValid() && bluetoothViewModel.isConnected()) {
                     try {
+                        val parametersByteArray = parametersViewModel.parametersToByteArray()
+                        val startProcess = byteArrayOf(50)
+
                         bluetoothViewModel.sendCommandArray(
-                            byteArray = parametersViewModel.parametersToByteArray()
+                            byteArray = parametersByteArray
                                 ?: throw IllegalArgumentException("byteArray returned null")
                         )
+                        println("[DEBUG] Parâmetros Enviados: ${parametersByteArray.contentToString()}")
+
+                        Thread.sleep(100)
+
+                        bluetoothViewModel.sendCommandArray(
+                            byteArray = startProcess
+                        )
+
+                        println("[DEBUG] Comando de Iniciar processo enviado: ${startProcess.contentToString()}")
                         recipesViewModel.saveRecipe(
                             newRecipe(
                                 uid = 10,
@@ -108,13 +120,11 @@ fun SettingFloatingActionButton(
                                 parametersViewModel.parametersState.value
                             )
                         )
+                        println("[DEBUG] Receita salva como 'Última Enviada'")
                         scaffoldViewModel.toggleFab()
-                        //Toast.makeText(context, "Parâmetros enviados com sucesso", Toast.LENGTH_SHORT).show()
                     } catch (e: IllegalArgumentException) {
-                        //Toast.makeText(context, "Erro: ${e.message}", Toast.LENGTH_SHORT).show()
+                        println("[ERROR] Erro ao clicar em INICIAR: $e")
                     }
-                } else {
-                    //Toast.makeText(context, "Erro no envio dos parâmetros", Toast.LENGTH_SHORT).show()
                 }
             }
         )

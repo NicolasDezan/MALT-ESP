@@ -32,9 +32,8 @@ class BluetoothRepositoryImpl @Inject constructor(
 
     private val _isBluetoothConnected = MutableStateFlow(false)
 
-    override fun isReadToPullParameters(): Boolean {
-        return _parametersReceived.value != Parameters.initializeParametersState() && _isBluetoothConnected.value
-    }
+    override fun isReadToPullParameters(): Boolean =
+        _parametersReceived.value != Parameters.initializeParametersState() && _isBluetoothConnected.value
 
     private val _memoryUsage = MutableStateFlow<Float?>(null)
     override val memoryUsage = _memoryUsage.asStateFlow()
@@ -44,6 +43,9 @@ class BluetoothRepositoryImpl @Inject constructor(
 
     private val _actuatorState = MutableStateFlow<ActuatorState?>(null)
     override val actuatorState = _actuatorState.asStateFlow()
+
+    private val _processStatus = MutableStateFlow("???")
+    override val processStatus = _processStatus.asStateFlow()
 
     private fun updateMemoryUsage(newMemoryUsage: Float) {
         _memoryUsage.value = newMemoryUsage
@@ -73,9 +75,9 @@ class BluetoothRepositoryImpl @Inject constructor(
 
                 when (convertedData[0]) {
                     1 -> handleParameters(convertedData)
-                    255 -> handleSystemData(convertedData, onPulseReceived)
                     2 -> handleSensorData(convertedData)
                     3 -> handleActuatorData(convertedData)
+                    255 -> handleSystemData(convertedData, onPulseReceived)
                 }
 
             },
@@ -119,6 +121,11 @@ class BluetoothRepositoryImpl @Inject constructor(
         println("[DEBUG] Heartbeat received: $data")
         onPulseReceived()
         updateMemoryUsage(mapToMemoryUsage(data))
+        try{_processStatus.value = readProcessStatus(data)}
+        catch (e: Exception){
+            println("Tem erro rolando $e")
+        }
+
     }
 
     private fun handleSensorData(data: List<Int>) {

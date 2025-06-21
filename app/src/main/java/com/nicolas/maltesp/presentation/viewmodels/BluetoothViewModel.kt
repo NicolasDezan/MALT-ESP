@@ -55,6 +55,13 @@ class BluetoothViewModel @Inject constructor(
             initialValue = ActuatorUiState("—", "—", "—", "—", "—")
         )
 
+    val processStatus = bluetoothRepository.processStatus
+        .map { it ?: "???" }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = "???"
+        )
 
     private var pulseJob: Job? = null
 

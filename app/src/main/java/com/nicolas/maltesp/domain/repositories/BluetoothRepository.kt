@@ -12,6 +12,7 @@ interface BluetoothRepository {
     val memoryUsage: StateFlow<Float?>
     val sensorRead: StateFlow<SensorReadData?>
     val actuatorState: StateFlow<ActuatorState?>
+    val processStatus: StateFlow<String?>
 
     fun isReadToPullParameters(): Boolean
 
